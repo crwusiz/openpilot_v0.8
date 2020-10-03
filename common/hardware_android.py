@@ -117,6 +117,17 @@ class Android(HardwareBase):
       'data_connected': cell_data_connected
     }
 
+  def get_ip_address(self):
+    #if not ANDROID:
+    #  return None
+
+    try:
+     wlan = subprocess.check_output(["ifconfig", "wlan0"], encoding='utf8').strip()
+     pattern = re.compile(r'inet addr:(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})')
+     return pattern.search(wlan).group(1)
+    except Exception:
+      return "연결안됨"  
+  
   def get_network_type(self):
     wifi_check = parse_service_call_string(service_call(["connectivity", "2"]))
     if wifi_check is None:

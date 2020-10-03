@@ -309,6 +309,8 @@ struct ThermalData {
   bat @29 :Float32;
   ambient @30 :Float32;
 
+  wifiIpAddress @31 :Text;  
+  
   enum ThermalStatus {
     green @0;   # all processes run
     yellow @1;  # critical processes run (kill uploader), engage still allowed
