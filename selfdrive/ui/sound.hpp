@@ -13,7 +13,18 @@ static std::map<AudibleAlert, std::pair<const char *, int>> sound_map {
   {AudibleAlert::CHIME_WARNING2_REPEAT, {"../assets/sounds/warning_2.wav", 3}},
   {AudibleAlert::CHIME_WARNING_REPEAT, {"../assets/sounds/warning_repeat.wav", -1}},
   {AudibleAlert::CHIME_ERROR, {"../assets/sounds/error.wav", 0}},
-  {AudibleAlert::CHIME_PROMPT, {"../assets/sounds/error.wav", 0}}
+  {AudibleAlert::CHIME_PROMPT, {"../assets/sounds/error.wav", 0}},
+  {AudibleAlert::CHIME_DING, {"../assets/sounds/ding.wav", 0}},
+  {AudibleAlert::CHIME_DING_REPEAT, {"../assets/sounds/ding.wav", 5}},
+  {AudibleAlert::CHIME_GEARD, {"../assets/sounds/geard.wav", 0}},
+  {AudibleAlert::CHIME_ALCA, {"../assets/sounds/alca.wav", 0}},
+  {AudibleAlert::CHIME_SEATBELT, {"../assets/sounds/seatbelt.wav", 0}},
+  {AudibleAlert::CHIME_VISION, {"../assets/sounds/vision.wav", 0}},
+  {AudibleAlert::CHIME_DISTRACTED, {"../assets/sounds/distracted.wav", 0}},
+  {AudibleAlert::CHIME_CALIBRATION1, {"../assets/sounds/calibration1.wav", 0}},
+  {AudibleAlert::CHIME_CALIBRATION2, {"../assets/sounds/calibration2.wav", 0}},
+  {AudibleAlert::CHIME_ENGAGE2, {"../assets/sounds/engagedt.wav", 0}},
+  {AudibleAlert::CHIME_DISENGAGE2, {"../assets/sounds/disengagedt.wav", 0}}  
 };
 
 class Sound {

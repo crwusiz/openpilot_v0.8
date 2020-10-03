@@ -342,6 +342,17 @@ struct CarControl {
       chimeWarningRepeat @6;
       chimePrompt @7;
       chimeWarning2Repeat @8;
+      chimeDing @9;
+      chimeDingRepeat @ 10;
+      chimeGeard @11;
+      chimeAlca @12;
+      chimeSeatbelt @13;
+      chimeVision @14;
+      chimeDistracted @15;
+      chimeCalibration1 @16;
+      chimeCalibration2 @17;
+      chimeEngage2 @18;
+      chimeDisengage2 @19;      
     }
   }
 }
