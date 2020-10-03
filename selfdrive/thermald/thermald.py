@@ -190,7 +190,8 @@ def thermald_thread():
 
   network_type = NetworkType.none
   network_strength = NetworkStrength.unknown
-
+  wifiIpAddress = '연결안됨'
+  
   current_filter = FirstOrderFilter(0., CURRENT_TAU, DT_TRML)
   cpu_temp_filter = FirstOrderFilter(0., CPU_TEMP_TAU, DT_TRML)
   health_prev = None
@@ -248,6 +249,7 @@ def thermald_thread():
       try:
         network_type = HARDWARE.get_network_type()
         network_strength = HARDWARE.get_network_strength(network_type)
+        wifiIpAddress = HARDWARE.get_ip_address()        
       except Exception:
         cloudlog.exception("Error getting network status")
 
@@ -261,6 +263,7 @@ def thermald_thread():
     msg.thermal.batteryCurrent = HARDWARE.get_battery_current()
     msg.thermal.batteryVoltage = HARDWARE.get_battery_voltage()
     msg.thermal.usbOnline = HARDWARE.get_usb_present()
+    msg.thermal.wifiIpAddress = wifiIpAddress
 
     # Fake battery levels on uno for frame
     if (not EON) or is_uno:
