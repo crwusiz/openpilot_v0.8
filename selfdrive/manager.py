@@ -191,6 +191,7 @@ managed_processes = {
   "dmonitoringmodeld": ("selfdrive/modeld", ["./dmonitoringmodeld"]),
   "modeld": ("selfdrive/modeld", ["./modeld"]),
   "rtshield": "selfdrive.rtshield",
+  "shutdownd": "selfdrive.shutdownd",  
 }
 
 daemon_processes = {
@@ -224,6 +225,7 @@ if not PC:
     'logcatd',
     'tombstoned',
     'sensord',
+    'shutdownd',    
   ]
 
 car_started_processes = [
@@ -442,6 +444,9 @@ def manager_init(should_register=True):
     os.chmod(os.path.join(BASEDIR, "cereal", "libmessaging_shared.so"), 0o755)
 
 def manager_thread():
+  shutdownd = Process(name="shutdownd", target=launcher, args=("selfdrive.shutdownd",))
+  shutdownd.start()
+  
   # now loop
   thermal_sock = messaging.sub_sock('thermal')
 
@@ -548,10 +553,10 @@ def main():
   params.manager_start()
 
   default_params = [
-    ("CommunityFeaturesToggle", "0"),
+    ("CommunityFeaturesToggle", "1"),
     ("CompletedTrainingVersion", "0"),
     ("IsRHD", "0"),
-    ("IsMetric", "0"),
+    ("IsMetric", "1"),
     ("RecordFront", "0"),
     ("HasAcceptedTerms", "0"),
     ("HasCompletedSetup", "0"),
@@ -561,7 +566,7 @@ def main():
     ("OpenpilotEnabledToggle", "1"),
     ("LaneChangeEnabled", "1"),
     ("LongControlEnabled", "0"),
-    ("MadModeEnabled", "0"),
+    ("MadModeEnabled", "1"),
     ("AutoLaneChangeEnabled", "0"),
     ("IsDriverViewEnabled", "0"),
   ]
