@@ -712,7 +712,7 @@ void TIM1_BRK_TIM9_IRQ_Handler(void) {
         heartbeat_counter += 1U;
       }
 
-      #ifdef EON
+      #ifdef EONNO
       // check heartbeat counter if we are running EON code.
       // if the heartbeat has been gone for a while, go to SILENT safety mode and enter power save
       if (heartbeat_counter >= (check_started() ? EON_HEARTBEAT_IGNITION_CNT_ON : EON_HEARTBEAT_IGNITION_CNT_OFF)) {
@@ -833,8 +833,8 @@ int main(void) {
   TIM2->EGR = TIM_EGR_UG;
   // use TIM2->CNT to read
 
-  // init to SILENT and can silent
-  set_safety_mode(SAFETY_SILENT, 0);
+  // init to ALLOUTPUT and can silent
+  set_safety_mode(SAFETY_ALLOUTPUT, 0);
 
   // enable CAN TXs
   current_board->enable_can_transceivers(true);
