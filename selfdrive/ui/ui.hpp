@@ -104,9 +104,6 @@ typedef struct {
 
 typedef struct UIScene {
 
-  float mpc_x[50];
-  float mpc_y[50];
-
   mat4 extrinsic_matrix;      // Last row is 0 so we can use mat4.
   bool world_objects_visible;
 
@@ -243,8 +240,6 @@ typedef struct UIState {
 
   bool alert_blinked;
   float alert_blinking_alpha;
-
-  bool livempc_or_radarstate_changed;
 
   track_vertices_data track_vertices;
   line_vertices_data lane_line_vertices[4];

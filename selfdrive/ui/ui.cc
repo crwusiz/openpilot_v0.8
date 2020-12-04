@@ -26,7 +26,7 @@ int write_param_float(float param, const char* param_name, bool persistent_param
 
 void ui_init(UIState *s) {
   s->sm = new SubMaster({"modelV2", "controlsState", "uiLayoutState", "liveCalibration", "radarState", "thermal",
-                         "health", "carParams", "ubloxGnss", "driverState", "dMonitoringState", "carState", "liveMpc", "liveParameters", "sensorEvents"});
+                         "health", "carParams", "ubloxGnss", "driverState", "dMonitoringState", "carState", "liveParameters", "sensorEvents"});
   s->started = false;
   s->status = STATUS_OFFROAD;
   s->scene.satelliteCount = -1;
@@ -254,16 +254,6 @@ void update_sockets(UIState *s) {
     auto data = sm["liveParameters"].getLiveParameters();
     s->scene.steerRatio=data.getSteerRatio();
   }
-  if (sm.updated("liveMpc")) {
-    auto data = sm["liveMpc"].getLiveMpc();
-    auto x_list = data.getX();
-    auto y_list = data.getY();
-    for (int i = 0; i < 50; i++){
-      scene.mpc_x[i] = x_list[i];
-      scene.mpc_y[i] = y_list[i];
-    }
-    s->livempc_or_radarstate_changed = true;
-  }    
   if (sm.updated("sensorEvents")) {
     for (auto sensor : sm["sensorEvents"].getSensorEvents()) {
       if (sensor.which() == cereal::SensorEventData::LIGHT) {

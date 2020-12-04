@@ -175,9 +175,32 @@ static void update_track_data(UIState *s, const cereal::ModelDataV2::XYZTData::R
 }
 
 static void ui_draw_track(UIState *s, track_vertices_data *pvd) {
-  NVGpaint track_bg = nvgLinearGradient(s->vg, s->fb_w, s->fb_h, s->fb_w, s->fb_h * .4,
-                                        COLOR_WHITE, COLOR_WHITE_ALPHA(0));
-  ui_draw_line(s, &pvd->v[0], pvd->cnt, nullptr, &track_bg);
+ if (pvd->cnt == 0) return;
+
+  nvgBeginPath(s->vg);
+  nvgMoveTo(s->vg, pvd->v[0].x, pvd->v[0].y);
+  for (int i=1; i<pvd->cnt; i++) {
+    nvgLineTo(s->vg, pvd->v[i].x, pvd->v[i].y);
+  }
+  nvgClosePath(s->vg);
+
+  NVGpaint track_bg;
+  if (s->scene.controls_state.getEnabled()) {  
+  // Draw colored MPC track
+    if (s->scene.steerOverride) {
+      track_bg = nvgLinearGradient(s->vg, s->fb_w, s->fb_h, s->fb_w, s->fb_h*.4,
+                                   COLOR_ENGAGEABLE, COLOR_ENGAGEABLE_ALPHA(80));
+    } else {
+      track_bg = nvgLinearGradient(s->vg, s->fb_w, s->fb_h, s->fb_w, s->fb_h*.4,
+                                   COLOR_ENGAGED, COLOR_ENGAGED_ALPHA(80));
+    }
+  } else {
+    // Draw white vision track
+    track_bg = nvgLinearGradient(s->vg, s->fb_w, s->fb_h, s->fb_w, s->fb_h*.4,
+                                 COLOR_WHITE, COLOR_WHITE_ALPHA(80));
+  }
+  nvgFillPaint(s->vg, track_bg);
+  nvgFill(s->vg);
 }
 
 static void draw_frame(UIState *s) {

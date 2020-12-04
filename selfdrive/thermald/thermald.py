@@ -196,7 +196,7 @@ def thermald_thread():
   network_type = NetworkType.none
   network_strength = NetworkStrength.unknown
   wifiIpAddress = '연결안됨'
-  
+
   current_filter = FirstOrderFilter(0., CURRENT_TAU, DT_TRML)
   cpu_temp_filter = FirstOrderFilter(0., CPU_TEMP_TAU, DT_TRML)
   health_prev = None
@@ -254,7 +254,7 @@ def thermald_thread():
       try:
         network_type = HARDWARE.get_network_type()
         network_strength = HARDWARE.get_network_strength(network_type)
-        wifiIpAddress = HARDWARE.get_ip_address()        
+        wifiIpAddress = HARDWARE.get_ip_address()
       except Exception:
         cloudlog.exception("Error getting network status")
 
@@ -263,7 +263,7 @@ def thermald_thread():
     msg.thermal.cpuPerc = int(round(psutil.cpu_percent()))
     msg.thermal.networkType = network_type
     msg.thermal.networkStrength = network_strength
-    msg.thermal.wifiIpAddress = wifiIpAddress  
+    msg.thermal.wifiIpAddress = wifiIpAddress
     msg.thermal.batteryPercent = get_battery_capacity()
     msg.thermal.batteryStatus = get_battery_status()
     msg.thermal.batteryCurrent = get_battery_current()
@@ -290,8 +290,7 @@ def thermald_thread():
     # If device is offroad we want to cool down before going onroad
     # since going onroad increases load and can make temps go over 107
     # We only do this if there is a relay that prevents the car from faulting
-    is_offroad_for_5_min = (started_ts is None) and ((not started_seen) or (off_ts is None) or (sec_since_boot() - off_ts > 60 * 5))
-    if max_cpu_temp > 107. or bat_temp >= 63. or (not (health.health.hwType in [log.HealthData.HwType.whitePanda]) and is_offroad_for_5_min and max_cpu_temp > 70.0):
+    if max_cpu_temp > 107. or bat_temp >= 63.:
       # onroad not allowed
       thermal_status = ThermalStatus.danger
     elif max_comp_temp > 96.0 or bat_temp > 60.:
