@@ -106,6 +106,28 @@ typedef struct UIScene {
   std::string alert_type;
   cereal::ControlsState::AlertSize alert_size;
 
+  // ui add
+  bool leftBlinker;
+  bool leftblindspot;
+  bool rightBlinker;
+  bool rightblindspot;
+  bool brakeLights;
+  bool steerOverride;
+  bool batteryCharging;
+  int blinker_blinkingrate;
+  int batteryPercent;
+  float angleSteers;
+  float angleSteersDes;
+  float steerRatio;
+  float output_scale;
+  float cpuTempAvg;
+  float tpmsFl;
+  float tpmsFr;
+  float tpmsRl;
+  float tpmsRr;
+
+  char batteryStatus[64];
+
   cereal::HealthData::HwType hwType;
   int satelliteCount;
   NetStatus athenaStatus;
