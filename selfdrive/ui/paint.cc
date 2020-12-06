@@ -695,7 +695,6 @@ static void bb_ui_draw_UI(UIState *s)
   bb_ui_draw_measures_right(s, bb_dmr_x, bb_dmr_y, bb_dmr_w);
 }
 
-
 static void bb_ui_draw_tpms(UIState *s) {
   char tpmsFl[32];
   char tpmsFr[32];
@@ -785,6 +784,37 @@ static void bb_ui_draw_tpms(UIState *s) {
   }
 }
 
+static void bb_ui_draw_gear(UIState *s) {
+  UIScene &scene = s->scene;
+  int viz_gear_w = 120;
+  int viz_gear_h = 120;
+  int viz_gear_x = s->scene.viz_rect.x + s->scene.viz_rect.w - 400;
+  int viz_gear_y = s->scene.viz_rect.y + (bdr_is * 1.5) + 870;
+  int getGear = int(scene.getGearShifter);
+  char gear_msg[32];  
+  
+  // Draw Border
+  NVGcolor color = COLOR_WHITE_ALPHA(80);
+  ui_draw_rect(s->vg, viz_gear_x, viz_gear_y, viz_gear_w, viz_gear_h, color, 20, 5);
+
+  nvgTextAlign(s->vg, NVG_ALIGN_CENTER | NVG_ALIGN_BASELINE);
+
+  const int pos_x = viz_gear_x + (viz_gear_w / 2);
+  const int pos_y = 155 + 830;
+  const int pos_move = 50;
+  const int fontsize = 60;
+  ui_draw_text(s->vg, pos_x, pos_y+pos_move, "Gear", fontsize-20, COLOR_WHITE_ALPHA(200), s->font_sans_regular);
+  
+  switch( getGear ) {
+    case 1 : strcpy( gear_msg, "P" ); break;
+    case 2 : strcpy( gear_msg, "D" ); break;
+    case 3 : strcpy( gear_msg, "N" ); break;
+    case 4 : strcpy( gear_msg, "R" ); break;
+    default: sprintf( gear_msg, "%d", getGear ); break;
+  }
+    ui_draw_text(s->vg, pos_x, pos_y, gear_msg, fontsize+20, COLOR_WHITE_ALPHA(200), s->font_sans_semibold);  
+}
+
 //BB END: functions added for the display of various items
 
 static void ui_draw_vision_footer(UIState *s) {
@@ -792,6 +822,7 @@ static void ui_draw_vision_footer(UIState *s) {
   ui_draw_vision_brake(s);
   bb_ui_draw_UI(s);
   bb_ui_draw_tpms(s);
+  bb_ui_draw_gear(s);  
 }
 
 void ui_draw_vision_alert(UIState *s, cereal::ControlsState::AlertSize va_size, UIStatus va_color,

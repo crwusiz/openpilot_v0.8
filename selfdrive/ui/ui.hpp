@@ -156,6 +156,7 @@ typedef struct UIScene {
   cereal::DriverState::Reader driver_state;
   cereal::DMonitoringState::Reader dmonitoring_state;
   cereal::ModelDataV2::Reader model;
+  cereal::CarState::GearShifter getGearShifter;    
   line path;
   line outer_left_lane_line;
   line left_lane_line;
