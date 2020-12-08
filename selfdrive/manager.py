@@ -12,7 +12,6 @@ import textwrap
 from typing import Dict, List
 from selfdrive.swaglog import cloudlog, add_logentries_handler
 
-
 from common.basedir import BASEDIR
 from common.hardware import HARDWARE, ANDROID, PC
 WEBCAM = os.getenv("WEBCAM") is not None
@@ -191,7 +190,7 @@ managed_processes = {
   "dmonitoringmodeld": ("selfdrive/modeld", ["./dmonitoringmodeld"]),
   "modeld": ("selfdrive/modeld", ["./modeld"]),
   "rtshield": "selfdrive.rtshield",
-  "shutdownd": "selfdrive.shutdownd",  
+#  "shutdownd": "selfdrive.shutdownd",  
 }
 
 daemon_processes = {
@@ -225,7 +224,7 @@ if not PC:
     'logcatd',
     'tombstoned',
     'sensord',
-    'shutdownd',    
+#    'shutdownd',    
   ]
 
 car_started_processes = [
