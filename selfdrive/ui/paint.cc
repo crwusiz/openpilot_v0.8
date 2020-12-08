@@ -390,7 +390,7 @@ static void ui_draw_vision_speed(UIState *s) {
     nvgLineTo(s->vg, viz_speed_x - viz_speed_w/2, viz_rect.y + header_h/4 + header_h/4);
     nvgLineTo(s->vg, viz_speed_x, viz_rect.y + header_h/2 + header_h/4);
     nvgClosePath(s->vg);
-    nvgFillColor(s->vg, COLOR_RED_ALPHA(210);
+    nvgFillColor(s->vg, COLOR_RED_ALPHA(210));
     nvgFill(s->vg);
   }
   if(scene->rightblindspot) {
@@ -399,7 +399,7 @@ static void ui_draw_vision_speed(UIState *s) {
     nvgLineTo(s->vg, viz_speed_x+viz_speed_w + viz_speed_w/2, viz_rect.y + header_h/4 + header_h/4);
     nvgLineTo(s->vg, viz_speed_x+viz_speed_w, viz_rect.y + header_h/2 + header_h/4);
     nvgClosePath(s->vg);
-    nvgFillColor(s->vg, COLOR_RED_ALPHA(210);
+    nvgFillColor(s->vg, COLOR_RED_ALPHA(210));
     nvgFill(s->vg);
   }
   nvgBeginPath(s->vg);
