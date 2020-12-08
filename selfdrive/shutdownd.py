@@ -17,6 +17,8 @@ def main(gctx=None):
   thermal_sock = messaging.sub_sock('thermal')
   started = False
 
+  print('shutdownd Started !!')
+
   while 1:
     if frame % 5 == 0:
       msg = messaging.recv_sock(thermal_sock, wait=True)
@@ -32,6 +34,8 @@ def main(gctx=None):
       shutdown_count += 1
     else:
       shutdown_count = 0
+
+    print('shutdown_count', shutdown_count)
 
     if auto_shutdown_at is None:
       auto_shutdown_at = get_shutdown_val()
