@@ -73,7 +73,7 @@ class CarInterface(CarInterfaceBase):
       ret.mass = 1999. + STD_CARGO_KG
       ret.wheelbase = 2.90
       ret.steerRatio = 13.75 * 1.15
-    elif candidate in [CAR.ELANTRA, CAR.ELANTRA_GT_I30]:
+    elif candidate in [CAR.ELANTRA, CAR.ELANTRA_GT_I30, CAR.ELANTRA20]:
       ret.mass = 1275. + STD_CARGO_KG
       ret.wheelbase = 2.7
       ret.steerRatio = 15.4
@@ -89,7 +89,7 @@ class CarInterface(CarInterfaceBase):
       ret.mass = 1490. + STD_CARGO_KG
       ret.wheelbase = 2.7
       ret.steerRatio = 13.73
-    elif candidate in [CAR.GRANDEUR, CAR.GRANDEUR_HEV]:
+    elif candidate in [CAR.GRANDEUR, CAR.GRANDEUR_HEV, CAR.GRANDEUR20, CAR.GRANDEUR20_HEV]:
       ret.mass = 1719. + STD_CARGO_KG
       ret.wheelbase = 2.8
       ret.steerRatio = 12.5
@@ -97,6 +97,10 @@ class CarInterface(CarInterfaceBase):
       ret.mass = 3558. * CV.LB_TO_KG
       ret.wheelbase = 2.80
       ret.steerRatio = 13.75 * 1.15
+    elif candidate == CAR.NEXO:
+      ret.mass = 1885. + STD_CARGO_KG
+      ret.wheelbase = 2.79
+      ret.steerRatio = 13.73      
     # kia
     elif candidate == CAR.SORENTO:
       ret.mass = 1985. + STD_CARGO_KG

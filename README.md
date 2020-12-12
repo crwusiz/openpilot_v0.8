@@ -1,3 +1,28 @@
+crwusiz openpilot
+=====
+
+<b> This Branch is xx979xx HKG_community base </b>
+- If you have any questions, please send a message to crwusiz from discord. if you like this Branch [Donate](https://paypal.me/crwusiz)
+
+- spinner and colorful spinner track update
+
+[![](https://i.imgur.com/FKjLBh0.jpg)](#)
+
+- kor apk update
+
+[![](https://i.imgur.com/NIGGbTq.png)](#)
+
+- kor NanumGothic font / Comma Bootlogo / Bootanimation Auto install
+- event message kor translate
+- ignition off auto shutdown 5min 
+- simple ui tune
+- wifi ip address by neokii
+- Battery Charge icon and Battery percent
+- steeringwheel rotate and brake add
+- tpms and gear display
+
+[![](https://i.imgur.com/OobAvqM.jpg)](#)
+-----
 HKG Community information
 ======
 
@@ -63,16 +88,12 @@ To enable long control, find the option under Developer Settings in your device.
 - <b>  Setup Auto Detection:</b> Openpilot and Panda will detect MDPS, SCC and SAS buses and behaive acordingly.
 - <b>  Panda Universal Forwarding(PUF):</b> Panda will auto forwading for all CAN messages if Eon disconnected.
 
-
-
-
 Known issues
 ------
 
 - <b>  (temporarily fixed by add 1 sec timer)</b> MDPS fautl periodically for a frame.
 - <b>  (temporarily disabled)</b> LKAS button does not work, give false alert.
 - <b>  (temporarily fixed)</b> LKAS fauls when driver override steering in opposite direction of Openpilot, it cause by Panda safety bolcking LKAS messages.
-
 
 HKG Supported Cars
 ------
@@ -161,7 +182,6 @@ At the moment, openpilot supports the [EON DevKit](https://comma.ai/shop/product
 
 Supported Cars
 ------
-
 | Make      | Model (US Market Reference)   | Supported Package | ACC              | No ACC accel below | No ALC below      |
 | ----------| ------------------------------| ------------------| -----------------| -------------------| ------------------|
 | Acura     | ILX 2016-18                   | AcuraWatch Plus   | openpilot        | 25mph<sup>1</sup>  | 25mph             |
