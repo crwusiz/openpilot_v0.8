@@ -57,10 +57,10 @@ class CarInterface(CarInterfaceBase):
       ret.wheelbase = 3.15
       ret.steerRatio = 12.069
     # hyundai
-    elif candidate in [CAR.SANTA_FE]:
-      ret.mass = 1694 + STD_CARGO_KG
-      ret.wheelbase = 2.766
-      ret.steerRatio = 13.8 * 1.15
+    elif candidate in [CAR.ELANTRA, CAR.ELANTRA_GT_I30, CAR.ELANTRA20]:
+      ret.mass = 1275. + STD_CARGO_KG
+      ret.wheelbase = 2.7
+      ret.steerRatio = 15.4
     elif candidate in [CAR.SONATA, CAR.SONATA_HEV]:
       ret.mass = 1513. + STD_CARGO_KG
       ret.wheelbase = 2.84
@@ -69,14 +69,6 @@ class CarInterface(CarInterfaceBase):
       ret.mass = 4497. * CV.LB_TO_KG
       ret.wheelbase = 2.804
       ret.steerRatio = 13.27 * 1.15
-    elif candidate == CAR.PALISADE:
-      ret.mass = 1999. + STD_CARGO_KG
-      ret.wheelbase = 2.90
-      ret.steerRatio = 13.75 * 1.15
-    elif candidate in [CAR.ELANTRA, CAR.ELANTRA_GT_I30, CAR.ELANTRA20]:
-      ret.mass = 1275. + STD_CARGO_KG
-      ret.wheelbase = 2.7
-      ret.steerRatio = 15.4
     elif candidate == CAR.KONA:
       ret.mass = 1275. + STD_CARGO_KG
       ret.wheelbase = 2.7
@@ -89,51 +81,67 @@ class CarInterface(CarInterfaceBase):
       ret.mass = 1490. + STD_CARGO_KG
       ret.wheelbase = 2.7
       ret.steerRatio = 13.73
-    elif candidate in [CAR.GRANDEUR, CAR.GRANDEUR_HEV, CAR.GRANDEUR20, CAR.GRANDEUR20_HEV]:
-      ret.mass = 1719. + STD_CARGO_KG
-      ret.wheelbase = 2.8
-      ret.steerRatio = 12.5
+    elif candidate in [CAR.SANTA_FE]:
+      ret.mass = 1694 + STD_CARGO_KG
+      ret.wheelbase = 2.766
+      ret.steerRatio = 13.8 * 1.15
+    elif candidate == CAR.PALISADE:
+      ret.mass = 1999. + STD_CARGO_KG
+      ret.wheelbase = 2.90
+      ret.steerRatio = 13.75 * 1.15
     elif candidate == CAR.VELOSTER:
       ret.mass = 3558. * CV.LB_TO_KG
       ret.wheelbase = 2.80
       ret.steerRatio = 13.75 * 1.15
+    elif candidate in [CAR.GRANDEUR, CAR.GRANDEUR_HEV, CAR.GRANDEUR20, CAR.GRANDEUR20_HEV]:
+      ret.mass = 1719. + STD_CARGO_KG
+      ret.wheelbase = 2.8
+      ret.steerRatio = 12.5
     elif candidate == CAR.NEXO:
       ret.mass = 1885. + STD_CARGO_KG
       ret.wheelbase = 2.79
-      ret.steerRatio = 13.73      
+      ret.steerRatio = 13.73
     # kia
-    elif candidate == CAR.SORENTO:
-      ret.mass = 1985. + STD_CARGO_KG
-      ret.wheelbase = 2.78
-      ret.steerRatio = 14.4 * 1.1
+    elif candidate == CAR.FORTE:
+      ret.mass = 3558. * CV.LB_TO_KG
+      ret.wheelbase = 2.80
+      ret.steerRatio = 13.75      
     elif candidate in [CAR.OPTIMA, CAR.OPTIMA_HEV]:
       ret.mass = 1595. + STD_CARGO_KG
       ret.wheelbase = 2.80
       ret.steerRatio = 13.75 * 1.15
-    elif candidate in [CAR.CADENZA, CAR.CADENZA_HEV]:
-      ret.mass = 1575. + STD_CARGO_KG
-      ret.wheelbase = 2.85
-      ret.steerRatio = 12.5      
-    elif candidate == CAR.STINGER:
-      ret.mass = 1825.0 + STD_CARGO_KG
-      ret.wheelbase = 2.906
-      ret.steerRatio = 13.56
-    elif candidate == CAR.FORTE:
-      ret.mass = 3558. * CV.LB_TO_KG
-      ret.wheelbase = 2.80
-      ret.steerRatio = 13.75
-    elif candidate == CAR.CEED:
-      ret.mass = 1350. + STD_CARGO_KG
-      ret.wheelbase = 2.65
-      ret.steerRatio = 13.75
     elif candidate == CAR.SPORTAGE:
       ret.mass = 1985. + STD_CARGO_KG
       ret.wheelbase = 2.78
       ret.steerRatio = 14.4 * 1.1
+    elif candidate == CAR.SORENTO:
+      ret.mass = 1985. + STD_CARGO_KG
+      ret.wheelbase = 2.78
+      ret.steerRatio = 14.4 * 1.1
+    elif candidate == CAR.STINGER:
+      ret.mass = 1825.0 + STD_CARGO_KG
+      ret.wheelbase = 2.906
+      ret.steerRatio = 13.56
     elif candidate in [CAR.NIRO_HEV, CAR.NIRO_EV]:
       ret.mass = 1737. + STD_CARGO_KG
       ret.wheelbase = 2.7
       ret.steerRatio = 13.73
+    elif candidate == CAR.SOUL_EV:
+      ret.mass = 1682. + STD_CARGO_KG
+      ret.wheelbase = 2.6
+      ret.steerRatio = 13.73
+    elif candidate == CAR.SELTOS:
+      ret.mass = 1470. + STD_CARGO_KG
+      ret.wheelbase = 2.63
+      ret.steerRatio = 13.0
+    elif candidate == CAR.CEED:
+      ret.mass = 1350. + STD_CARGO_KG
+      ret.wheelbase = 2.65
+      ret.steerRatio = 13.75
+    elif candidate in [CAR.CADENZA, CAR.CADENZA_HEV]:
+      ret.mass = 1575. + STD_CARGO_KG
+      ret.wheelbase = 2.85
+      ret.steerRatio = 12.5
       
 # -----------------------------------------------------------------
 # -- pid --
@@ -225,9 +233,10 @@ class CarInterface(CarInterfaceBase):
     elif self.CC.scc_live and not self.CP.enableCruise:
       self.CP.enableCruise = True
 
-    # most HKG cars has no long control, it is safer and easier to engage by main on
+    # most HKG cars has no long control
     if self.mad_mode_enabled and not self.CC.longcontrol:
       ret.cruiseState.enabled = ret.cruiseState.available
+      ret.brakePressed = ret.gasPressed = False
 
     # turning indicator alert logic
     if (ret.leftBlinker or ret.rightBlinker or self.CC.turning_signal_timer) and ret.vEgo < LANE_CHANGE_SPEED_MIN - 1.2:
