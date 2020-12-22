@@ -30,8 +30,20 @@
 #define COLOR_BLACK_ALPHA(x) nvgRGBA(0, 0, 0, x)
 #define COLOR_WHITE nvgRGBA(255, 255, 255, 255)
 #define COLOR_WHITE_ALPHA(x) nvgRGBA(255, 255, 255, x)
-#define COLOR_YELLOW nvgRGBA(218, 202, 37, 255)
-#define COLOR_RED nvgRGBA(201, 34, 49, 255)
+#define COLOR_GREEN nvgRGBA(0, 255, 0, 255)
+#define COLOR_GREEN_ALPHA(x) nvgRGBA(0, 255, 0, x)
+#define COLOR_ORANGE nvgRGBA(255, 165, 0, 255)
+#define COLOR_ORANGE_ALPHA(x) nvgRGBA(255, 165, 0, x)
+#define COLOR_RED nvgRGBA(255, 0, 0, 255)
+#define COLOR_RED_ALPHA(x) nvgRGBA(255, 0, 0, x)
+#define COLOR_YELLOW nvgRGBA(255, 255, 0, 255)
+#define COLOR_YELLOW_ALPHA(x) nvgRGBA(255, 255, 0, x)
+#define COLOR_ENGAGED nvgRGBA(23, 134, 68, 255)
+#define COLOR_ENGAGED_ALPHA(x) nvgRGBA(23, 134, 68, x)
+#define COLOR_WARNING nvgRGBA(218, 111, 37, 255)
+#define COLOR_WARNING_ALPHA(x) nvgRGBA(218, 111, 37, x)
+#define COLOR_ENGAGEABLE nvgRGBA(23, 51, 73, 255)
+#define COLOR_ENGAGEABLE_ALPHA(x) nvgRGBA(23, 51, 73, x)
 
 #define UI_BUF_COUNT 4
 
@@ -46,7 +58,8 @@ typedef struct Rect {
 } Rect;
 
 const int sbr_w = 300;
-const int bdr_s = 30;
+const int bdr_is = 30;
+const int bdr_s = 10;
 const int header_h = 420;
 const int footer_h = 280;
 const Rect settings_btn = {50, 35, 200, 117};
@@ -76,8 +89,8 @@ typedef enum UIStatus {
 static std::map<UIStatus, NVGcolor> bg_colors = {
   {STATUS_OFFROAD, nvgRGBA(0x07, 0x23, 0x39, 0xf1)},
   {STATUS_DISENGAGED, nvgRGBA(0x17, 0x33, 0x49, 0xc8)},
-  {STATUS_ENGAGED, nvgRGBA(0x17, 0x86, 0x44, 0xf1)},
-  {STATUS_WARNING, nvgRGBA(0xDA, 0x6F, 0x25, 0xf1)},
+  {STATUS_ENGAGED, nvgRGBA(0x17, 0x86, 0x44, 0x01)},
+  {STATUS_WARNING, nvgRGBA(0xDA, 0x6F, 0x25, 0x01)},
   {STATUS_ALERT, nvgRGBA(0xC9, 0x22, 0x31, 0xf1)},
 };
 
@@ -98,11 +111,39 @@ typedef struct UIScene {
   bool uilayout_sidebarcollapsed;
   // responsive layout
   Rect viz_rect;
+  int ui_viz_ro;
+
+  int lead_status;
+  float lead_d_rel;
+  float lead_v_rel;
+  float lead_y_rel;
 
   std::string alert_text1;
   std::string alert_text2;
   std::string alert_type;
   cereal::ControlsState::AlertSize alert_size;
+
+  // ui add
+  bool leftBlinker;
+  bool leftblindspot;
+  bool rightBlinker;
+  bool rightblindspot;
+  bool brakeLights;
+  bool steerOverride;
+  bool batteryCharging;
+  int blinker_blinkingrate;
+  int batteryPercent;
+  float angleSteers;
+  float angleSteersDes;
+  float steerRatio;
+  float output_scale;
+  float cpuTempAvg;
+  float tpmsFl;
+  float tpmsFr;
+  float tpmsRl;
+  float tpmsRr;
+
+  char batteryStatus[64];
 
   cereal::HealthData::HwType hwType;
   int satelliteCount;
@@ -114,6 +155,7 @@ typedef struct UIScene {
   cereal::DriverState::Reader driver_state;
   cereal::DMonitoringState::Reader dmonitoring_state;
   cereal::ModelDataV2::Reader model;
+  cereal::CarState::GearShifter getGearShifter;    
   line path;
   line outer_left_lane_line;
   line left_lane_line;
@@ -156,6 +198,7 @@ typedef struct UIState {
   int img_wheel;
   int img_turn;
   int img_face;
+  int img_brake;
   int img_button_settings;
   int img_button_home;
   int img_battery;
