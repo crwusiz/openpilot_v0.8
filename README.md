@@ -1,3 +1,28 @@
+crwusiz openpilot
+=====
+
+<b> This Branch is xx979xx HKG_community base </b>
+- If you have any questions, please send a message to crwusiz from discord. if you like this Branch [Donate](https://paypal.me/crwusiz)
+
+- spinner and colorful spinner track update
+
+[![](https://i.imgur.com/FKjLBh0.jpg)](#)
+
+- kor apk update
+
+[![](https://i.imgur.com/NIGGbTq.png)](#)
+
+- kor NanumGothic font / Comma Bootlogo / Bootanimation Auto install
+- event message kor translate
+- ignition off auto shutdown 5min 
+- simple ui tune
+- wifi ip address by neokii
+- Battery Charge icon and Battery percent
+- steeringwheel rotate and brake add
+- tpms and gear display
+
+[![](https://i.imgur.com/OobAvqM.jpg)](#)
+-----
 HKG Community information
 ======
 
