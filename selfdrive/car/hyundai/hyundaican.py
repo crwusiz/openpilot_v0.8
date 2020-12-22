@@ -15,9 +15,7 @@ def create_lkas11(packer, frame, car_fingerprint, apply_steer, steer_req,
   values["CF_Lkas_LdwsRHWarning"] = right_lane_depart
   values["CR_Lkas_StrToqReq"] = apply_steer
   values["CF_Lkas_ActToi"] = steer_req
-  values["CF_Lkas_ToiFlt"] = 0
   values["CF_Lkas_MsgCount"] = frame % 0x10
-  values["CF_Lkas_Chksum"] = 0
 
 #  if FEATURES["send_lfa_mfa"]:
   if car_fingerprint in FEATURES["send_lfa_mfa"]:
@@ -43,6 +41,9 @@ def create_lkas11(packer, frame, car_fingerprint, apply_steer, steer_req,
     values["CF_Lkas_LdwsActivemode"] = 2
   elif car_fingerprint in [CAR.OPTIMA, CAR.OPTIMA_HEV, CAR.CADENZA, CAR.CADENZA_HEV]:
     values["CF_Lkas_LdwsActivemode"] = 0
+#    values["CF_Lkas_LdwsOpt_USM"] = 3
+#    values["CF_Lkas_FcwOpt_USM"] = 2 if enabled else 1
+#    values["CF_Lkas_SysWarning"] = 4 if sys_warning else 0
 
   dat = packer.make_can_msg("LKAS11", 0, values)[2]
 
@@ -65,7 +66,7 @@ def create_clu11(packer, frame, bus, clu11, button, speed):
   values = clu11
   values["CF_Clu_CruiseSwState"] = button
   values["CF_Clu_Vanz"] = speed
-  values["CF_Clu_AliveCnt1"] = frame // 2 % 0x10
+  values["CF_Clu_AliveCnt1"] = frame % 0x10
   return packer.make_can_msg("CLU11", bus, values)
 
 def create_lfa_mfa(packer, frame, enabled):
