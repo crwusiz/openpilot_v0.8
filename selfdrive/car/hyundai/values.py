@@ -405,6 +405,8 @@ FEATURES = {
   # these cars use the FCA11 message for the AEB and FCW signals, all others use SCC12
   "use_fca": set([CAR.SONATA, CAR.ELANTRA, CAR.ELANTRA_GT_I30, CAR.STINGER, CAR.IONIQ_HEV, CAR.KONA, CAR.KONA_EV, CAR.FORTE, CAR.PALISADE, CAR.GENESIS_G70, CAR.IONIQ20_EV]),
   "use_bsm": set([CAR.SONATA, CAR.PALISADE, CAR.GENESIS, CAR.GENESIS_G70, CAR.GENESIS_G80, CAR.GENESIS_G90, CAR.KONA, CAR.KONA_EV, CAR.IONIQ20_EV]),
+  # MFC camera ldws car use_ldws change True
+  "use_ldws": False,  
 }
 
 DBC = {
