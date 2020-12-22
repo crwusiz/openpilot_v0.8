@@ -310,7 +310,7 @@ static void ui_draw_world(UIState *s) {
     if (scene->lead_data[0].getStatus()) {
       draw_lead(s, scene->lead_data[0]);
     }
-    if (scene->lead_data[1].getStatus() && (std::abs(scene->lead_data[0].getDRel() - scene->lead_data[1].getDRel()) > 3.0)) {
+    if (scene->lead_data[1].getStatus() && (std::abs(scene->lead_data[0].getDRel() - scene->lead_data[1].getDRel()) > 1.0)) {
       draw_lead(s, scene->lead_data[1]);
     }
   //}
