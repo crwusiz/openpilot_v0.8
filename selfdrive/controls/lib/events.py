@@ -358,7 +358,7 @@ EVENTS: Dict[int, Dict[str, Union[Alert, Callable[[Any, messaging.SubMaster, boo
       "도로를 주시하세요 : 운전자 도로주시 불안",
       "",
       AlertStatus.normal, AlertSize.small,
-      Priority.LOW, VisualAlert.steerRequired, AudibleAlert.none, .0, .1, .1),
+      Priority.LOW, VisualAlert.none, AudibleAlert.none, .0, .1, .1),
   },
 
   EventName.promptDriverDistracted: {
@@ -458,7 +458,7 @@ EVENTS: Dict[int, Dict[str, Union[Alert, Callable[[Any, messaging.SubMaster, boo
       "차선을 변경합니다",
       "후측방 차량에 주의하세요",
       AlertStatus.normal, AlertSize.mid,
-      Priority.LOW, VisualAlert.steerRequired, AudibleAlert.chimeAlca, 4., .1, .1),
+      Priority.LOW, VisualAlert.none, AudibleAlert.chimeAlca, 4., .1, .1),
   },
 
   EventName.steerSaturated: {
@@ -482,7 +482,7 @@ EVENTS: Dict[int, Dict[str, Union[Alert, Callable[[Any, messaging.SubMaster, boo
       "방향지시등 동작중에는 핸들을 잡아주세요",
       "",
       AlertStatus.userPrompt, AlertSize.mid,
-      Priority.MID, VisualAlert.steerRequired, AudibleAlert.none, .0, .1, .2),
+      Priority.MID, VisualAlert.none, AudibleAlert.none, .0, .1, .2),
   },
 
   EventName.lkasButtonOff: {
