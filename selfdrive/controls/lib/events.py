@@ -151,7 +151,7 @@ class SoftDisableAlert(Alert):
   def __init__(self, alert_text_2):
     super().__init__("핸들을 즉시 잡아주세요", alert_text_2,
                      AlertStatus.critical, AlertSize.full,
-                     Priority.MID, VisualAlert.steerRequired,
+                     Priority.MID, VisualAlert.none,
                      AudibleAlert.chimeWarningRepeat, .1, 2., 2.),
 
 
@@ -251,7 +251,7 @@ EVENTS: Dict[int, Dict[str, Union[Alert, Callable[[Any, messaging.SubMaster, boo
       "대시캠 모드",
       "항상 핸들을 잡고 도로를 주시하세요",
       AlertStatus.normal, AlertSize.mid,
-      Priority.LOWER, VisualAlert.none, AudibleAlert.none, 0., 0., 15.),
+      Priority.LOWER, VisualAlert.none, AudibleAlert.chimeDisengage2, 1., 0., 15.),
   },
 
   EventName.startupNoCar: {
@@ -259,7 +259,7 @@ EVENTS: Dict[int, Dict[str, Union[Alert, Callable[[Any, messaging.SubMaster, boo
       "대시캠 모드 : 호환되지않는 차량",
       "항상 핸들을 잡고 도로를 주시하세요",
       AlertStatus.normal, AlertSize.mid,
-      Priority.LOWER, VisualAlert.none, AudibleAlert.none, 0., 0., 15.),
+      Priority.LOWER, VisualAlert.none, AudibleAlert.chimeDisengage2, 1., 0., 15.),
   },
 
   EventName.startupOneplus: {
@@ -358,7 +358,7 @@ EVENTS: Dict[int, Dict[str, Union[Alert, Callable[[Any, messaging.SubMaster, boo
       "도로를 주시하세요 : 운전자 도로주시 불안",
       "",
       AlertStatus.normal, AlertSize.small,
-      Priority.LOW, VisualAlert.none, AudibleAlert.none, .0, .1, .1),
+      Priority.LOW, VisualAlert.none, AudibleAlert.chimeDing, .1, .1, .1),
   },
 
   EventName.promptDriverDistracted: {
@@ -382,7 +382,7 @@ EVENTS: Dict[int, Dict[str, Union[Alert, Callable[[Any, messaging.SubMaster, boo
       "핸들을 잡아주세요 : 운전자 인식 불가",
       "",
       AlertStatus.normal, AlertSize.small,
-      Priority.LOW, VisualAlert.steerRequired, AudibleAlert.none, .0, .1, .1, alert_rate=0.75),
+      Priority.LOW, VisualAlert.steerRequired, AudibleAlert.chimeDing, .1, .1, .1, alert_rate=0.75),
   },
 
   EventName.promptDriverUnresponsive: {
