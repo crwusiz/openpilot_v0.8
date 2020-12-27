@@ -265,6 +265,11 @@ FW_VERSIONS = {
     ],
     (Ecu.fwdCamera, 0x7C4, None): [b'\xf1\x00OSE LKAS AT KOR LHD 1.00 1.00 95740-K4100 W40',],
   },
+  CAR.IONIQ_EV: {
+    (Ecu.fwdRadar, 0x7d0, None): [b'\xf1\x00AEev SCC F-CUP      1.00 1.00 96400-G7000         ',],
+    (Ecu.eps, 0x7d4, None): [b'\xf1\x00AE  MDPS C 1.00 1.02 56310G7300\x00 4AEEC102',],
+    (Ecu.fwdCamera, 0x7c4, None): [b'\xf1\x00AEE MFC  AT EUR LHD 1.00 1.00 95740-G7200 160418',],
+  },  
   CAR.IONIQ_HEV: {
     (Ecu.fwdRadar, 0x7d0, None): [
       b'\xf1\x00AEhe SCC F-CUP      1.00 1.00 99110-G2200         ',
