@@ -390,6 +390,7 @@ static void ui_draw_vision_speed(UIState *s) {
     s->scene.blinker_blinkingrate -= 5;
     if(scene->blinker_blinkingrate<0) s->scene.blinker_blinkingrate = 120;
   }
+  /*
   if(scene->leftblindspot) {
     nvgBeginPath(s->vg);
     nvgMoveTo(s->vg, viz_speed_x - viz_add, viz_rect.y + header_h/4);
@@ -408,6 +409,7 @@ static void ui_draw_vision_speed(UIState *s) {
     nvgFillColor(s->vg, COLOR_RED_ALPHA(200));
     nvgFill(s->vg);
   }
+  */
   nvgBeginPath(s->vg);
   nvgRect(s->vg, viz_speed_x, viz_rect.y, viz_speed_w, header_h);
   nvgTextAlign(s->vg, NVG_ALIGN_CENTER | NVG_ALIGN_BASELINE);
@@ -547,6 +549,60 @@ static void ui_draw_vision_brake(UIState *s) {
   nvgBeginPath(s->vg);
   nvgRect(s->vg, brake_img_x, brake_img_y, brake_img_size, brake_img_size);
   nvgFillPaint(s->vg, brake_img);
+  nvgFill(s->vg);
+}
+
+static void ui_draw_vision_bsd_left(UIState *s) {
+  const UIScene *scene = &s->scene;
+  const Rect &viz_rect = s->scene.viz_rect;
+  const int bsd_size = 85;
+  const int bsd_x = (viz_rect.x + (bsd_size * 5) + (bdr_is * 2.5));
+  const int bsd_y = (790 + ((footer_h - bsd_size) / 2));
+  const int bsd_img_size = (bsd_size * 1.5);
+  const int bsd_img_x = (bsd_x - (bsd_img_size / 2));
+  const int bsd_img_y = (bsd_y - (bsd_size / 4) + bdr_add);
+
+  bool bsd_valid = scene->leftblindspot;
+  float bsd_img_alpha = bsd_valid ? 1.0f : 0.15f;
+  float bsd_bg_alpha = bsd_valid ? 0.3f : 0.1f;
+  NVGcolor bsd_bg = COLOR_BLACK_ALPHA(255 * bsd_bg_alpha);
+  NVGpaint bsd_img = nvgImagePattern(s->vg, bsd_img_x, bsd_img_y, bsd_img_size, bsd_img_size, 0, s->img_bsd_l, bsd_img_alpha);
+
+  nvgBeginPath(s->vg);
+  nvgCircle(s->vg, bsd_x, (bsd_y + (bdr_add * 2)), bsd_size);
+  nvgFillColor(s->vg, bsd_bg);
+  nvgFill(s->vg);
+
+  nvgBeginPath(s->vg);
+  nvgRect(s->vg, bsd_img_x, bsd_img_y, bsd_img_size, bsd_img_size);
+  nvgFillPaint(s->vg, bsd_img);
+  nvgFill(s->vg);
+}
+
+static void ui_draw_vision_bsd_right(UIState *s) {
+  const UIScene *scene = &s->scene;
+  const Rect &viz_rect = s->scene.viz_rect;
+  const int bsd_size = 85;
+  const int bsd_x = (viz_rect.x + (bsd_size * 8) + (bdr_is * 2.5));
+  const int bsd_y = (790 + ((footer_h - bsd_size) / 2));
+  const int bsd_img_size = (bsd_size * 1.5);
+  const int bsd_img_x = (bsd_x - (bsd_img_size / 2));
+  const int bsd_img_y = (bsd_y - (bsd_size / 4) + bdr_add);
+
+  bool bsd_valid = scene->rightblindspot;
+  float bsd_img_alpha = bsd_valid ? 1.0f : 0.15f;
+  float bsd_bg_alpha = bsd_valid ? 0.3f : 0.1f;
+  NVGcolor bsd_bg = COLOR_BLACK_ALPHA(255 * bsd_bg_alpha);
+  NVGpaint bsd_img = nvgImagePattern(s->vg, bsd_img_x, bsd_img_y, bsd_img_size, bsd_img_size, 0, s->img_bsd_r, bsd_img_alpha);
+
+  nvgBeginPath(s->vg);
+  nvgCircle(s->vg, bsd_x, (bsd_y + (bdr_add * 2)), bsd_size);
+  nvgFillColor(s->vg, bsd_bg);
+  nvgFill(s->vg);
+
+  nvgBeginPath(s->vg);
+  nvgRect(s->vg, bsd_img_x, bsd_img_y, bsd_img_size, bsd_img_size);
+  nvgFillPaint(s->vg, bsd_img);
   nvgFill(s->vg);
 }
 
@@ -831,9 +887,11 @@ static void bb_ui_draw_gear(UIState *s) {
 static void ui_draw_vision_footer(UIState *s) {
   ui_draw_vision_face(s);
   ui_draw_vision_brake(s);
+  ui_draw_vision_bsd_left(s);
+  ui_draw_vision_bsd_right(s);  
   bb_ui_draw_UI(s);
   bb_ui_draw_tpms(s);
-  bb_ui_draw_gear(s);  
+  bb_ui_draw_gear(s);
 }
 
 static void ui_draw_vision_alert(UIState *s) {
@@ -1048,6 +1106,10 @@ void ui_nvg_init(UIState *s) {
   assert(s->img_face != 0);
   s->img_brake = nvgCreateImage(s->vg, "../assets/img_brake_disc.png", 1);
   assert(s->img_brake >= 0);
+  s->img_bsdl = nvgCreateImage(s->vg, "../assets/img_bsd_l.png", 1);
+  assert(s->img_brake >= 0);
+  s->img_bsdr = nvgCreateImage(s->vg, "../assets/img_bsd_r.png", 1);
+  assert(s->img_brake >= 0);  
   s->img_button_settings = nvgCreateImage(s->vg, "../assets/images/button_settings.png", 1);
   assert(s->img_button_settings != 0);
   s->img_button_home = nvgCreateImage(s->vg, "../assets/images/button_home.png", 1);
