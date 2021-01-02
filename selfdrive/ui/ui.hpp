@@ -199,6 +199,8 @@ typedef struct UIState {
   int img_turn;
   int img_face;
   int img_brake;
+  int img_bsd_l;
+  int img_bsd_r;  
   int img_button_settings;
   int img_button_home;
   int img_battery;
