@@ -6,7 +6,6 @@
 #include "common/util.h"
 #include <algorithm>
 
-
 #define NANOVG_GLES3_IMPLEMENTATION
 #include "nanovg_gl.h"
 #include "nanovg_gl_utils.h"
@@ -59,7 +58,6 @@ bool car_space_to_full_frame(const UIState *s, float in_x, float in_y, float in_
 
   return *out_x >= -margin && *out_x <= s->fb_w + margin && *out_y >= -margin && *out_y <= s->fb_h + margin;
 }
-
 
 static void ui_draw_text(NVGcontext *vg, float x, float y, const char* string, float size, NVGcolor color, int font){
   nvgFontFaceId(vg, font);
@@ -252,7 +250,6 @@ static void update_line_data(UIState *s, const cereal::ModelDataV2::XYZTData::Re
   pvd->cnt = v - pvd->v;
 }
 
-
 static void ui_draw_vision_lane_lines(UIState *s) {
   const UIScene *scene = &s->scene;
 
@@ -416,7 +413,7 @@ static void ui_draw_vision_speed(UIState *s) {
 
   snprintf(speed_str, sizeof(speed_str), "%d", (int)speed);
   ui_draw_text(s->vg, viz_rect.centerX(), 240, speed_str, 100*2.5, COLOR_WHITE_ALPHA(200), s->font_sans_bold);
-  ui_draw_text(s->vg, viz_rect.centerX(), 320, s->is_metric?"km/h":"mph", 36*2.5, COLOR_YELLOW_ALPHA(200), s->font_sans_regular);
+  ui_draw_text(s->vg, viz_rect.centerX(), 320, s->is_metric?"㎞/h":"mph", 36*2.5, COLOR_YELLOW_ALPHA(200), s->font_sans_regular);
 }
 
 static void ui_draw_vision_event(UIState *s) {
@@ -425,7 +422,7 @@ static void ui_draw_vision_event(UIState *s) {
   const int viz_event_y = s->scene.viz_rect.y + (bdr_is * 1.5);
   if (s->scene.controls_state.getDecelForModel() && s->scene.controls_state.getEnabled()) {
     // draw winding road sign
-    const int img_turn_size = 160*1.5;
+    const int img_turn_size = 100 * 1.5;
     ui_draw_image(s->vg, viz_event_x - (img_turn_size / 4), viz_event_y + bdr_is - 25, img_turn_size, img_turn_size, s->img_turn, 1.0f);
   } else {
     // draw steering wheel
@@ -821,33 +818,37 @@ static void bb_ui_draw_tpms(UIState *s) {
   snprintf(tpmsFr, sizeof(tpmsFr), "%.0f", s->scene.tpmsFr);
   snprintf(tpmsRl, sizeof(tpmsRl), "%.0f", s->scene.tpmsRl);
   snprintf(tpmsRr, sizeof(tpmsRr), "%.0f", s->scene.tpmsRr);
+
   if (s->scene.tpmsFl < 34) {
-    ui_draw_text(s->vg, pos_x-pos_move, pos_y-pos_move, tpmsFl, fontsize, COLOR_RED, s->font_sans_bold);
+    ui_draw_text(s->vg, pos_x - pos_move, pos_y-pos_move, tpmsFl, fontsize, COLOR_RED, s->font_sans_bold);
   } else if (s->scene.tpmsFl > 50) {
-    ui_draw_text(s->vg, pos_x-pos_move, pos_y-pos_move, "-", fontsize, COLOR_WHITE_ALPHA(200), s->font_sans_semibold);
+    ui_draw_text(s->vg, pos_x - pos_move, pos_y-pos_move, "-", fontsize, COLOR_WHITE_ALPHA(200), s->font_sans_semibold);
   } else {
-    ui_draw_text(s->vg, pos_x-pos_move, pos_y-pos_move, tpmsFl, fontsize, COLOR_WHITE_ALPHA(200), s->font_sans_semibold);
+    ui_draw_text(s->vg, pos_x - pos_move, pos_y-pos_move, tpmsFl, fontsize, COLOR_WHITE_ALPHA(200), s->font_sans_semibold);
   }
+  
   if (s->scene.tpmsFr < 34) {
-    ui_draw_text(s->vg, pos_x+pos_move, pos_y-pos_move, tpmsFr, fontsize, COLOR_RED, s->font_sans_bold);
+    ui_draw_text(s->vg, pos_x + pos_move, pos_y-pos_move, tpmsFr, fontsize, COLOR_RED, s->font_sans_bold);
   } else if (s->scene.tpmsFr > 50) {
-    ui_draw_text(s->vg, pos_x+pos_move, pos_y-pos_move, "-", fontsize, COLOR_WHITE_ALPHA(200), s->font_sans_semibold);
+    ui_draw_text(s->vg, pos_x + pos_move, pos_y-pos_move, "-", fontsize, COLOR_WHITE_ALPHA(200), s->font_sans_semibold);
   } else {
-    ui_draw_text(s->vg, pos_x+pos_move, pos_y-pos_move, tpmsFr, fontsize, COLOR_WHITE_ALPHA(200), s->font_sans_semibold);
+    ui_draw_text(s->vg, pos_x + pos_move, pos_y-pos_move, tpmsFr, fontsize, COLOR_WHITE_ALPHA(200), s->font_sans_semibold);
   }
+  
   if (s->scene.tpmsRl < 34) {
-    ui_draw_text(s->vg, pos_x-pos_move, pos_y, tpmsRl, fontsize, COLOR_RED, s->font_sans_bold);
+    ui_draw_text(s->vg, pos_x - pos_move, pos_y, tpmsRl, fontsize, COLOR_RED, s->font_sans_bold);
   } else if (s->scene.tpmsRl > 50) {
-    ui_draw_text(s->vg, pos_x-pos_move, pos_y, "-", fontsize, COLOR_WHITE_ALPHA(200), s->font_sans_semibold);
+    ui_draw_text(s->vg, pos_x - pos_move, pos_y, "-", fontsize, COLOR_WHITE_ALPHA(200), s->font_sans_semibold);
   } else {
-    ui_draw_text(s->vg, pos_x-pos_move, pos_y, tpmsRl, fontsize, COLOR_WHITE_ALPHA(200), s->font_sans_semibold);
+    ui_draw_text(s->vg, pos_x - pos_move, pos_y, tpmsRl, fontsize, COLOR_WHITE_ALPHA(200), s->font_sans_semibold);
   }
+  
   if (s->scene.tpmsRr < 34) {
-    ui_draw_text(s->vg, pos_x+pos_move, pos_y, tpmsRr, fontsize, COLOR_RED, s->font_sans_bold);
+    ui_draw_text(s->vg, pos_x + pos_move, pos_y, tpmsRr, fontsize, COLOR_RED, s->font_sans_bold);
   } else if (s->scene.tpmsRr > 50) {
-    ui_draw_text(s->vg, pos_x+pos_move, pos_y, "-", fontsize, COLOR_WHITE_ALPHA(200), s->font_sans_semibold);
+    ui_draw_text(s->vg, pos_x + pos_move, pos_y, "-", fontsize, COLOR_WHITE_ALPHA(200), s->font_sans_semibold);
   } else {
-    ui_draw_text(s->vg, pos_x+pos_move, pos_y, tpmsRr, fontsize, COLOR_WHITE_ALPHA(200), s->font_sans_semibold);
+    ui_draw_text(s->vg, pos_x + pos_move, pos_y, tpmsRr, fontsize, COLOR_WHITE_ALPHA(200), s->font_sans_semibold);
   }
 }
 
@@ -858,7 +859,7 @@ static void bb_ui_draw_gear(UIState *s) {
   int viz_gear_x = s->scene.viz_rect.x + s->scene.viz_rect.w - 400;
   int viz_gear_y = s->scene.viz_rect.y + (bdr_is * 1.5) + 870;
   int getGear = int(scene.getGearShifter);
-  char gear_msg[32];  
+  char gear_msg[32];
   
   // Draw Border
   ui_draw_rect(s->vg, viz_gear_x, viz_gear_y, viz_gear_w, viz_gear_h, COLOR_WHITE_ALPHA(80), 20, 5);
