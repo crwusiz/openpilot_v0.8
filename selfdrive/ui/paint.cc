@@ -1108,9 +1108,9 @@ void ui_nvg_init(UIState *s) {
   s->img_brake = nvgCreateImage(s->vg, "../assets/img_brake_disc.png", 1);
   assert(s->img_brake >= 0);
   s->img_bsdl = nvgCreateImage(s->vg, "../assets/img_bsd_l.png", 1);
-  assert(s->img_brake >= 0);
+  assert(s->img_bsd_l >= 0);
   s->img_bsdr = nvgCreateImage(s->vg, "../assets/img_bsd_r.png", 1);
-  assert(s->img_brake >= 0);  
+  assert(s->img_bsd_r >= 0);  
   s->img_button_settings = nvgCreateImage(s->vg, "../assets/images/button_settings.png", 1);
   assert(s->img_button_settings != 0);
   s->img_button_home = nvgCreateImage(s->vg, "../assets/images/button_home.png", 1);
