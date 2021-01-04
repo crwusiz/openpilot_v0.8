@@ -554,7 +554,7 @@ static void ui_draw_vision_bsd_left(UIState *s) {
   const Rect &viz_rect = s->scene.viz_rect;
   const int bsd_size = 85;
   const int bsd_x = (viz_rect.x + (bsd_size) + (bdr_is * 2.5));
-  const int bsd_y = (700 + ((footer_h - bsd_size) / 2));
+  const int bsd_y = (650 + ((footer_h - bsd_size) / 2));
   const int bsd_img_size = (bsd_size * 1.5);
   const int bsd_img_x = (bsd_x - (bsd_img_size / 2));
   const int bsd_img_y = (bsd_y - (bsd_size / 4) + bdr_add);
@@ -581,7 +581,7 @@ static void ui_draw_vision_bsd_right(UIState *s) {
   const Rect &viz_rect = s->scene.viz_rect;
   const int bsd_size = 85;
   const int bsd_x = (viz_rect.x + (bsd_size * 3) + (bdr_is * 2.5));
-  const int bsd_y = (700 + ((footer_h - bsd_size) / 2));
+  const int bsd_y = (650 + ((footer_h - bsd_size) / 2));
   const int bsd_img_size = (bsd_size * 1.5);
   const int bsd_img_x = (bsd_x - (bsd_img_size / 2));
   const int bsd_img_y = (bsd_y - (bsd_size / 4) + bdr_add);
