@@ -15,13 +15,13 @@ crwusiz openpilot
 - kor NanumGothic font / Comma Bootlogo / Bootanimation Auto install
 - event message kor translate
 - ignition off auto shutdown 5min 
-- simple ui tune
 - wifi ip address by neokii
-- Battery Charge icon and Battery percent
-- steeringwheel rotate and brake add
+- Battery Charge icon and Battery percent display
+- steeringwheel rotate
 - tpms and gear display
+- brake and bsd icon
 
-[![](https://i.imgur.com/OobAvqM.jpg)](#)
+[![](https://i.imgur.com/7sYzqOP.jpg)](#)
 -----
 HKG Community information
 ======
