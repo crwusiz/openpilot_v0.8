@@ -1,4 +1,5 @@
 import crcmod
+from common.params import Params
 from selfdrive.car.hyundai.values import CAR, CHECKSUM, FEATURES
 
 hyundai_checksum = crcmod.mkCrcFun(0x11D, initCrc=0xFD, rev=False, xorOut=0xdf)
@@ -38,14 +39,17 @@ def create_lkas11(packer, frame, car_fingerprint, apply_steer, steer_req,
     # This field is actually LdwsActivemode ( only use ldws camera )
   elif car_fingerprint == CAR.GENESIS:
     values["CF_Lkas_LdwsActivemode"] = 2
+    values["CF_Lkas_SysWarning"] = lkas11["CF_Lkas_SysWarning"]
+
   elif car_fingerprint in [CAR.OPTIMA, CAR.OPTIMA_HEV, CAR.CADENZA, CAR.CADENZA_HEV]:
     values["CF_Lkas_LdwsActivemode"] = 0
-#    values["CF_Lkas_LdwsOpt_USM"] = 3
-#    values["CF_Lkas_FcwOpt_USM"] = 2 if enabled else 1
-#    values["CF_Lkas_SysWarning"] = 4 if sys_warning else 0
 
-  if FEATURES["use_ldws"]:
+  ldws_mfc = int(Params().get('LdwsMfc')) == 1
+  if ldws_mfc:
+    values["CF_Lkas_LdwsActivemode"] = 0
     values["CF_Lkas_LdwsOpt_USM"] = 3
+    values["CF_Lkas_FcwOpt_USM"] = 2 if enabled else 1
+#    values["CF_Lkas_SysWarning"] = 4 if sys_warning else 0
 
   dat = packer.make_can_msg("LKAS11", 0, values)[2]
 
@@ -76,18 +80,6 @@ def create_lfa_mfa(packer, frame, enabled):
     "ACTIVE": enabled,
     "HDA_USM": 2,
   }
-
-  # ACTIVE 1 = Green steering wheel icon
-
-  # LFA_USM 2 & 3 = LFA cancelled, fast loud beeping
-  # LFA_USM 0 & 1 = No mesage
-
-  # LFA_SysWarning 1 = "Switching to HDA", short beep
-  # LFA_SysWarning 2 = "Switching to Smart Cruise control", short beep
-  # LFA_SysWarning 3 =  LFA error
-
-  # ACTIVE2: nothing
-  # HDA_USM: nothing
 
   return packer.make_can_msg("LFAHDA_MFC", 0, values)
 

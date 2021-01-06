@@ -240,7 +240,7 @@ void update_sockets(UIState *s) {
     if(scene.leftBlinker!=data.getLeftBlinker() || scene.rightBlinker!=data.getRightBlinker()){
       scene.blinker_blinkingrate = 50;
     }
-    scene.brakeLights = data.getBrakeLights();    
+    scene.brakeLights = data.getBrakeLights();
     scene.leftBlinker = data.getLeftBlinker();
     scene.rightBlinker = data.getRightBlinker();
     scene.leftblindspot = data.getLeftBlindspot();
@@ -250,7 +250,7 @@ void update_sockets(UIState *s) {
     scene.tpmsRl = data.getTpmsRl();
     scene.tpmsRr = data.getTpmsRr();
     scene.getGearShifter = data.getGearShifter();
-  }  
+  }
   if (sm.updated("liveParameters")) {
     auto data = sm["liveParameters"].getLiveParameters();
     s->scene.steerRatio=data.getSteerRatio();

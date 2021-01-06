@@ -110,7 +110,7 @@ class CarState(CarStateBase):
     if cp.vl["TPMS11"]['PRESSURE_RR'] > 43:
       ret.tpmsRr = cp.vl["TPMS11"]['PRESSURE_RR'] * 5 * 0.145
     else:
-      ret.tpmsRr = cp.vl["TPMS11"]['PRESSURE_RR']    
+      ret.tpmsRr = cp.vl["TPMS11"]['PRESSURE_RR']
 
     # TODO: refactor gear parsing in function
     # Gear Selection via Cluster - For those Kia/Hyundai which are not fully discovered, we can use the Cluster Indicator for Gear Selection,

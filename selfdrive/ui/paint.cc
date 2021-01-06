@@ -186,7 +186,7 @@ static void ui_draw_track(UIState *s, track_vertices_data *pvd) {
   nvgClosePath(s->vg);
 
   NVGpaint track_bg;
-  if (s->scene.controls_state.getEnabled()) {  
+  if (s->scene.controls_state.getEnabled()) {
   // Draw colored track
     if (s->scene.steerOverride) {
       track_bg = nvgLinearGradient(s->vg, s->fb_w, s->fb_h, s->fb_w, s->fb_h*.4,
@@ -826,7 +826,7 @@ static void bb_ui_draw_tpms(UIState *s) {
   } else {
     ui_draw_text(s->vg, pos_x - pos_move, pos_y-pos_move, tpmsFl, fontsize, COLOR_WHITE_ALPHA(200), s->font_sans_semibold);
   }
-  
+
   if (s->scene.tpmsFr < 34) {
     ui_draw_text(s->vg, pos_x + pos_move, pos_y-pos_move, tpmsFr, fontsize, COLOR_RED, s->font_sans_bold);
   } else if (s->scene.tpmsFr > 50) {
@@ -834,7 +834,7 @@ static void bb_ui_draw_tpms(UIState *s) {
   } else {
     ui_draw_text(s->vg, pos_x + pos_move, pos_y-pos_move, tpmsFr, fontsize, COLOR_WHITE_ALPHA(200), s->font_sans_semibold);
   }
-  
+
   if (s->scene.tpmsRl < 34) {
     ui_draw_text(s->vg, pos_x - pos_move, pos_y, tpmsRl, fontsize, COLOR_RED, s->font_sans_bold);
   } else if (s->scene.tpmsRl > 50) {
@@ -842,7 +842,7 @@ static void bb_ui_draw_tpms(UIState *s) {
   } else {
     ui_draw_text(s->vg, pos_x - pos_move, pos_y, tpmsRl, fontsize, COLOR_WHITE_ALPHA(200), s->font_sans_semibold);
   }
-  
+
   if (s->scene.tpmsRr < 34) {
     ui_draw_text(s->vg, pos_x + pos_move, pos_y, tpmsRr, fontsize, COLOR_RED, s->font_sans_bold);
   } else if (s->scene.tpmsRr > 50) {
@@ -860,7 +860,7 @@ static void bb_ui_draw_gear(UIState *s) {
   int viz_gear_y = s->scene.viz_rect.y + (bdr_is * 1.5) + 870;
   int getGear = int(scene.getGearShifter);
   char gear_msg[32];
-  
+
   // Draw Border
   ui_draw_rect(s->vg, viz_gear_x, viz_gear_y, viz_gear_w, viz_gear_h, COLOR_WHITE_ALPHA(80), 20, 5);
 
@@ -872,7 +872,7 @@ static void bb_ui_draw_gear(UIState *s) {
   const int pos_move = 50;
   const int fontsize = 60;
   ui_draw_text(s->vg, pos_x, pos_y+pos_move, "Gear", fontsize-20, gColor, s->font_sans_regular);
-  
+
   switch( getGear ) {
     case 1 : strcpy( gear_msg, "P" ); break;
     case 2 : strcpy( gear_msg, "D" ); gColor = COLOR_GREEN_ALPHA(200); break;
@@ -880,7 +880,7 @@ static void bb_ui_draw_gear(UIState *s) {
     case 4 : strcpy( gear_msg, "R" ); gColor = COLOR_RED_ALPHA(200); break;
     default: sprintf( gear_msg, "%d", getGear ); break;
   }
-    ui_draw_text(s->vg, pos_x, pos_y, gear_msg, fontsize+20, gColor, s->font_sans_semibold);  
+    ui_draw_text(s->vg, pos_x, pos_y, gear_msg, fontsize+20, gColor, s->font_sans_semibold);
 }
 
 //BB END: functions added for the display of various items
@@ -889,7 +889,7 @@ static void ui_draw_vision_footer(UIState *s) {
   ui_draw_vision_face(s);
   ui_draw_vision_brake(s);
   ui_draw_vision_bsd_left(s);
-  ui_draw_vision_bsd_right(s);  
+  ui_draw_vision_bsd_right(s);
   bb_ui_draw_UI(s);
   bb_ui_draw_tpms(s);
   bb_ui_draw_gear(s);
@@ -1110,7 +1110,7 @@ void ui_nvg_init(UIState *s) {
   s->img_bsd_l = nvgCreateImage(s->vg, "../assets/img_bsd_l.png", 1);
   assert(s->img_bsd_l >= 0);
   s->img_bsd_r = nvgCreateImage(s->vg, "../assets/img_bsd_r.png", 1);
-  assert(s->img_bsd_r >= 0);  
+  assert(s->img_bsd_r >= 0);
   s->img_button_settings = nvgCreateImage(s->vg, "../assets/images/button_settings.png", 1);
   assert(s->img_button_settings != 0);
   s->img_button_home = nvgCreateImage(s->vg, "../assets/images/button_home.png", 1);

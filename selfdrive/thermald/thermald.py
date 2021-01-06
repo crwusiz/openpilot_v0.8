@@ -40,6 +40,7 @@ prev_offroad_states: Dict[str, Tuple[bool, Optional[str]]] = {}
 LEON = False
 last_eon_fan_val = None
 
+prebuiltfile = '/data/openpilot/prebuilt'
 
 def get_thermal_config():
   # (tz, scale)
@@ -191,7 +192,7 @@ def thermald_thread():
   network_type = NetworkType.none
   network_strength = NetworkStrength.unknown
   wifiIpAddress = '연결안됨'
-  
+
   current_filter = FirstOrderFilter(0., CURRENT_TAU, DT_TRML)
   cpu_temp_filter = FirstOrderFilter(0., CPU_TEMP_TAU, DT_TRML)
   health_prev = None
@@ -249,7 +250,7 @@ def thermald_thread():
       try:
         network_type = HARDWARE.get_network_type()
         network_strength = HARDWARE.get_network_strength(network_type)
-        wifiIpAddress = HARDWARE.get_ip_address()        
+        wifiIpAddress = HARDWARE.get_ip_address()
       except Exception:
         cloudlog.exception("Error getting network status")
 
@@ -387,6 +388,12 @@ def thermald_thread():
       started_ts = None
       if off_ts is None:
         off_ts = sec_since_boot()
+
+    prebuiltlet = Params().get('PutPrebuilt') == b'1'
+    if not os.path.isfile(prebuiltfile) and prebuiltlet:
+      os.system("cd /data/openpilot; touch prebuilt")
+    elif os.path.isfile(prebuiltfile) and not prebuiltlet:
+      os.system("cd /data/openpilot; rm -f prebuilt")
 
     # Offroad power monitoring
     pm.calculate(health)

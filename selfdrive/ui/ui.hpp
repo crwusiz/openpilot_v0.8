@@ -155,7 +155,7 @@ typedef struct UIScene {
   cereal::DriverState::Reader driver_state;
   cereal::DMonitoringState::Reader dmonitoring_state;
   cereal::ModelDataV2::Reader model;
-  cereal::CarState::GearShifter getGearShifter;    
+  cereal::CarState::GearShifter getGearShifter;
   line path;
   line outer_left_lane_line;
   line left_lane_line;
@@ -200,7 +200,7 @@ typedef struct UIState {
   int img_face;
   int img_brake;
   int img_bsd_l;
-  int img_bsd_r;  
+  int img_bsd_r;
   int img_button_settings;
   int img_button_home;
   int img_battery;
