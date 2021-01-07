@@ -196,8 +196,7 @@ class CarState(CarStateBase):
       self.mdps11_stat = cp_mdps.vl["MDPS11"]["CF_Mdps_Stat"]
 
     self.lkas_error = cp_cam.vl["LKAS11"]["CF_Lkas_LdwsSysState"] == 7
-    if not self.lkas_error and self.car_fingerprint not in [CAR.SONATA,CAR.PALISADE,
-                    CAR.SONATA_HEV, CAR.SANTA_FE, CAR.KONA_EV, CAR.NIRO_EV, CAR.KONA]:
+    if not self.lkas_error and self.car_fingerprint not in FEATURES["not_lkas"]:
       self.lkas_button_on = bool(cp_cam.vl["LKAS11"]["CF_Lkas_LdwsSysState"])
 
     return ret
