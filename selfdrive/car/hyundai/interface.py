@@ -57,7 +57,7 @@ class CarInterface(CarInterfaceBase):
       ret.wheelbase = 3.15
       ret.steerRatio = 12.069
     # hyundai
-    elif candidate in [CAR.ELANTRA, CAR.ELANTRA_GT_I30, CAR.ELANTRA20]:
+    elif candidate in [CAR.ELANTRA, CAR.ELANTRA_I30, CAR.ELANTRA20]:
       ret.mass = 1275. + STD_CARGO_KG
       ret.wheelbase = 2.7
       ret.steerRatio = 15.4
@@ -118,6 +118,10 @@ class CarInterface(CarInterfaceBase):
       ret.mass = 1985. + STD_CARGO_KG
       ret.wheelbase = 2.78
       ret.steerRatio = 14.4 * 1.1
+    elif candidate == CAR.MOHAVE:
+      ret.mass = 2250. + STD_CARGO_KG
+      ret.wheelbase = 2.895
+      ret.steerRatio = 14.1
     elif candidate == CAR.STINGER:
       ret.mass = 1825.0 + STD_CARGO_KG
       ret.wheelbase = 2.906
@@ -134,10 +138,6 @@ class CarInterface(CarInterfaceBase):
       ret.mass = 1470. + STD_CARGO_KG
       ret.wheelbase = 2.63
       ret.steerRatio = 13.0
-    elif candidate == CAR.CEED:
-      ret.mass = 1350. + STD_CARGO_KG
-      ret.wheelbase = 2.65
-      ret.steerRatio = 13.75
     elif candidate in [CAR.CADENZA, CAR.CADENZA_HEV]:
       ret.mass = 1575. + STD_CARGO_KG
       ret.wheelbase = 2.85
