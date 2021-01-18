@@ -10,7 +10,7 @@ crwusiz openpilot
 
 - kor apk update
 
-[![](https://i.imgur.com/NIGGbTq.png)](#)
+[![](https://i.imgur.com/8cNBmzW.png)](#)
 
 - kor NanumGothic font / Comma Bootlogo / Bootanimation Auto install
 - event message kor translate
