@@ -22,6 +22,12 @@ crwusiz openpilot
 - brake and bsd icon
 
 [![](https://i.imgur.com/7sYzqOP.jpg)](#)
+
+## Harness Cable Car and Year Compatible Chart
+
+![Connector](https://i.imgur.com/fKYkA4I.jpg)
+![Chart](https://i.imgur.com/sZS0IBs.jpg)
+https://smartstore.naver.com/hyotrade/products/5341431170
 -----
 HKG Community information
 ======
