@@ -22,18 +22,18 @@ class SteerLimitParams:
 
 class CAR:
   # genesis
-  GENESIS = "GENESIS 2015-2016 (DH)"
-  GENESIS_G70 = "GENESIS G70 2018"
-  GENESIS_G80 = "GENESIS G80 2017"
-  GENESIS_G90 = "GENESIS G90 2017"
+  GENESIS = "GENESIS 2014-2016 (DH)"
+  GENESIS_G70 = "GENESIS G70 2018~ (IK)"
+  GENESIS_G80 = "GENESIS G80 2018~ (DH)"
+  GENESIS_G90 = "GENESIS G90,EQ900 2016~2019 (HI)"
   # hyundai
-  ELANTRA = "HYUNDAI AVANTE (AD)"
-  ELANTRA_I30 = "HYUNDAI I30 (PD)"
+  ELANTRA = "HYUNDAI AVANTE 2016~2019 (AD)"
+  ELANTRA_I30 = "HYUNDAI I30 2017~2020 (PD)"
   ELANTRA20 = "HYUNDAI AVANTE 2021 (CN7)"
   SONATA = "HYUNDAI SONATA 2020 (DN8)"
   SONATA_HEV = "HYUNDAI SONATA HEV 2020 (DN8)"
-  SONATA19 = "HYUNDAI SONATA 2019 (LF)"
-  SONATA19_HEV = "HYUNDAI SONATA 2019 HEV (LF)"
+  SONATA19 = "HYUNDAI SONATA 2016~2019 (LF)"
+  SONATA19_HEV = "HYUNDAI SONATA 2018 HEV (LF)"
   KONA = "HYUNDAI KONA 2019 (OS)"
   KONA_EV = "HYUNDAI KONA EV 2019 (OS)"
   KONA_HEV = "HYUNDAI KONA HEV 2019 (OS)"
@@ -43,17 +43,17 @@ class CAR:
   SANTA_FE = "HYUNDAI SANTA FE 2019~2021 (TM)"
   PALISADE = "HYUNDAI PALISADE 2020 (LX2)"
   VELOSTER = "HYUNDAI VELOSTER 2019 (JS)"
-  GRANDEUR = "GRANDEUR 2017 (IG)"
-  GRANDEUR_HEV = "GRANDEUR HEV 2019 (IG)"
+  GRANDEUR = "GRANDEUR 2017~2019 (IG)"
+  GRANDEUR_HEV = "GRANDEUR HEV 2018~2019 (IG)"
   GRANDEUR20 = "GRANDEUR 2020 (IG)"
   GRANDEUR20_HEV = "GRANDEUR HEV 2020 (IG)"
   NEXO = "HYUNDAI NEXO (FE)"
   # kia
   FORTE = "KIA K3 2018 (BD)"
-  OPTIMA = "KIA K5 2016 (JF)"
-  OPTIMA_HEV = "KIA K5 HEV 2017 (JF)"
-  SPORTAGE = "KIA SPORTAGE 2020 (QL)"
-  SORENTO = "KIA SORENTO 2018 (UM)"
+  OPTIMA = "KIA K5 2016~2020 (JF)"
+  OPTIMA_HEV = "KIA K5 HEV 2016~2020 (JF)"
+  SPORTAGE = "KIA SPORTAGE 2016~2020 (QL)"
+  SORENTO = "KIA SORENTO 2017~2020 (UM)"
   MOHAVE = "KIA MOHAVE 2020 (HM)"
   STINGER = "KIA STINGER 2018 (CK)"
   NIRO_EV = "KIA NIRO EV 2020 (DE)"
@@ -61,7 +61,7 @@ class CAR:
   SOUL_EV = "KIA SOUL EV 2019 (SK3)"
   SELTOS = "KIA SELTOS 2019 (SP2)"
   CADENZA = "KIA K7 2016-2019 (YG)"
-  CADENZA_HEV = "KIA K7 HEV 2016-2019 (YG)"
+  CADENZA_HEV = "KIA K7 HEV 2017-2019 (YG)"
 
 class Buttons:
   NONE = 0
@@ -254,6 +254,20 @@ FW_VERSIONS = {
     (Ecu.fwdCamera, 0x7c4, None): [b'\xf1\x00DN8HMFC  AT USA LHD 1.00 1.04 99211-L1000 191016',],
     (Ecu.transmission, 0x7e1, None): [b'\xf1\x00PSBG2323  E09\x00\x00\x00\x00\x00\x00\x00TDN2H20SA5\x97R\x88\x9e',],
   },
+  CAR.SONATA19: {
+    (Ecu.fwdRadar, 0x7d0, None): [b'\xf1\x00LF__ SCC F-CUP      1.00 1.00 96401-C2200         ',],
+    (Ecu.esp, 0x7d1, None): [b'\xf1\x00LF ESC \t 11 \x17\x01\x13 58920-C2610',],
+    (Ecu.engine, 0x7e0, None): [b'\xf1\x81606D5K51\x00\x00\x00\x00\x00\x00\x00\x00',],
+    (Ecu.fwdCamera, 0x7c4, None): [
+      b'\xf1\x00LFF LKAS AT USA LHD 1.00 1.01 95740-C1000 E51',
+      b'\xf1\xa01.01',
+    ],
+    (Ecu.transmission, 0x7e1, None): [
+      b'\xf1\x87\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xf1\x816T6B4051\x00\x00\xf1\x006T6H0_C2\x00\x006T6B4051\x00\x00TLF0G24NL1\xb0\x9f\xee\xf5',
+      b'\xf1\x87\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xf1\x816T6B4051\x00\x00\xf1\x006T6H0_C2\x00\x006T6B4051\x00\x00TLF0G24NL1\x00\x00\x00\x00',
+      b'\xf1\x006T6H0_C2\x00\x006T6B4051\x00\x00TLF0G24NL1\xb0\x9f\xee\xf5',
+    ],
+  },  
   CAR.KONA: {
     (Ecu.fwdRadar, 0x7d0, None): [b'\xf1\x00OS__ SCC F-CUP      1.00 1.00 95655-J9200         \xf1\xa01.00',],
     (Ecu.esp, 0x7d1, None): [b'\xf1\x816V5RAK00018.ELF\xf1\x00\x00\x00\x00\x00\x00\x00\xf1\xa01.05',],
