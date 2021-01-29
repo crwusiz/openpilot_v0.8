@@ -113,17 +113,17 @@ static void ui_draw_sidebar_panda_metric(UIState *s) {
   const int panda_y_offset = 32 + 148;
 
   int panda_severity = 0;
-  std::string panda_message = "차량\n연결됨";
+  std::string panda_message = "판다\n연결됨";
   if (s->scene.hwType == cereal::HealthData::HwType::UNKNOWN) {
     panda_severity = 2;
-    panda_message = "차량\n연결안됨";
+    panda_message = "판다\n연결안됨";
   } else if (s->started) {
     if (s->scene.satelliteCount < 6) {
       panda_severity = 1;
-      panda_message = "차량연결됨\nNO GPS";
+      panda_message = "판다 연결됨\nGPS OFF";
     } else {
       panda_severity = 0;
-      panda_message = "차량연결됨\nGOOD GPS";
+      panda_message = "판다 연결됨\nGPS ON";
     }
   }
   ui_draw_sidebar_metric(s, NULL, NULL, panda_severity, panda_y_offset, panda_message.c_str());

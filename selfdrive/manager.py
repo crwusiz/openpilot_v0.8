@@ -426,6 +426,7 @@ def manager_init():
     os.chmod(os.path.join(BASEDIR, "cereal", "libmessaging_shared.so"), 0o755)
 
 def manager_thread():
+  # shutdownd processes  
   shutdownd = Process(name="shutdownd", target=launcher, args=("selfdrive.shutdownd",))
   shutdownd.start()
 
