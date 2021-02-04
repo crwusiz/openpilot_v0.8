@@ -52,6 +52,7 @@ keys = {
   b"AutoLaneChangeEnabled": [TxType.PERSISTENT],
   b"PutPrebuilt": [TxType.PERSISTENT],
   b"LdwsMfc": [TxType.PERSISTENT],
+  b"DisableLogger": [TxType.PERSISTENT],  
   b"PandaFirmware": [TxType.CLEAR_ON_MANAGER_START, TxType.CLEAR_ON_PANDA_DISCONNECT],
   b"PandaFirmwareHex": [TxType.CLEAR_ON_MANAGER_START, TxType.CLEAR_ON_PANDA_DISCONNECT],
   b"PandaDongleId": [TxType.CLEAR_ON_MANAGER_START, TxType.CLEAR_ON_PANDA_DISCONNECT],

@@ -176,7 +176,7 @@ managed_processes = {
   "sensord": ("selfdrive/sensord", ["./sensord"]),
   "clocksd": ("selfdrive/clocksd", ["./clocksd"]),
   "gpsd": ("selfdrive/sensord", ["./gpsd"]),
-#  "updated": "selfdrive.updated",
+  "updated": "selfdrive.updated",
   "dmonitoringmodeld": ("selfdrive/modeld", ["./dmonitoringmodeld"]),
   "modeld": ("selfdrive/modeld", ["./modeld"]),
   "rtshield": "selfdrive.rtshield",
@@ -209,7 +209,7 @@ persistent_processes = [
 
 if not PC:
   persistent_processes += [
-#    'updated',
+    'updated',
     'logcatd',
     'tombstoned',
     'sensord',
@@ -426,15 +426,30 @@ def manager_init():
     os.chmod(os.path.join(BASEDIR, "cereal", "libmessaging_shared.so"), 0o755)
 
 def manager_thread():
-  # shutdownd processes  
+  # shutdownd processes
   shutdownd = Process(name="shutdownd", target=launcher, args=("selfdrive.shutdownd",))
   shutdownd.start()
 
+  # Disable logger
+  params = Params()
+  DisableLogger = int(params.get('DisableLogger'))
+
+  if DisableLogger:
+    persistent_processes.remove( 'logmessaged' )
+    persistent_processes.remove( 'uploader' )
+    persistent_processes.remove( 'deleter' )
+
+    persistent_processes.remove( 'updated' )
+    persistent_processes.remove( 'logcatd' )
+    persistent_processes.remove( 'tombstoned' )
+
+    car_started_processes.remove( 'loggerd' )
+  else:
+  # save boot log
+    subprocess.call(["./loggerd", "--bootlog"], cwd=os.path.join(BASEDIR, "selfdrive/loggerd"))
+
   cloudlog.info("manager start")
   cloudlog.info({"environ": os.environ})
-
-  # save boot log
-  subprocess.call(["./loggerd", "--bootlog"], cwd=os.path.join(BASEDIR, "selfdrive/loggerd"))
 
   # start daemon processes
   for p in daemon_processes:
@@ -521,12 +536,12 @@ def main():
 
   default_params = [
     ("CommunityFeaturesToggle", "1"),
-    ("CompletedTrainingVersion", "0"),
+    ("CompletedTrainingVersion", "1"),
     ("IsRHD", "0"),
     ("IsMetric", "1"),
     ("RecordFront", "0"),
-    ("HasAcceptedTerms", "0"),
-    ("HasCompletedSetup", "0"),
+    ("HasAcceptedTerms", "1"),
+    ("HasCompletedSetup", "1"),
     ("IsUploadRawEnabled", "1"),
     ("IsLdwEnabled", "1"),
     ("LastUpdateTime", datetime.datetime.utcnow().isoformat().encode('utf8')),
@@ -537,6 +552,7 @@ def main():
     ("AutoLaneChangeEnabled", "0"),
     ("PutPrebuilt", "0"),
     ("LdwsMfc", "0"),
+    ("DisableLogger", "1"),    
     ("IsDriverViewEnabled", "0"),
   ]
 
