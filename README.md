@@ -27,7 +27,7 @@ crwusiz openpilot
 
 ![Connector](https://i.imgur.com/fKYkA4I.jpg)
 
-![Chart](https://i.imgur.com/Kue6iFa.jpg)
+![Chart](https://i.imgur.com/gw0WcZG.jpg)
 
 https://smartstore.naver.com/hyotrade/products/5341431170
 -----
