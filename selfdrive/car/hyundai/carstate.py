@@ -95,22 +95,21 @@ class CarState(CarStateBase):
       ret.gasPressed = bool(cp.vl["EMS16"]["CF_Ems_AclAct"])
 
     #TPMS
-    if cp.vl["TPMS11"]['PRESSURE_FL'] > 43:
-      ret.tpmsFl = cp.vl["TPMS11"]['PRESSURE_FL'] * 5 * 0.145
-    else:
+    if cp.vl["TPMS11"]['UNIT'] == 0.0:
       ret.tpmsFl = cp.vl["TPMS11"]['PRESSURE_FL']
-    if cp.vl["TPMS11"]['PRESSURE_FR'] > 43:
-      ret.tpmsFr = cp.vl["TPMS11"]['PRESSURE_FR'] * 5 * 0.145
-    else:
       ret.tpmsFr = cp.vl["TPMS11"]['PRESSURE_FR']
-    if cp.vl["TPMS11"]['PRESSURE_RL'] > 43:
-      ret.tpmsRl = cp.vl["TPMS11"]['PRESSURE_RL'] * 5 * 0.145
-    else:
       ret.tpmsRl = cp.vl["TPMS11"]['PRESSURE_RL']
-    if cp.vl["TPMS11"]['PRESSURE_RR'] > 43:
-      ret.tpmsRr = cp.vl["TPMS11"]['PRESSURE_RR'] * 5 * 0.145
-    else:
       ret.tpmsRr = cp.vl["TPMS11"]['PRESSURE_RR']
+    elif cp.vl["TPMS11"]['UNIT'] == 1.0:
+      ret.tpmsFl = cp.vl["TPMS11"]['PRESSURE_FL'] * 5 * 0.145038
+      ret.tpmsFr = cp.vl["TPMS11"]['PRESSURE_FR'] * 5 * 0.145038
+      ret.tpmsRl = cp.vl["TPMS11"]['PRESSURE_RL'] * 5 * 0.145038
+      ret.tpmsRr = cp.vl["TPMS11"]['PRESSURE_RR'] * 5 * 0.145038
+    elif cp.vl["TPMS11"]['UNIT'] == 2.0:
+      ret.tpmsFl = cp.vl["TPMS11"]['PRESSURE_FL'] / 10 * 14.5038
+      ret.tpmsFr = cp.vl["TPMS11"]['PRESSURE_FR'] / 10 * 14.5038
+      ret.tpmsRl = cp.vl["TPMS11"]['PRESSURE_RL'] / 10 * 14.5038
+      ret.tpmsRr = cp.vl["TPMS11"]['PRESSURE_RR'] / 10 * 14.5038
 
     # TODO: refactor gear parsing in function
     # Gear Selection via Cluster - For those Kia/Hyundai which are not fully discovered, we can use the Cluster Indicator for Gear Selection,
@@ -268,6 +267,7 @@ class CarState(CarStateBase):
       ("Navi_SCC_Camera_Act", "SCC11", 0),
       ("Navi_SCC_Camera_Status", "SCC11", 2),
 
+      ("UNIT", "TPMS11", 0),
       ("PRESSURE_FL", "TPMS11", 0),
       ("PRESSURE_FR", "TPMS11", 0),
       ("PRESSURE_RL", "TPMS11", 0),

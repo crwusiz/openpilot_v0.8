@@ -784,24 +784,6 @@ static void bb_ui_draw_tpms(UIState *s) {
   int viz_tpms_h = 160;
   int viz_tpms_x = s->scene.viz_rect.x + s->scene.viz_rect.w - 270;
   int viz_tpms_y = s->scene.viz_rect.y + (bdr_is * 1.5) + 830;
-  float maxv = 0;
-  float minv = 300;
-
-  if (maxv < s->scene.tpmsFl) { maxv = s->scene.tpmsFl; }
-  if (maxv < s->scene.tpmsFr) { maxv = s->scene.tpmsFr; }
-  if (maxv < s->scene.tpmsRl) { maxv = s->scene.tpmsRl; }
-  if (maxv < s->scene.tpmsRr) { maxv = s->scene.tpmsRr; }
-  if (minv > s->scene.tpmsFl) { minv = s->scene.tpmsFl; }
-  if (minv > s->scene.tpmsFr) { minv = s->scene.tpmsFr; }
-  if (minv > s->scene.tpmsRl) { minv = s->scene.tpmsRl; }
-  if (minv > s->scene.tpmsRr) { minv = s->scene.tpmsRr; }
-
-  // Draw Background
-  if ((maxv - minv) > 3) {
-    ui_draw_rect(s->vg, viz_tpms_x, viz_tpms_y, viz_tpms_w, viz_tpms_h, COLOR_RED_ALPHA(50), 20);
-  } else {
-    ui_draw_rect(s->vg, viz_tpms_x, viz_tpms_y, viz_tpms_w, viz_tpms_h, COLOR_BLACK_ALPHA(50), 20);
-  }
 
   // Draw Border
   NVGcolor color = COLOR_WHITE_ALPHA(80);

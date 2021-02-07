@@ -225,8 +225,10 @@ FW_VERSIONS = {
     ],
     (Ecu.esp, 0x7d1, None): [
       b'\xf1\x00DN ESC \x01 102\x19\x04\x13 58910-L1300\xf1\xa01.02',
+      b'\xf1\x00DN ESC \x06 104\x19\x08\x01 58910-L0100',
       b'\xf1\x8758910-L0100\xf1\x00DN ESC \x06 104\x19\x08\x01 58910-L0100\xf1\xa01.04',
       b'\xf1\x8758910-L0100\xf1\x00DN ESC \x07 104\x19\x08\x01 58910-L0100\xf1\xa01.04',
+      b'\xf1\x8758910-L0100\xf1\x00DN ESC \a 106 \a\x01 58910-L0100\xf1\xa01.06',
     ],
     (Ecu.engine, 0x7e0, None): [
       b'HM6M2_0a0_BD0',
@@ -248,6 +250,7 @@ FW_VERSIONS = {
       b'\xf1\x00HT6TA260BLHT6TA800A1TDN8C20KS4\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00',
       b'\xf1\x00bcsh8p54  U903\x00\x00\x00\x00\x00\x00SDN8T16NB0z{\xd4v',
       b'\xf1\x00HT6WA250BLHT6WA910A1SDN8G25NB1\x00\x00\x00\x00\x00\x00\x96\xa1\xf1\x92',
+      b'\xf1\x00HT6WA250BLHT6WA910A1SDN8G25NB1\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00',
     ],
   },
   CAR.SONATA_HEV: {
@@ -294,6 +297,11 @@ FW_VERSIONS = {
     (Ecu.eps, 0x7d4, None): [b'\xf1\x00AE  MDPS C 1.00 1.02 56310G7300\x00 4AEEC102',],
     (Ecu.fwdCamera, 0x7c4, None): [b'\xf1\x00AEE MFC  AT EUR LHD 1.00 1.00 95740-G7200 160418',],
   },
+  CAR.IONIQ20_EV: {
+    (Ecu.fwdRadar, 0x7d0, None): [b'\xf1\x00AEev SCC F-CUP      1.00 1.00 99110-G7200         ',],
+    (Ecu.eps, 0x7d4, None): [b'\xf1\x00AE  MDPS C 1.00 1.01 56310/G7560 4APEC101',],
+    (Ecu.fwdCamera, 0x7c4, None): [b'\xf1\x00AEE MFC  AT EUR RHD 1.00 1.01 95740-G2600 190819',],
+  },    
   CAR.IONIQ_HEV: {
     (Ecu.fwdRadar, 0x7d0, None): [
       b'\xf1\x00AEhe SCC F-CUP      1.00 1.00 99110-G2200         ',
