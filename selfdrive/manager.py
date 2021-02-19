@@ -24,7 +24,7 @@ from selfdrive.swaglog import cloudlog, add_logentries_handler
 os.environ['BASEDIR'] = BASEDIR
 sys.path.append(os.path.join(BASEDIR, "pyextra"))
 
-TOTAL_SCONS_NODES = 1040
+TOTAL_SCONS_NODES = 1225
 WEBCAM = os.getenv("WEBCAM") is not None
 PREBUILT = os.path.exists(os.path.join(BASEDIR, 'prebuilt'))
 
