@@ -18,16 +18,19 @@ from typing import Dict, List
 from common.basedir import BASEDIR
 from common.spinner import Spinner
 from common.text_window import TextWindow
+import selfdrive.crash as crash
 from selfdrive.hardware import HARDWARE, EON, PC
+from selfdrive.hardware.eon.apk import update_apks, pm_apply_packages, start_offroad
 from selfdrive.swaglog import cloudlog, add_logentries_handler
+from selfdrive.version import version, dirty
 
 os.environ['BASEDIR'] = BASEDIR
 sys.path.append(os.path.join(BASEDIR, "pyextra"))
 
 TOTAL_SCONS_NODES = 1225
+MAX_BUILD_PROGRESS = 70
 WEBCAM = os.getenv("WEBCAM") is not None
 PREBUILT = os.path.exists(os.path.join(BASEDIR, 'prebuilt'))
-
 
 def unblock_stdout():
   # get a non-blocking stdout
@@ -61,26 +64,25 @@ def unblock_stdout():
     exit_status = os.wait()[1] >> 8
     os._exit(exit_status)
 
-
 if __name__ == "__main__":
   unblock_stdout()
 
-
-# Run scons
+# Start spinner
 spinner = Spinner()
-spinner.update("0")
+spinner.update_progress(0, 100)
 if __name__ != "__main__":
   spinner.close()
 
 def build():
-  for retry in [True, False]:
-    # run scons
-    env = os.environ.copy()
-    env['SCONS_PROGRESS'] = "1"
-    env['SCONS_CACHE'] = "1"
 
-    nproc = os.cpu_count()
-    j_flag = "" if nproc is None else f"-j{nproc - 1}"
+  # run scons
+  env = os.environ.copy()
+  env['SCONS_PROGRESS'] = "1"
+  env['SCONS_CACHE'] = "1"
+  nproc = os.cpu_count()
+  j_flag = "" if nproc is None else f"-j{nproc - 1}"
+    
+  for retry in [True, False]:    
     scons = subprocess.Popen(["scons", j_flag], cwd=BASEDIR, env=env, stderr=subprocess.PIPE)
 
     compile_output = []
@@ -88,7 +90,7 @@ def build():
     # Read progress from stderr and update spinner
     while scons.poll() is None:
       try:
-        line = scons.stderr.readline()  # type: ignore
+        line = scons.stderr.readline()
         if line is None:
           continue
         line = line.rstrip()
@@ -96,7 +98,7 @@ def build():
         prefix = b'progress: '
         if line.startswith(prefix):
           i = int(line[len(prefix):])
-          spinner.update("%d" % (70.0 * (i / TOTAL_SCONS_NODES)))
+          spinner.update_progress(MAX_BUILD_PROGRESS * min(1., i / TOTAL_SCONS_NODES), 100.)
         elif len(line):
           compile_output.append(line)
           print(line.decode('utf8', 'replace'))
@@ -105,10 +107,10 @@ def build():
 
     if scons.returncode != 0:
       # Read remaining output
-      r = scons.stderr.read().split(b'\n')   # type: ignore
+      r = scons.stderr.read().split(b'\n')
       compile_output += r
 
-      if retry:
+      if retry and (not dirty):
         if not os.getenv("CI"):
           print("scons build failed, cleaning in")
           for i in range(3, -1, -1):
@@ -141,15 +143,9 @@ if __name__ == "__main__" and not PREBUILT:
   build()
 
 import cereal.messaging as messaging
-
 from common.params import Params
-import selfdrive.crash as crash
 from selfdrive.registration import register
-from selfdrive.version import version, dirty
-from selfdrive.loggerd.config import ROOT
 from selfdrive.launcher import launcher
-from selfdrive.hardware.eon.apk import update_apks, pm_apply_packages, start_offroad
-
 
 # comment out anything you don't want to run
 managed_processes = {
@@ -193,13 +189,15 @@ def get_running():
 # due to qualcomm kernel bugs SIGKILLing camerad sometimes causes page table corruption
 unkillable_processes = ['camerad']
 
-# processes to end with SIGINT instead of SIGTERM
-interrupt_processes: List[str] = []
-
 # processes to end with SIGKILL instead of SIGTERM
-kill_processes = ['sensord']
+kill_processes = []
+if EON:
+  kill_processes += [
+    'sensord',
+  ]
 
 persistent_processes = [
+  'pandad',
   'thermald',
   'logmessaged',
   'ui',
@@ -210,8 +208,11 @@ persistent_processes = [
 if not PC:
   persistent_processes += [
     'updated',
-    'logcatd',
     'tombstoned',
+  ]
+
+if EON:
+  persistent_processes += [
     'sensord',
   ]
 
@@ -227,6 +228,7 @@ car_started_processes = [
   'proclogd',
   'locationd',
   'clocksd',
+  'logcatd',
 ]
 
 driver_view_processes = [
@@ -248,6 +250,10 @@ if EON:
     'rtshield',
   ]
 
+else:
+   car_started_processes += [
+    'sensord',
+  ]
 
 def register_managed_process(name, desc, car_started=False):
   global managed_processes, car_started_processes, persistent_processes
@@ -323,14 +329,12 @@ def prepare_managed_process(p, build=False):
       subprocess.check_call(["scons", "-u", "-c", "."], cwd=os.path.join(BASEDIR, proc[0]))
       subprocess.check_call(["scons", "-u", "-j4", "."], cwd=os.path.join(BASEDIR, proc[0]))
 
-
 def join_process(process, timeout):
   # Process().join(timeout) will hang due to a python 3 bug: https://bugs.python.org/issue28382
   # We have to poll the exitcode instead
   t = time.time()
   while time.time() - t < timeout and process.exitcode is None:
     time.sleep(0.001)
-
 
 def kill_managed_process(name):
   if name not in running or name not in managed_processes:
@@ -365,7 +369,6 @@ def kill_managed_process(name):
   cloudlog.info("%s is dead with %d" % (name, running[name].exitcode))
   del running[name]
 
-
 def cleanup_all_processes(signal, frame):
   cloudlog.info("caught ctrl-c %s %s" % (signal, frame))
 
@@ -385,10 +388,11 @@ def send_managed_process_signal(name, sig):
   cloudlog.info(f"sending signal {sig} to {name}")
   os.kill(running[name].pid, sig)
 
-
 # ****************** run loop ******************
 
 def manager_init():
+  os.umask(0)  # Make sure we can create files with 777 permissions
+
   # Create folders needed for msgq
   try:
     os.mkdir("/dev/shm")
@@ -412,12 +416,6 @@ def manager_init():
   crash.bind_user(id=dongle_id)
   crash.bind_extra(version=version, dirty=dirty, is_eon=True)
 
-  os.umask(0)
-  try:
-    os.mkdir(ROOT, 0o777)
-  except OSError:
-    pass
-
   # ensure shared libraries are readable by apks
   if EON:
     os.chmod(BASEDIR, 0o755)
@@ -440,10 +438,10 @@ def manager_thread():
     persistent_processes.remove( 'deleter' )
 
     persistent_processes.remove( 'updated' )
-    persistent_processes.remove( 'logcatd' )
     persistent_processes.remove( 'tombstoned' )
 
     car_started_processes.remove( 'loggerd' )
+    car_started_processes.remove( 'logcatd' )
   else:
   # save boot log
     subprocess.call(["./loggerd", "--bootlog"], cwd=os.path.join(BASEDIR, "selfdrive/loggerd"))
@@ -522,12 +520,11 @@ def manager_prepare():
   # build all processes
   os.chdir(os.path.dirname(os.path.abspath(__file__)))
 
-  # Spinner has to start from 70 here
-  total = 100.0 if PREBUILT else 30.0
+  total = 100.0 - (0 if PREBUILT else MAX_BUILD_PROGRESS)
 
   for i, p in enumerate(managed_processes):
     perc = (100.0 - total) + total * (i + 1) / len(managed_processes)
-    spinner.update(str(int(perc)))
+    spinner.update_progress(perc, 100.)
     prepare_managed_process(p)
 
 def main():
@@ -591,7 +588,6 @@ def main():
   if params.get("DoUninstall", encoding='utf8') == "1":
     cloudlog.warning("uninstalling")
     HARDWARE.uninstall()
-
 
 if __name__ == "__main__":
   try:
