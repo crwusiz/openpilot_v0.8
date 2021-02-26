@@ -226,6 +226,7 @@ FW_VERSIONS = {
     (Ecu.esp, 0x7d1, None): [
       b'\xf1\x00DN ESC \x01 102\x19\x04\x13 58910-L1300\xf1\xa01.02',
       b'\xf1\x00DN ESC \x06 104\x19\x08\x01 58910-L0100',
+      b'\xf1\x00DN ESC \a 106 \a\x01 58910-L0100',
       b'\xf1\x8758910-L0100\xf1\x00DN ESC \x06 104\x19\x08\x01 58910-L0100\xf1\xa01.04',
       b'\xf1\x8758910-L0100\xf1\x00DN ESC \x07 104\x19\x08\x01 58910-L0100\xf1\xa01.04',
       b'\xf1\x8758910-L0100\xf1\x00DN ESC \a 106 \a\x01 58910-L0100\xf1\xa01.06',
@@ -240,6 +241,7 @@ FW_VERSIONS = {
       b'\xf1\x8756310-L1010\xf1\x00DN8 MDPS C 1.00 1.03 56310-L1010 4DNDC103\xf1\xa01.03',
       b'\xf1\x8756310L0010\x00\xf1\x00DN8 MDPS C 1.00 1.01 56310L0010\x00 4DNAC101\xf1\xa01.01',
       b'\xf1\x8756310-L0010\xf1\x00DN8 MDPS C 1.00 1.01 56310-L0010 4DNAC101\xf1\xa01.01',
+      b'\xf1\x87\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\xf1\x00DN8 MDPS C 1.00 1.01 \x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00 4DNAC101\xf1\xa01.01',
     ],
     (Ecu.fwdCamera, 0x7c4, None): [
       b'\xf1\x00DN8 MFC  AT KOR LHD 1.00 1.02 99211-L1000 190422',
@@ -388,6 +390,14 @@ FW_VERSIONS = {
     (Ecu.transmission, 0x7e1, None): [b'\xf1\x816U2V8051\x00\x00\xf1\x006U2V0_C2\x00\x006U2V8051\x00\x00DJS0T16NS1\xba\x02\xb8\x80',],
   },
   # kia
+  CAR.FORTE: {
+    (Ecu.fwdRadar, 0x7d0, None): [b'\xf1\x00BD__ SCC H-CUP      1.00 1.02 99110-M6000         \xf1\xa01.02'],
+    (Ecu.esp, 0x7d1, None): [b'\xf1\x816VGRAH00018.ELF\xf1\x00\x00\x00\x00\x00\x00\x00\xf1\xa01.04'],
+    (Ecu.engine, 0x7e0, None): [b'\x01TBDM1NU06F200H01'],
+    (Ecu.eps, 0x7d4, None): [b'\xf1\x00BD  MDPS C 1.00 1.08 56310M6300\x00 4BDDC108'],
+    (Ecu.fwdCamera, 0x7c4, None): [b'\xf1\x00BD  LKAS AT USA LHD 1.00 1.04 95740-M6000 J33'],
+    (Ecu.transmission, 0x7e1, None): [b'\xf1\x816U2VC051\x00\x00\xf1\x006U2V0_C2\x00\x006U2VC051\x00\x00DBD0T16SS0\xcf\x1e\'\xc3'],
+  },  
   CAR.OPTIMA: {
     (Ecu.fwdRadar, 0x7d0, None): [b'\xf1\x00JF__ SCC F-CUP      1.00 1.00 96400-D4110         ',],
     (Ecu.esp, 0x7d1, None): [b'\xf1\x00JF ESC \v 11 \x18\x030 58920-D5180',],

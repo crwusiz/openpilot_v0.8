@@ -25,7 +25,7 @@ crwusiz openpilot
 
 ## Harness Cable Car and Year Compatible Chart
 
-![Connector](https://i.imgur.com/fKYkA4I.jpg)
+![Connector](https://i.imgur.com/kPXaLFF.jpg)
 
 ![Chart](https://i.imgur.com/gw0WcZG.jpg)
 
