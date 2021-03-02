@@ -15,7 +15,9 @@ def create_lkas11(packer, frame, car_fingerprint, apply_steer, steer_req,
   values["CF_Lkas_LdwsRHWarning"] = right_lane_depart
   values["CR_Lkas_StrToqReq"] = apply_steer
   values["CF_Lkas_ActToi"] = steer_req
+  values["CF_Lkas_ToiFlt"] = 0  
   values["CF_Lkas_MsgCount"] = frame % 0x10
+  values["CF_Lkas_Chksum"] = 0  
 
   if car_fingerprint in [CAR.SONATA, CAR.PALISADE, CAR.SONATA_HEV, CAR.SANTA_FE, CAR.GRANDEUR20, CAR.GRANDEUR20_HEV,
                          CAR.KONA_EV, CAR.IONIQ_EV, CAR.KONA_HEV, CAR.NIRO_EV, CAR.SOUL_EV, CAR.SELTOS]:
