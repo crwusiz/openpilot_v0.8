@@ -26,12 +26,15 @@ int write_param_float(float param, const char* param_name, bool persistent_param
 
 void ui_init(UIState *s) {
   s->sm = new SubMaster({"modelV2", "controlsState", "uiLayoutState", "liveCalibration", "radarState", "thermal", "frame",
-                         "health", "carParams", "ubloxGnss", "driverState", "dMonitoringState", "carState", "liveParameters", "sensorEvents"});
+                         "health", "carParams", "ubloxGnss", "driverState", "dMonitoringState", "carState", "sensorEvents"});
   s->started = false;
   s->status = STATUS_OFFROAD;
   s->scene.satelliteCount = -1;
   read_param(&s->is_metric, "IsMetric");
-
+  read_param(&s->lat_control_pid, "LateralControlPid");
+  read_param(&s->lat_control_indi, "LateralControlIndi");
+  read_param(&s->lat_control_lqr, "LateralControlLqr");
+  
   s->fb = framebuffer_init("ui", 0, true, &s->fb_w, &s->fb_h);
   assert(s->fb);
 
@@ -120,9 +123,15 @@ void update_sockets(UIState *s) {
     scene.controls_state = event.getControlsState();
 
     s->scene.angleSteers = scene.controls_state.getAngleSteers();
+    s->scene.angleSteersDes = scene.controls_state.getAngleSteersDes();    
     s->scene.steerOverride= scene.controls_state.getSteerOverride();
-    s->scene.output_scale = scene.controls_state.getLateralControlState().getPidState().getOutput();
-    s->scene.angleSteersDes = scene.controls_state.getAngleSteersDes();
+    if (s->scene.lateralControlPid == 1) {
+      s->scene.output_scale = scene.controls_state.getLateralControlState().getPidState().getOutput();
+    } else if (s->scene.lateralControlIndi == 1) {
+      s->scene.output_scale = scene.controls_state.getLateralControlState().getIndiState().getOutput();
+    } else if (s->scene.lateralControlLqr == 1) {
+      s->scene.output_scale = scene.controls_state.getLateralControlState().getLqrState().getOutput();
+    }
 
     // TODO: the alert stuff shouldn't be handled here
     auto alert_sound = scene.controls_state.getAlertSound();
@@ -238,7 +247,7 @@ void update_sockets(UIState *s) {
   if (sm.updated("carState")) {
     auto data = sm["carState"].getCarState();
     if(scene.leftBlinker!=data.getLeftBlinker() || scene.rightBlinker!=data.getRightBlinker()){
-      scene.blinker_blinkingrate = 50;
+      scene.blinker_blinkingrate = 120;
     }
     scene.brakeLights = data.getBrakeLights();
     scene.leftBlinker = data.getLeftBlinker();
@@ -250,10 +259,6 @@ void update_sockets(UIState *s) {
     scene.tpmsRl = data.getTpmsRl();
     scene.tpmsRr = data.getTpmsRr();
     scene.getGearShifter = data.getGearShifter();
-  }
-  if (sm.updated("liveParameters")) {
-    auto data = sm["liveParameters"].getLiveParameters();
-    s->scene.steerRatio=data.getSteerRatio();
   }
   if (sm.updated("sensorEvents")) {
     for (auto sensor : sm["sensorEvents"].getSensorEvents()) {
@@ -315,6 +320,9 @@ void ui_update(UIState *s) {
   // Read params
   if ((s->sm)->frame % (5*UI_FREQ) == 0) {
     read_param(&s->is_metric, "IsMetric");
+    read_param(&s->lat_control_pid, "LateralControlPid");
+    read_param(&s->lat_control_indi, "LateralControlIndi");
+    read_param(&s->lat_control_lqr, "LateralControlLqr");    
   } else if ((s->sm)->frame % (6*UI_FREQ) == 0) {
     int param_read = read_param(&s->last_athena_ping, "LastAthenaPingTime");
     if (param_read != 0) { // Failed to read param
