@@ -52,6 +52,7 @@ keys = {
   b"AutoLaneChangeEnabled": [TxType.PERSISTENT],
   b"PutPrebuilt": [TxType.PERSISTENT],
   b"LdwsMfc": [TxType.PERSISTENT],
+  b"DisableLogger": [TxType.PERSISTENT],
   b"LateralControlPid": [TxType.PERSISTENT],
   b"LateralControlIndi": [TxType.PERSISTENT],
   b"LateralControlLqr": [TxType.PERSISTENT],
