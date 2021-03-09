@@ -90,14 +90,14 @@ class PathPlanner():
     lateral_control_pid = sm['controlsState'].lateralControlPid
     lateral_control_indi = sm['controlsState'].lateralControlIndi
     lateral_control_lqr = sm['controlsState'].lateralControlLqr
-    
+
     if lateral_control_pid == 1:
       output_scale = sm['controlsState'].lateralControlState.pidState.output
     elif lateral_control_indi == 1:
       output_scale = sm['controlsState'].lateralControlState.indiState.output
     elif lateral_control_lqr == 1:
       output_scale = sm['controlsState'].lateralControlState.lqrState.output
-      
+
     # Run MPC
     self.angle_steers_des_prev = self.angle_steers_des_mpc
 
@@ -148,7 +148,7 @@ class PathPlanner():
         elif torque_applied and blindspot_detected and self.auto_lane_change_timer != 10.0:
           self.auto_lane_change_timer = 10.0
         elif not torque_applied and self.auto_lane_change_timer == 10.0 and not self.prev_torque_applied:
-          self.prev_torque_applied = True       
+          self.prev_torque_applied = True
 
       # starting
       elif self.lane_change_state == LaneChangeState.laneChangeStarting:

@@ -30,12 +30,6 @@
 #define COLOR_BLACK_ALPHA(x) nvgRGBA(0, 0, 0, x)
 #define COLOR_WHITE nvgRGBA(255, 255, 255, 255)
 #define COLOR_WHITE_ALPHA(x) nvgRGBA(255, 255, 255, x)
-#define COLOR_GREEN nvgRGBA(0, 255, 0, 255)
-#define COLOR_GREEN_ALPHA(x) nvgRGBA(0, 255, 0, x)
-#define COLOR_ORANGE nvgRGBA(255, 165, 0, 255)
-#define COLOR_ORANGE_ALPHA(x) nvgRGBA(255, 165, 0, x)
-#define COLOR_FLUSH_ORANGE nvgRGBA(255, 127, 0, 255)
-#define COLOR_FLUSH_ORANGE_ALPHA(x) nvgRGBA(255, 127, 0, x)
 #define COLOR_RED nvgRGBA(255, 0, 0, 255)
 #define COLOR_RED_ALPHA(x) nvgRGBA(255, 0, 0, x)
 #define COLOR_YELLOW nvgRGBA(255, 255, 0, 255)
@@ -61,12 +55,8 @@ typedef struct Rect {
 
 const int sbr_w = 300;
 const int bdr_s = 10;
-const int bdr_is = 30;
-const int bdr_add = 45;
 const int header_h = 420;
 const int footer_h = 280;
-const int footer_y = 790;
-const int resolution_x = 1920;
 
 const Rect settings_btn = {50, 35, 200, 117};
 const Rect home_btn = {60, 1080 - 180 - 40, 180, 180};
@@ -108,7 +98,7 @@ typedef struct {
 
 
 typedef struct UIScene {
- 
+
   mat4 extrinsic_matrix;      // Last row is 0 so we can use mat4.
   bool world_objects_visible;
 
@@ -247,7 +237,7 @@ typedef struct UIState {
   bool longitudinal_control;
   int lat_control_pid;
   int lat_control_indi;
-  int lat_control_lqr;  
+  int lat_control_lqr;
   uint64_t last_athena_ping;
   uint64_t started_frame;
 

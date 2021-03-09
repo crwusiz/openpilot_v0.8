@@ -276,7 +276,7 @@ FW_VERSIONS = {
       b'\xf1\x87\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xf1\x816T6B4051\x00\x00\xf1\x006T6H0_C2\x00\x006T6B4051\x00\x00TLF0G24NL1\x00\x00\x00\x00',
       b'\xf1\x006T6H0_C2\x00\x006T6B4051\x00\x00TLF0G24NL1\xb0\x9f\xee\xf5',
     ],
-  },  
+  },
   CAR.KONA: {
     (Ecu.fwdRadar, 0x7d0, None): [b'\xf1\x00OS__ SCC F-CUP      1.00 1.00 95655-J9200         \xf1\xa01.00',],
     (Ecu.esp, 0x7d1, None): [b'\xf1\x816V5RAK00018.ELF\xf1\x00\x00\x00\x00\x00\x00\x00\xf1\xa01.05',],
@@ -303,7 +303,7 @@ FW_VERSIONS = {
     (Ecu.fwdRadar, 0x7d0, None): [b'\xf1\x00AEev SCC F-CUP      1.00 1.00 99110-G7200         ',],
     (Ecu.eps, 0x7d4, None): [b'\xf1\x00AE  MDPS C 1.00 1.01 56310/G7560 4APEC101',],
     (Ecu.fwdCamera, 0x7c4, None): [b'\xf1\x00AEE MFC  AT EUR RHD 1.00 1.01 95740-G2600 190819',],
-  },    
+  },
   CAR.IONIQ_HEV: {
     (Ecu.fwdRadar, 0x7d0, None): [
       b'\xf1\x00AEhe SCC F-CUP      1.00 1.00 99110-G2200         ',
@@ -397,7 +397,7 @@ FW_VERSIONS = {
     (Ecu.eps, 0x7d4, None): [b'\xf1\x00BD  MDPS C 1.00 1.08 56310M6300\x00 4BDDC108'],
     (Ecu.fwdCamera, 0x7c4, None): [b'\xf1\x00BD  LKAS AT USA LHD 1.00 1.04 95740-M6000 J33'],
     (Ecu.transmission, 0x7e1, None): [b'\xf1\x816U2VC051\x00\x00\xf1\x006U2V0_C2\x00\x006U2VC051\x00\x00DBD0T16SS0\xcf\x1e\'\xc3'],
-  },  
+  },
   CAR.OPTIMA: {
     (Ecu.fwdRadar, 0x7d0, None): [b'\xf1\x00JF__ SCC F-CUP      1.00 1.00 96400-D4110         ',],
     (Ecu.esp, 0x7d1, None): [b'\xf1\x00JF ESC \v 11 \x18\x030 58920-D5180',],
@@ -429,7 +429,7 @@ FW_VERSIONS = {
     (Ecu.eps, 0x7d4, None): [b'\xf1\x00CK  MDPS R 1.00 1.07 57700-J5420 4C4VL107'],
     (Ecu.fwdCamera, 0x7c4, None): [b'\xf1\x00CK  MFC  AT USA LHD 1.00 1.04 95740-J5000 180504'],
     (Ecu.transmission, 0x7e1, None): [b'\xf1\x87VDJLG18425192DK2xeGewfgf\x86eFeweWv\x88eVeuTGT\x89vo\xff\tJ\xf1\x81E24\x00\x00\x00\x00\x00\x00\x00\xf1\x00bcsh8p54  E24\x00\x00\x00\x00\x00\x00\x00SCK0T33NB1\x8a\xdcM\x90'],
-  },  
+  },
   CAR.NIRO_EV: {
     (Ecu.fwdRadar, 0x7D0, None): [
       b'\xf1\x00DEev SCC F-CUP      1.00 1.03 96400-Q4100         \xf1\xa01.03',
@@ -520,7 +520,7 @@ DBC = {
   CAR.SORENTO: dbc_dict('hyundai_kia_generic', None),
   CAR.MOHAVE: dbc_dict('hyundai_kia_generic', None),
   CAR.STINGER: dbc_dict('hyundai_kia_generic', None),
-  CAR.STINGER21: dbc_dict('hyundai_kia_generic', None),  
+  CAR.STINGER21: dbc_dict('hyundai_kia_generic', None),
   CAR.NIRO_EV: dbc_dict('hyundai_kia_generic', None),
   CAR.NIRO_HEV: dbc_dict('hyundai_kia_generic', None),
   CAR.SOUL_EV: dbc_dict('hyundai_kia_generic', None),

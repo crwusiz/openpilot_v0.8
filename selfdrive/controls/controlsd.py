@@ -108,10 +108,10 @@ class Controls:
       self.lateral_control_pid = 1
     elif self.CP.lateralTuning.which() == 'indi':
       self.LaC = LatControlINDI(self.CP)
-      self.lateral_control_indi = 1      
+      self.lateral_control_indi = 1
     elif self.CP.lateralTuning.which() == 'lqr':
       self.LaC = LatControlLQR(self.CP)
-      self.lateral_control_lqr = 1      
+      self.lateral_control_lqr = 1
 
     self.state = State.disabled
     self.enabled = False

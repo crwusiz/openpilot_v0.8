@@ -34,7 +34,7 @@ void ui_init(UIState *s) {
   read_param(&s->lat_control_pid, "LateralControlPid");
   read_param(&s->lat_control_indi, "LateralControlIndi");
   read_param(&s->lat_control_lqr, "LateralControlLqr");
-  
+
   s->fb = framebuffer_init("ui", 0, true, &s->fb_w, &s->fb_h);
   assert(s->fb);
 
@@ -125,11 +125,11 @@ void update_sockets(UIState *s) {
     s->scene.angleSteers = scene.controls_state.getAngleSteers();
     s->scene.angleSteersDes = scene.controls_state.getAngleSteersDes();
     s->scene.steerOverride= scene.controls_state.getSteerOverride();
-    
+
     s->scene.lateralControlPid = scene.controls_state.getLateralControlPid();
     s->scene.lateralControlIndi = scene.controls_state.getLateralControlIndi();
     s->scene.lateralControlLqr = scene.controls_state.getLateralControlLqr();
-    
+
     if (s->scene.lateralControlPid == 1) {
       s->scene.output_scale = scene.controls_state.getLateralControlState().getPidState().getOutput();
     } else if (s->scene.lateralControlIndi == 1) {
@@ -327,7 +327,7 @@ void ui_update(UIState *s) {
     read_param(&s->is_metric, "IsMetric");
     read_param(&s->lat_control_pid, "LateralControlPid");
     read_param(&s->lat_control_indi, "LateralControlIndi");
-    read_param(&s->lat_control_lqr, "LateralControlLqr");    
+    read_param(&s->lat_control_lqr, "LateralControlLqr");
   } else if ((s->sm)->frame % (6*UI_FREQ) == 0) {
     int param_read = read_param(&s->last_athena_ping, "LastAthenaPingTime");
     if (param_read != 0) { // Failed to read param
