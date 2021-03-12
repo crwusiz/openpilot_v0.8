@@ -195,7 +195,7 @@ FINGERPRINTS = {
 }
 
 # Don't use these fingerprints for fingerprinting, they are still used for ECU detection
-IGNORED_FINGERPRINTS = [CAR.VELOSTER, CAR.GENESIS_G70, CAR.KONA, CAR.NIRO_EV, CAR.STINGER21]
+IGNORED_FINGERPRINTS = [CAR.VELOSTER, CAR.GENESIS_G70, CAR.KONA, CAR.NIRO_EV, CAR.STINGER21, CAR.SELTOS]
 
 FW_VERSIONS = {
   # genesis
@@ -265,15 +265,23 @@ FW_VERSIONS = {
   },
   CAR.SONATA19: {
     (Ecu.fwdRadar, 0x7d0, None): [b'\xf1\x00LF__ SCC F-CUP      1.00 1.00 96401-C2200         ',],
-    (Ecu.esp, 0x7d1, None): [b'\xf1\x00LF ESC \t 11 \x17\x01\x13 58920-C2610',],
-    (Ecu.engine, 0x7e0, None): [b'\xf1\x81606D5K51\x00\x00\x00\x00\x00\x00\x00\x00',],
+    (Ecu.esp, 0x7d1, None): [
+      b'\xf1\x00LF ESC \f 11 \x27\x01\x23 58920-C2610',
+      b'\xf1\x00LF ESC \t 11 \x17\x01\x13 58920-C2610',
+    ],
+    (Ecu.engine, 0x7e0, None): [
+      b'\xf1\x81606D5K51\x00\x00\x00\x00\x00\x00\x00\x00',
+      b'\xf1\x81606G1051\x00\x00\x00\x00\x00\x00\x00\x00',
+    ],
     (Ecu.fwdCamera, 0x7c4, None): [
       b'\xf1\x00LFF LKAS AT USA LHD 1.00 1.01 95740-C1000 E51',
+      b'\xf1\x00LFF LKAS AT USA LHD 1.01 1.02 95740-C1000 E52',
       b'\xf1\xa01.01',
     ],
     (Ecu.transmission, 0x7e1, None): [
       b'\xf1\x87\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xf1\x816T6B4051\x00\x00\xf1\x006T6H0_C2\x00\x006T6B4051\x00\x00TLF0G24NL1\xb0\x9f\xee\xf5',
       b'\xf1\x87\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xf1\x816T6B4051\x00\x00\xf1\x006T6H0_C2\x00\x006T6B4051\x00\x00TLF0G24NL1\x00\x00\x00\x00',
+      b'\xf1\x87LAJSG48170554HF0Wwwwx\x88\x88\x88\x88\x99\xa8\x89\x87\x99\xa8y\x88\x99\xa8\x891?\xf6\xff\x97w\177\xff\xb0\x20\xf1\x816W3B1051\x00\x00\xf1\x006W351_C2\x00\x006W3B1051\x00\x00TLF0T20NL2\x00\x00\x00\x00',
       b'\xf1\x006T6H0_C2\x00\x006T6B4051\x00\x00TLF0G24NL1\xb0\x9f\xee\xf5',
     ],
   },
@@ -300,9 +308,20 @@ FW_VERSIONS = {
     (Ecu.fwdCamera, 0x7c4, None): [b'\xf1\x00AEE MFC  AT EUR LHD 1.00 1.00 95740-G7200 160418',],
   },
   CAR.IONIQ20_EV: {
-    (Ecu.fwdRadar, 0x7d0, None): [b'\xf1\x00AEev SCC F-CUP      1.00 1.00 99110-G7200         ',],
-    (Ecu.eps, 0x7d4, None): [b'\xf1\x00AE  MDPS C 1.00 1.01 56310/G7560 4APEC101',],
-    (Ecu.fwdCamera, 0x7c4, None): [b'\xf1\x00AEE MFC  AT EUR RHD 1.00 1.01 95740-G2600 190819',],
+    (Ecu.fwdRadar, 0x7d0, None): [
+      b'\xf1\x00AEev SCC F-CUP      1.00 1.00 99110-G7200         ',
+      b'\xf1\000AEhe SCC F-CUP      1.00 1.02 99110-G2100         ',
+    ],
+    (Ecu.eps, 0x7d4, None): [
+      b'\xf1\x00AE  MDPS C 1.00 1.01 56310/G7560 4APEC101',
+      b'\xf1\000AE  MDPS C 1.00 1.01 56310/G2510 4APHC101',
+    ],
+    (Ecu.fwdCamera, 0x7c4, None): [
+      b'\xf1\x00AEE MFC  AT EUR RHD 1.00 1.01 95740-G2600 190819',
+      b'\xf1\000AEP MFC  AT USA LHD 1.00 1.01 95740-G2600 190819',
+    ],
+    (Ecu.engine, 0x7e0, None): [b'\xf1\x816H6F6051\000\000\000\000\000\000\000\000',],
+    (Ecu.transmission, 0x7e1, None): [b'\xf1\x816U3J9051\000\000\xf1\0006U3H1_C2\000\0006U3J9051\000\000PAE0G16NL0\x82zT\xd2',],    
   },
   CAR.IONIQ_HEV: {
     (Ecu.fwdRadar, 0x7d0, None): [
@@ -450,6 +469,14 @@ FW_VERSIONS = {
       b'\xf1\x00DEE MFC  AT USA LHD 1.00 1.00 99211-Q4000 191211',
     ],
   },
+  CAR.SELTOS: {
+    (Ecu.fwdRadar, 0x7d0, None): [b'\xf1\x8799110Q5100\xf1\000SP2_ SCC FHCUP      1.01 1.05 99110-Q5100         \xf1\xa01.05',],
+    (Ecu.esp, 0x7d1, None): [b'\xf1\x8758910-Q5450\xf1\000SP ESC \t 101\031\t\005 58910-Q5450\xf1\xa01.01',],
+    (Ecu.engine, 0x7e0, None): [b'\xf1\x81616D2051\000\000\000\000\000\000\000\000',],
+    (Ecu.eps, 0x7d4, None): [b'\xf1\000SP2 MDPS C 1.00 1.04 56300Q5200          ',],
+    (Ecu.fwdCamera, 0x7c4, None): [b'\xf1\000SP2 MFC  AT USA LHD 1.00 1.04 99210-Q5000 191114',],
+    (Ecu.transmission, 0x7e1, None): [b'\xf1\x87CZLUB49370612JF7h\xa8y\x87\x99\xa7hv\x99\x97fv\x88\x87x\x89x\x96O\xff\x88\xff\xff\xff.@\xf1\x816V2C2051\000\000\xf1\0006V2B0_C2\000\0006V2C2051\000\000CSP4N20NS3\000\000\000\000',],
+  },
 }
 
 CHECKSUM = {
@@ -470,7 +497,7 @@ FEATURES = {
                         CAR.OPTIMA_HEV, CAR.CADENZA_HEV, CAR.NIRO_EV, CAR.SOUL_EV]),
   # send LFA MFA message for new HKG models
   "send_lfa_mfa": set([CAR.SONATA, CAR.SONATA_HEV, CAR.PALISADE, CAR.SANTA_FE, CAR.KONA_EV, CAR.KONA_HEV, CAR.IONIQ_EV, CAR.IONIQ20_EV, CAR.IONIQ_HEV, CAR.GRANDEUR20, CAR.GRANDEUR20_HEV,
-                       CAR.NIRO_EV]),
+                       CAR.NIRO_EV, CAR.SOUL_EV, CAR.SELTOS]),
   "has_scc13": set([]),
   "has_scc14": set([]),
   # these cars use the FCA11 message for the AEB and FCW signals, all others use SCC12
