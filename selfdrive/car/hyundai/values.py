@@ -464,11 +464,9 @@ FEATURES = {
   # Use TCU Message for Gear Selection
   "use_tcu_gears": set([CAR.OPTIMA, CAR.SONATA19, CAR.VELOSTER]),
   # Use E_GEAR Message for Gear Selection
-  "use_elect_gears": set([CAR.SONATA_HEV, CAR.SONATA19_HEV, CAR.KONA_EV, CAR.KONA_HEV, CAR.IONIQ_EV, CAR.IONIQ_HEV, CAR.GRANDEUR_HEV, CAR.NEXO,
+  # Use E_EMS11 Message for Gas and Brake for Hybrid/ELectric  
+  "use_elect_ems_gears": set([CAR.SONATA_HEV, CAR.SONATA19_HEV, CAR.KONA_EV, CAR.KONA_HEV, CAR.IONIQ_EV, CAR.IONIQ_HEV, CAR.GRANDEUR_HEV, CAR.NEXO,
                           CAR.OPTIMA_HEV, CAR.CADENZA_HEV, CAR.NIRO_EV]),
-  # Use E_EMS11 Message for Gas and Brake for Hybrid/ELectric
-  "use_elect_ems": set([CAR.SONATA_HEV, CAR.SONATA19_HEV, CAR.KONA_EV, CAR.KONA_HEV, CAR.IONIQ_EV, CAR.IONIQ_HEV, CAR.GRANDEUR_HEV, CAR.NEXO,
-                        CAR.OPTIMA_HEV, CAR.CADENZA_HEV, CAR.NIRO_EV]),
   # send LFA MFA message for new HKG models
   "send_lfa_mfa": set([CAR.SONATA, CAR.SONATA_HEV, CAR.PALISADE, CAR.SANTA_FE, CAR.KONA_EV, CAR.KONA_HEV, CAR.IONIQ_EV, CAR.IONIQ_HEV,
                        CAR.NIRO_EV, CAR.IONIQ_EV_2020]),
@@ -477,6 +475,8 @@ FEATURES = {
   # these cars use the FCA11 message for the AEB and FCW signals, all others use SCC12
   "use_fca": set([CAR.SONATA, CAR.ELANTRA, CAR.ELANTRA_GT_I30, CAR.STINGER, CAR.IONIQ_HEV, CAR.KONA, CAR.KONA_EV, CAR.FORTE, CAR.PALISADE, CAR.GENESIS_G70]),
   "use_bsm": set([CAR.SONATA, CAR.PALISADE, CAR.GENESIS, CAR.GENESIS_G70, CAR.GENESIS_G80, CAR.GENESIS_G90, CAR.KONA]),
+  "tcs_remove": set([CAR.SANTA_FE]),
+  "not_lkas": set([CAR.SONATA, CAR.PALISADE, CAR.SONATA_HEV, CAR.SANTA_FE, CAR.KONA_EV, CAR.NIRO_EV, CAR.KONA]),
 }
 
 DBC = {
