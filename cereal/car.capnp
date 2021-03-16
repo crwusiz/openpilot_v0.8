@@ -99,12 +99,12 @@ struct CarEvent @0x9b1657f34caf3ad3 {
     fanMalfunction @91;
     cameraMalfunction @92;
     gpsMalfunction @94;
-    autoLaneChange @95;
-    turningIndicatorOn @96;
-    lkasButtonOff @97;
-
     startupOneplus @82;
     processNotRunning @95;
+
+    autoLaneChange @96;
+    turningIndicatorOn @97;
+    lkasButtonOff @98;
 
     radarCanErrorDEPRECATED @15;
     radarCommIssueDEPRECATED @67;
@@ -419,10 +419,11 @@ struct CarParams {
   communityFeature @46: Bool;  # true if a community maintained feature is detected
   fingerprintSource @49: FingerprintSource;
   networkLocation @50 :NetworkLocation;  # Where Panda/C2 is integrated into the car's CAN network
-  mdpsBus @51: Int8;
-  sasBus @52: Int8;
-  sccBus @53: Int8;
-  spasEnabled @54: Bool;
+
+  mdpsBus @55: Int8;
+  sasBus @56: Int8;
+  sccBus @57: Int8;
+  spasEnabled @58: Bool;
 
   struct LateralParams {
     torqueBP @0 :List(Int32);

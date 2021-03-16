@@ -777,8 +777,9 @@ struct LateralPlan @0xe1e9318e2ae8b51e {
   desire @17 :Desire;
   laneChangeState @18 :LaneChangeState;
   laneChangeDirection @19 :LaneChangeDirection;
-  autoLaneChangeEnabled @20 :Bool;
-  autoLaneChangeTimer @21 :Int8;
+
+  autoLaneChangeEnabled @22 :Bool;
+  autoLaneChangeTimer @23 :Int8;
 
   enum Desire {
     none @0;
