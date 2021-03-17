@@ -113,7 +113,8 @@ def update_panda():
 
 def main():
   set_panda_power()
-  update_panda()
+  if not "NOSENSOR" in os.environ:
+    update_panda()
 
   os.chdir(os.path.join(BASEDIR, "selfdrive/boardd"))
   os.execvp("./boardd", ["./boardd"])
