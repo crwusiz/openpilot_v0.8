@@ -30,6 +30,7 @@ STEER_ANGLE_SATURATION_THRESHOLD = 2.5  # Degrees
 
 SIMULATION = "SIMULATION" in os.environ
 NOSENSOR = "NOSENSOR" in os.environ
+WHITE_PANDA = "WHITE_PANDA" in os.environ
 IGNORE_PROCESSES = set(["rtshield", "uploader", "deleter", "loggerd", "logmessaged", "tombstoned", "logcatd", "proclogd", "clocksd", "updated", "timezoned"])
 
 ThermalStatus = log.DeviceState.ThermalStatus
@@ -54,7 +55,7 @@ class Controls:
 
     self.sm = sm
     if self.sm is None:
-      ignore = ['ubloxRaw', 'driverCameraState', 'managerState'] if SIMULATION else None
+      ignore = ['ubloxRaw', 'driverCameraState', 'managerState'] if SIMULATION else ['ubloxRaw'] if WHITE_PANDA else None
       self.sm = messaging.SubMaster(['deviceState', 'pandaState', 'modelV2', 'liveCalibration', 'ubloxRaw',
                                      'driverMonitoringState', 'longitudinalPlan', 'lateralPlan', 'liveLocationKalman',
                                      'roadCameraState', 'driverCameraState', 'managerState', 'liveParameters', 'radarState'], ignore_alive=ignore)
@@ -236,7 +237,7 @@ class Controls:
 
     # TODO: fix simulator
     if not SIMULATION:
-      if not NOSENSOR:
+      if not NOSENSOR and not WHITE_PANDA:
         if not self.sm.alive['ubloxRaw'] and (self.sm.frame > 10. / DT_CTRL):
           self.events.add(EventName.gpsMalfunction)
         elif not self.sm['liveLocationKalman'].gpsOK and (self.distance_traveled > 1000) and not TICI:
