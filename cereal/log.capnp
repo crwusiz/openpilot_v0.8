@@ -304,6 +304,8 @@ struct DeviceState @0xa4d8b5af2aa492eb {
   ambientTempC @30 :Float32;
   thermalStatus @14 :ThermalStatus;
 
+  wifiIpAddress @31 :Text;
+
   enum ThermalStatus {
     green @0;
     yellow @1;
@@ -777,9 +779,12 @@ struct LateralPlan @0xe1e9318e2ae8b51e {
   desire @17 :Desire;
   laneChangeState @18 :LaneChangeState;
   laneChangeDirection @19 :LaneChangeDirection;
-
   autoLaneChangeEnabled @22 :Bool;
   autoLaneChangeTimer @23 :Int8;
+
+  steerRatio @24 :Float32;
+  steerRateCost @25 :Float32;
+  steerActuatorDelay @26 :Float32;
 
   enum Desire {
     none @0;

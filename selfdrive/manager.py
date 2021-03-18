@@ -82,7 +82,7 @@ def build():
   nproc = os.cpu_count()
   j_flag = "" if nproc is None else f"-j{nproc - 1}"
 
-  for retry in [True, False]:
+  for retry in [False]:
     scons = subprocess.Popen(["scons", j_flag], cwd=BASEDIR, env=env, stderr=subprocess.PIPE)
 
     compile_output = []
@@ -429,12 +429,30 @@ def manager_init():
     os.chmod(os.path.join(BASEDIR, "cereal", "libmessaging_shared.so"), 0o755)
 
 def manager_thread():
+  # shutdownd processes
+  shutdownd = Process(name="shutdownd", target=launcher, args=("selfdrive.shutdownd",))
+  shutdownd.start()
+
+  # Disable logger
+  params = Params()
+  DisableLogger = int(params.get('DisableLogger')) == 1
+  
+  if DisableLogger:
+    persistent_processes.remove( 'logmessaged' )
+    persistent_processes.remove( 'uploader' )
+    persistent_processes.remove( 'deleter' )
+
+    persistent_processes.remove( 'updated' )
+    persistent_processes.remove( 'tombstoned' )
+
+    car_started_processes.remove( 'loggerd' )
+    car_started_processes.remove( 'logcatd' )
+  else:
+  # save boot log
+    subprocess.call(["./loggerd", "--bootlog"], cwd=os.path.join(BASEDIR, "selfdrive/loggerd"))
 
   cloudlog.info("manager start")
   cloudlog.info({"environ": os.environ})
-
-  # save boot log
-  subprocess.call("./bootlog", cwd=os.path.join(BASEDIR, "selfdrive/loggerd"))
 
   # start daemon processes
   for p in daemon_processes:
@@ -551,6 +569,9 @@ def main():
     ("MadModeEnabled", "0"),
     ("AutoLaneChangeEnabled", "0"),
     ("IsDriverViewEnabled", "0"),
+    ("PutPrebuilt", "0"),
+    ("LdwsMfc", "0"),
+    ("DisableLogger", "0"),
   ]
 
   # set unset params

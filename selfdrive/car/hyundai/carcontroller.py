@@ -18,11 +18,10 @@ ACCEL_MAX = 1.5  # 1.5 m/s2
 ACCEL_MIN = -3.0 # 3   m/s2
 ACCEL_SCALE = max(ACCEL_MAX, -ACCEL_MIN)
 # SPAS steering limits
-STEER_ANG_MAX = 360          # SPAS Max Angle
+STEER_ANG_MAX = 360         # SPAS Max Angle
 STEER_ANG_MAX_RATE = 1.5    # SPAS Degrees per ms
 
 def accel_hysteresis(accel, accel_steady):
-
   # for small accel oscillations within ACCEL_HYST_GAP, don't change the accel command
   if accel > accel_steady + ACCEL_HYST_GAP:
     accel_steady = accel - ACCEL_HYST_GAP
@@ -67,6 +66,7 @@ class CarController():
     self.lkas11_cnt = 0
     self.scc12_cnt = 0
     self.last_resume_frame = 0
+    self.resume_cnt = 0
     self.last_lead_distance = 0
     self.turning_signal_timer = 0
     self.longcontrol = CP.openpilotLongitudinalControl
@@ -117,7 +117,7 @@ class CarController():
 
     # Disable steering while turning blinker on and speed below 60 kph
     if CS.out.leftBlinker or CS.out.rightBlinker:
-      self.turning_signal_timer = 100  # Disable for 1.0 Seconds after blinker turned off
+      self.turning_signal_timer = 0.5 / DT_CTRL  # Disable for 0.5 Seconds after blinker turned off
     if self.turning_indicator_alert: # set and clear by interface
       lkas_active = 0
     if self.turning_signal_timer > 0:

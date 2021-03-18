@@ -129,6 +129,20 @@ static void update_sockets(UIState *s) {
   }
   if (sm.updated("carState")) {
     scene.car_state = sm["carState"].getCarState();
+    auto data = sm["carState"].getCarState();    
+    if(scene.leftBlinker!=data.getLeftBlinker() || scene.rightBlinker!=data.getRightBlinker()){
+      scene.blinker_blinkingrate = 50;
+    }
+    scene.brakeLights = data.getBrakeLights();
+    scene.leftBlinker = data.getLeftBlinker();
+    scene.rightBlinker = data.getRightBlinker();
+    scene.leftblindspot = data.getLeftBlindspot();
+    scene.rightblindspot = data.getRightBlindspot();
+    scene.tpmsFl = data.getTpmsFl();
+    scene.tpmsFr = data.getTpmsFr();
+    scene.tpmsRl = data.getTpmsRl();
+    scene.tpmsRr = data.getTpmsRr();
+    scene.getGearShifter = data.getGearShifter();
   }
   if (sm.updated("radarState")) {
     auto radar_state = sm["radarState"].getRadarState();
@@ -163,6 +177,7 @@ static void update_sockets(UIState *s) {
   }
   if (sm.updated("deviceState")) {
     scene.deviceState = sm["deviceState"].getDeviceState();
+    scene.cpuTempAvg = (scene.deviceState.getCpuTempC()[0] + scene.deviceState.getCpuTempC()[1] + scene.deviceState.getCpuTempC()[2] + scene.deviceState.getCpuTempC()[3]) / 4;
   }
   if (sm.updated("pandaState")) {
     auto pandaState = sm["pandaState"].getPandaState();
@@ -231,18 +246,18 @@ static void update_alert(UIState *s) {
     const uint64_t cs_frame = s->sm->rcv_frame("controlsState");
     if (cs_frame < s->started_frame) {
       // car is started, but controlsState hasn't been seen at all
-      scene.alert_text1 = "openpilot Unavailable";
-      scene.alert_text2 = "Waiting for controls to start";
+      scene.alert_text1 = "오픈파일럿을 사용할수없습니다";
+      scene.alert_text2 = "컨트롤 시작을 기다리는중...";
       scene.alert_size = cereal::ControlsState::AlertSize::MID;
     } else if ((s->sm->frame - cs_frame) > 5 * UI_FREQ) {
       // car is started, but controls is lagging or died
-      if (scene.alert_text2 != "Controls Unresponsive") {
+      if (scene.alert_text2 != "컨트롤이 응답하지않습니다") {
         s->sound->play(AudibleAlert::CHIME_WARNING_REPEAT);
         LOGE("Controls unresponsive");
       }
 
-      scene.alert_text1 = "TAKE CONTROL IMMEDIATELY";
-      scene.alert_text2 = "Controls Unresponsive";
+      scene.alert_text1 = "즉시 핸들을 잡아주세요";
+      scene.alert_text2 = "컨트롤이 응답하지않습니다";
       scene.alert_size = cereal::ControlsState::AlertSize::FULL;
       s->status = STATUS_ALERT;
     }
