@@ -103,12 +103,18 @@ class Controls:
     self.LoC = LongControl(self.CP, self.CI.compute_gb)
     self.VM = VehicleModel(self.CP)
 
+    self.lateral_control_pid = 0
+    self.lateral_control_indi = 0
+    self.lateral_control_lqr = 0
     if self.CP.lateralTuning.which() == 'pid':
       self.LaC = LatControlPID(self.CP)
+      self.lateral_control_pid = 1
     elif self.CP.lateralTuning.which() == 'indi':
       self.LaC = LatControlINDI(self.CP)
+      self.lateral_control_indi = 1
     elif self.CP.lateralTuning.which() == 'lqr':
       self.LaC = LatControlLQR(self.CP)
+      self.lateral_control_lqr = 1
 
     self.state = State.disabled
     self.enabled = False
@@ -494,7 +500,6 @@ class Controls:
     controlsState.active = self.active
     controlsState.vEgo = CS.vEgo
     controlsState.vEgoRaw = CS.vEgoRaw
-    controlsState.angleSteers = CS.steeringAngle
     controlsState.curvature = self.VM.calc_curvature(steer_angle_rad, CS.vEgo)
     controlsState.steerOverride = CS.steeringPressed
     controlsState.state = self.state
@@ -505,6 +510,8 @@ class Controls:
     controlsState.upAccelCmd = float(self.LoC.pid.p)
     controlsState.uiAccelCmd = float(self.LoC.pid.i)
     controlsState.ufAccelCmd = float(self.LoC.pid.f)
+    controlsState.angleSteers = CS.steeringAngle
+    controlsState.angleSteersDes = float(self.LaC.angle_steers_des)
     controlsState.steeringAngleDesiredDeg = float(self.LaC.angle_steers_des)
     controlsState.vTargetLead = float(v_acc)
     controlsState.aTarget = float(a_acc)
@@ -512,6 +519,9 @@ class Controls:
     controlsState.startMonoTime = int(start_time * 1e9)
     controlsState.forceDecel = bool(force_decel)
     controlsState.canErrorCounter = self.can_error_counter
+    controlsState.lateralControlPid = self.lateral_control_pid
+    controlsState.lateralControlIndi = self.lateral_control_indi
+    controlsState.lateralControlLqr = self.lateral_control_lqr
 
     if self.CP.lateralTuning.which() == 'pid':
       controlsState.lateralControlState.pidState = lac_log

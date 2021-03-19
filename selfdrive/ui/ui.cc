@@ -126,12 +126,22 @@ static void update_sockets(UIState *s) {
   UIScene &scene = s->scene;
   if (s->started && sm.updated("controlsState")) {
     scene.controls_state = sm["controlsState"].getControlsState();
+    s->scene.lateralControlPid = scene.controls_state.getLateralControlPid();
+    s->scene.lateralControlIndi = scene.controls_state.getLateralControlIndi();
+    s->scene.lateralControlLqr = scene.controls_state.getLateralControlLqr();
+    if (s->scene.lateralControlPid == 1) {
+      s->scene.output_scale = scene.controls_state.getLateralControlState().getPidState().getOutput();
+    } else if (s->scene.lateralControlIndi == 1) {
+      s->scene.output_scale = scene.controls_state.getLateralControlState().getIndiState().getOutput();
+    } else if (s->scene.lateralControlLqr == 1) {
+      s->scene.output_scale = scene.controls_state.getLateralControlState().getLqrState().getOutput();
+    }
   }
   if (sm.updated("carState")) {
     scene.car_state = sm["carState"].getCarState();
-    auto data = sm["carState"].getCarState();    
+    auto data = sm["carState"].getCarState();
     if(scene.leftBlinker!=data.getLeftBlinker() || scene.rightBlinker!=data.getRightBlinker()){
-      scene.blinker_blinkingrate = 50;
+      scene.blinker_blinkingrate = 120;
     }
     scene.brakeLights = data.getBrakeLights();
     scene.leftBlinker = data.getLeftBlinker();
@@ -269,6 +279,9 @@ static void update_params(UIState *s) {
 
   if (frame % (5*UI_FREQ) == 0) {
     read_param(&s->is_metric, "IsMetric");
+    read_param(&s->lat_control_pid, "LateralControlPid");
+    read_param(&s->lat_control_indi, "LateralControlIndi");
+    read_param(&s->lat_control_lqr, "LateralControlLqr");
   } else if (frame % (6*UI_FREQ) == 0) {
     s->scene.athenaStatus = NET_DISCONNECTED;
     uint64_t last_ping = 0;

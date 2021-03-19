@@ -119,10 +119,8 @@ typedef struct UIScene {
   cereal::ControlsState::AlertSize alert_size;
 
   // ui add
-  bool leftBlinker;
-  bool leftblindspot;
-  bool rightBlinker;
-  bool rightblindspot;
+  bool leftBlinker, rightBlinker;
+  bool leftblindspot, rightblindspot;
   bool brakeLights;
   bool steerOverride;
   bool batteryCharging;
@@ -132,10 +130,8 @@ typedef struct UIScene {
   float angleSteersDes;
   float output_scale;
   float cpuTempAvg;
-  float tpmsFl;
-  float tpmsFr;
-  float tpmsRl;
-  float tpmsRr;
+  float tpmsFl, tpmsFr, tpmsRl, tpmsRr;
+  int lateralControlPid, lateralControlIndi, lateralControlLqr;
 
   char batteryStatus[64];
 
@@ -204,6 +200,7 @@ typedef struct UIState {
   bool ignition;
   bool is_metric;
   bool longitudinal_control;
+  int lat_control_pid, lat_control_indi, lat_control_lqr;
   uint64_t started_frame;
 
   bool sidebar_collapsed;

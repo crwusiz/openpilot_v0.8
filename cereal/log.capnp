@@ -518,6 +518,13 @@ struct ControlsState @0x97ff69c53601abf1 {
 
   cumLagMs @15 :Float32;
   canErrorCounter @57 :UInt32;
+  
+  # add
+  angleSteers @58 :Float32;
+  angleSteersDes @59 :Float32;
+  lateralControlPid  @60 :UInt8;
+  lateralControlIndi  @61 :UInt8;
+  lateralControlLqr  @62 :UInt8;
 
   lateralControlState :union {
     indiState @52 :LateralINDIState;

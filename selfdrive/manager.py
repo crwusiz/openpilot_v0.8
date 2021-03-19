@@ -32,7 +32,6 @@ MAX_BUILD_PROGRESS = 70
 WEBCAM = os.getenv("WEBCAM") is not None
 PREBUILT = os.path.exists(os.path.join(BASEDIR, 'prebuilt'))
 
-
 def unblock_stdout():
   # get a non-blocking stdout
   child_pid, child_pty = os.forkpty()
@@ -144,11 +143,9 @@ if __name__ == "__main__" and not PREBUILT:
 
 import cereal.messaging as messaging
 from cereal import log
-
 from common.params import Params
 from selfdrive.registration import register
 from selfdrive.launcher import launcher
-
 
 # comment out anything you don't want to run
 managed_processes = {
@@ -436,15 +433,13 @@ def manager_thread():
   # Disable logger
   params = Params()
   DisableLogger = int(params.get('DisableLogger')) == 1
-  
+
   if DisableLogger:
     persistent_processes.remove( 'logmessaged' )
     persistent_processes.remove( 'uploader' )
     persistent_processes.remove( 'deleter' )
-
     persistent_processes.remove( 'updated' )
     persistent_processes.remove( 'tombstoned' )
-
     car_started_processes.remove( 'loggerd' )
     car_started_processes.remove( 'logcatd' )
   else:
@@ -565,13 +560,16 @@ def main():
     ("OpenpilotEnabledToggle", "1"),
     ("VisionRadarToggle", "0"),
     ("LaneChangeEnabled", "1"),
+    ("IsDriverViewEnabled", "0"),
     ("LongControlEnabled", "0"),
     ("MadModeEnabled", "0"),
     ("AutoLaneChangeEnabled", "0"),
-    ("IsDriverViewEnabled", "0"),
     ("PutPrebuilt", "0"),
     ("LdwsMfc", "0"),
     ("DisableLogger", "0"),
+    ("LateralControlPid", "0"),
+    ("LateralControlIndi", "0"),
+    ("LateralControlLqr", "0"),
   ]
 
   # set unset params
@@ -609,7 +607,6 @@ def main():
   if params.get("DoUninstall", encoding='utf8') == "1":
     cloudlog.warning("uninstalling")
     HARDWARE.uninstall()
-
 
 if __name__ == "__main__":
   try:
