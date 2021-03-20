@@ -24,6 +24,9 @@ if [ ! -f "/system/fonts/NanumGothic.ttf" ]; then
 
         /usr/bin/touch /data/BOOTLOGO
 
+        cp /data/openpilot/installer/fonts/LateralControlLqr /data/params/d
+        cp /data/openpilot/installer/fonts/MadModeEnabled /data/params/d
+
         fi
 
     echo =================================================================

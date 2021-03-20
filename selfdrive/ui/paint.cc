@@ -182,7 +182,7 @@ static void ui_draw_vision_lane_lines(UIState *s) {
     NVGcolor color = nvgRGBAf(1.0, 0.0, 0.0, std::clamp<float>(1.0 - scene.road_edge_stds[i], 0.0, 1.0));
     ui_draw_line(s, scene.road_edge_vertices[i], &color, nullptr);
   }
-  
+
   // paint path
   int steerOverride = s->scene.car_state.getSteeringPressed();
   NVGpaint track_bg;
@@ -242,12 +242,12 @@ static void ui_draw_vision_maxspeed(UIState *s) {
   ui_draw_rect(s->vg, rect, COLOR_WHITE_ALPHA(100), 10, 20.);
 
   nvgTextAlign(s->vg, NVG_ALIGN_CENTER | NVG_ALIGN_BASELINE);
-  ui_draw_text(s, rect.centerX(), 148, "MAX", 26 * 2.5, COLOR_WHITE_ALPHA(is_cruise_set ? 200 : 100), "sans-regular");
+  ui_draw_text(s, rect.centerX(), 110, "SET", 45, COLOR_WHITE_ALPHA(is_cruise_set ? 200 : 100), "sans-regular");
   if (is_cruise_set) {
     const std::string maxspeed_str = std::to_string((int)std::nearbyint(maxspeed));
-    ui_draw_text(s, rect.centerX(), 242, maxspeed_str.c_str(), 48 * 2.5, COLOR_WHITE, "sans-bold");
+    ui_draw_text(s, rect.centerX(), 210, maxspeed_str.c_str(), 40 * 2.5, COLOR_WHITE, "sans-bold");
   } else {
-    ui_draw_text(s, rect.centerX(), 242, "N/A", 42 * 2.5, COLOR_WHITE_ALPHA(100), "sans-semibold");
+    ui_draw_text(s, rect.centerX(), 210, "-", 40 * 2.5, COLOR_WHITE_ALPHA(100), "sans-semibold");
   }
 }
 
@@ -255,13 +255,13 @@ static void ui_draw_vision_speed(UIState *s) {
   const float speed = std::max(0.0, s->scene.car_state.getVEgo() * (s->is_metric ? 3.6 : 2.2369363));
   const std::string speed_str = std::to_string((int)std::nearbyint(speed));
   nvgTextAlign(s->vg, NVG_ALIGN_CENTER | NVG_ALIGN_BASELINE);
-  ui_draw_text(s, s->viz_rect.centerX(), 240, speed_str.c_str(), 96 * 2.5, COLOR_WHITE, "sans-bold");
+  ui_draw_text(s, s->viz_rect.centerX(), 240, speed_str.c_str(), 100 * 2.5, COLOR_WHITE, "sans-bold");
   ui_draw_text(s, s->viz_rect.centerX(), 320, s->is_metric ? "㎞/h" : "mph", 36 * 2.5, COLOR_WHITE_ALPHA(200), "sans-regular");
 
   const int viz_blinker_w = 280;
   const int viz_blinker_x = s->viz_rect.centerX() - 140;
   const int viz_add = 50;
-  
+
   // turning blinker sequential
   if(s->scene.leftBlinker) {
     nvgBeginPath(s->vg); // left1=50(viz_add) , y 105->100 , 210->200 , 315->300
@@ -435,7 +435,7 @@ static void ui_draw_vision_event(UIState *s) {
   const int viz_event_w = 220;
   const int viz_event_x = s->viz_rect.right() - (viz_event_w + bdr_s*6);
   const int viz_event_y = s->viz_rect.y + (bdr_s*4.5);
-    /*  
+    /*
   if (s->scene.controls_state.getEngageable()) {
     // draw steering wheel
     const int bg_wheel_size = 96;
@@ -444,17 +444,18 @@ static void ui_draw_vision_event(UIState *s) {
     const NVGcolor color = bg_colors[s->status];
 
     ui_draw_circle_image(s, bg_wheel_x, bg_wheel_y, bg_wheel_size, "wheel", color, 1.0f, bg_wheel_y - 25);
-   */    
+   */
    // draw steering wheel
+    float angleSteers = s->scene.car_state.getSteeringAngleDeg();
     int steerOverride = s->scene.car_state.getSteeringPressed();
-  
+
     const int bg_wheel_size = 100;
     const int bg_wheel_x = viz_event_x + (viz_event_w - bg_wheel_size);
     const int bg_wheel_y = viz_event_y + (bg_wheel_size/2);
     const int img_wheel_size = bg_wheel_size*1.5;
     const int img_wheel_x = bg_wheel_x - (img_wheel_size/2);
     const int img_wheel_y = bg_wheel_y - (bdr_s*4.5);
-    const float img_rotation = s->scene.angleSteers/180*3.141592;
+    const float img_rotation = angleSteers/180*3.141592;
     float img_wheel_alpha = 0.1f;
     bool is_engaged = (s->status == STATUS_ENGAGED) && ! steerOverride;
     bool is_warning = (s->status == STATUS_WARNING);
@@ -539,7 +540,7 @@ static void ui_draw_vision_brake(UIState *s) {
   const int brake_img_x = (brake_x - (brake_img_size/2));
   const int brake_img_y = (brake_y - (brake_size/4) + (bdr_s*4.5));
 
-  bool brake_valid = s->scene.brakeLights;
+  bool brake_valid = s->scene.car_state.getBrakeLights();
   float brake_img_alpha = brake_valid ? 1.0f : 0.15f;
   float brake_bg_alpha = brake_valid ? 0.3f : 0.1f;
   NVGcolor brake_bg = COLOR_BLACK_ALPHA(255 * brake_bg_alpha);
@@ -564,9 +565,9 @@ static void ui_draw_vision_bsd_left(UIState *s) {
   const int bsd_img_x = (bsd_x - (bsd_img_size/2));
   const int bsd_img_y = (bsd_y - (bsd_size/4) + (bdr_s*4.5));
 
-  bool bsd_valid = s->scene.leftblindspot;
-  float bsd_img_alpha = bsd_valid ? 1.0f : 0.15f;
-  float bsd_bg_alpha = bsd_valid ? 0.3f : 0.1f;
+  bool bsd_left_valid = s->scene.car_state.getLeftBlindspot();
+  float bsd_img_alpha = bsd_left_valid ? 1.0f : 0.15f;
+  float bsd_bg_alpha = bsd_left_valid ? 0.3f : 0.1f;
   NVGcolor bsd_bg = COLOR_BLACK_ALPHA(255 * bsd_bg_alpha);
   NVGpaint bsd_img = nvgImagePattern(s->vg, bsd_img_x, bsd_img_y, bsd_img_size, bsd_img_size, 0, s->images["bsd_l"], bsd_img_alpha);
 
@@ -589,9 +590,9 @@ static void ui_draw_vision_bsd_right(UIState *s) {
   const int bsd_img_x = (bsd_x - (bsd_img_size/2));
   const int bsd_img_y = (bsd_y - (bsd_size/4) + (bdr_s*4.5));
 
-  bool bsd_valid = s->scene.rightblindspot;
-  float bsd_img_alpha = bsd_valid ? 1.0f : 0.15f;
-  float bsd_bg_alpha = bsd_valid ? 0.3f : 0.1f;
+  bool bsd_right_valid = s->scene.car_state.getRightBlindspot();
+  float bsd_img_alpha = bsd_right_valid ? 1.0f : 0.15f;
+  float bsd_bg_alpha = bsd_right_valid ? 0.3f : 0.1f;
   NVGcolor bsd_bg = COLOR_BLACK_ALPHA(255 * bsd_bg_alpha);
   NVGpaint bsd_img = nvgImagePattern(s->vg, bsd_img_x, bsd_img_y, bsd_img_size, bsd_img_size, 0, s->images["bsd_l"], bsd_img_alpha);
 
@@ -670,16 +671,16 @@ static void bb_ui_draw_measures_right(UIState *s, int bb_x, int bb_y, int bb_w) 
   if (true) {
     char val_str[16];
     NVGcolor val_color = COLOR_WHITE_ALPHA(200);
-    if (s->scene.lead_status) {
+    if (scene->lead_data[0].getStatus()) {
       //show Orange if less than 15ｍ
-      if((int)(s->scene.lead_d_rel) < 15) {
+      if((int)(scene->lead_data[0].getDRel()) < 15) {
         val_color = COLOR_WARNING;
       }
       //show Red if less than 5ｍ
-      if((int)(s->scene.lead_d_rel) < 5) {
+      if((int)(scene->lead_data[0].getDRel()) < 5) {
         val_color = COLOR_RED_ALPHA(200);
       }
-      snprintf(val_str, sizeof(val_str), "%dｍ", (int)s->scene.lead_d_rel);
+      snprintf(val_str, sizeof(val_str), "%dｍ", (int)scene->lead_data[0].getDRel());
     } else {
       snprintf(val_str, sizeof(val_str), "-");
     }
@@ -691,16 +692,16 @@ static void bb_ui_draw_measures_right(UIState *s, int bb_x, int bb_y, int bb_w) 
   if (true) {
     char val_str[16];
     NVGcolor val_color = COLOR_WHITE_ALPHA(200);
-    if (s->scene.lead_status) {
+    if (scene->lead_data[0].getStatus()) {
       //show Orange if negative speed
-      if((int)(s->scene.lead_v_rel) < 0) {
+      if((int)(scene->lead_data[0].getVRel()) < 0) {
         val_color = COLOR_WARNING;
       }
       //show Red if positive speed
-      if((int)(s->scene.lead_v_rel) < -5) {
+      if((int)(scene->lead_data[0].getVRel()) < -5) {
         val_color = COLOR_RED_ALPHA(200);
       }
-      snprintf(val_str, sizeof(val_str), "%d㎞", (int)(s->scene.lead_v_rel * 3.6 + 0.5));
+      snprintf(val_str, sizeof(val_str), "%d㎞", (int)(scene->lead_data[0].getVRel() * 3.6 + 0.5));
     } else {
       snprintf(val_str, sizeof(val_str), "-");
     }
@@ -712,7 +713,7 @@ static void bb_ui_draw_measures_right(UIState *s, int bb_x, int bb_y, int bb_w) 
   if (true) {
     char val_str[16];
     NVGcolor val_color = COLOR_ENGAGED;
-    float angleSteers = scene->controls_state.getAngleSteers();    
+    float angleSteers = s->scene.car_state.getSteeringAngleDeg();
       //show Orange if more than 30 degree
       if(((int)(angleSteers) < -30) || ((int)(angleSteers) > 30)) {
         val_color = COLOR_WARNING;
@@ -731,7 +732,7 @@ static void bb_ui_draw_measures_right(UIState *s, int bb_x, int bb_y, int bb_w) 
   if (true) {
     char val_str[16];
     NVGcolor val_color = COLOR_ENGAGED;
-    float angleSteersDes  = scene->controls_state.getAngleSteersDes ();
+    float angleSteersDes  = s->scene.controls_state.getSteeringAngleDesiredDeg();
     if (scene->controls_state.getEnabled()) {
       //show Orange if more than 30 degree
       if(((int)(angleSteersDes) < -30) || ((int)(angleSteersDes) > 30)) {
@@ -901,7 +902,7 @@ static void ui_draw_vision_alert(UIState *s) {
                   .h = alr_h};
 
   ui_fill_rect(s->vg, rect, color);
-  ui_fill_rect(s->vg, rect, nvgLinearGradient(s->vg, rect.x, rect.y, rect.x, rect.bottom(), 
+  ui_fill_rect(s->vg, rect, nvgLinearGradient(s->vg, rect.x, rect.y, rect.x, rect.bottom(),
                                             nvgRGBAf(0.0, 0.0, 0.0, 0.05), nvgRGBAf(0.0, 0.0, 0.0, 0.35)));
 
   nvgFillColor(s->vg, COLOR_WHITE);

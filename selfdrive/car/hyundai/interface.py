@@ -149,17 +149,6 @@ class CarInterface(CarInterfaceBase):
         ret.wheelbase = 2.85
         ret.steerRatio = 12.5
 
-    # -- indi --
-    #    ret.lateralTuning.init('indi')
-    #    ret.lateralTuning.indi.innerLoopGainBP = [0.]
-    #    ret.lateralTuning.indi.innerLoopGainV = [3.5]
-    #    ret.lateralTuning.indi.outerLoopGainBP = [0.]
-    #    ret.lateralTuning.indi.outerLoopGainV = [2.0]
-    #    ret.lateralTuning.indi.timeConstantBP = [0.]
-    #    ret.lateralTuning.indi.timeConstantV = [1.4]
-    #    ret.lateralTuning.indi.actuatorEffectivenessBP = [0.]
-    #    ret.lateralTuning.indi.actuatorEffectivenessV = [2.3]    
-
     params = Params()
     lat_pid = int(params.get('LateralControlPid')) == 1
     lat_indi = int(params.get('LateralControlIndi')) == 1
@@ -181,7 +170,7 @@ class CarInterface(CarInterfaceBase):
       ret.lateralTuning.indi.timeConstantBP = [0.]
       ret.lateralTuning.indi.timeConstantV = [1.4]
       ret.lateralTuning.indi.actuatorEffectivenessBP = [0.]
-      ret.lateralTuning.indi.actuatorEffectivenessV = [2.3]    
+      ret.lateralTuning.indi.actuatorEffectivenessV = [2.3]
 # -----------------------------------------------------------------
     elif lat_lqr:
       ret.lateralTuning.init('lqr')
@@ -194,7 +183,7 @@ class CarInterface(CarInterfaceBase):
       ret.lateralTuning.lqr.l = [0.22, 0.318]
       ret.lateralTuning.lqr.dcGain = 0.003
 # -----------------------------------------------------------------
-    
+
     ret.centerToFront = ret.wheelbase * 0.4
 
     # TODO: get actual value, for now starting with reasonable value for

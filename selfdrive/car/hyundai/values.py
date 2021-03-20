@@ -317,7 +317,7 @@ FW_VERSIONS = {
       b'\xf1\000AEP MFC  AT USA LHD 1.00 1.01 95740-G2600 190819',
     ],
     (Ecu.engine, 0x7e0, None): [b'\xf1\x816H6F6051\000\000\000\000\000\000\000\000',],
-    (Ecu.transmission, 0x7e1, None): [b'\xf1\x816U3J9051\000\000\xf1\0006U3H1_C2\000\0006U3J9051\000\000PAE0G16NL0\x82zT\xd2',],    
+    (Ecu.transmission, 0x7e1, None): [b'\xf1\x816U3J9051\000\000\xf1\0006U3H1_C2\000\0006U3J9051\000\000PAE0G16NL0\x82zT\xd2',],
   },
   CAR.IONIQ_HEV: {
     (Ecu.fwdRadar, 0x7d0, None): [
@@ -486,11 +486,8 @@ FEATURES = {
   # Use TCU Message for Gear Selection
   "use_tcu_gears": set([CAR.OPTIMA, CAR.SONATA19, CAR.VELOSTER]),
   # Use E_GEAR Message for Gear Selection
-  "use_elect_gears": set([CAR.SONATA_HEV, CAR.SONATA19_HEV, CAR.KONA_EV, CAR.KONA_HEV, CAR.IONIQ_EV, CAR.IONIQ20_EV, CAR.IONIQ_HEV, CAR.GRANDEUR_HEV, CAR.GRANDEUR20_HEV, CAR.NEXO,
+  "use_elect_ems_gears": set([CAR.SONATA_HEV, CAR.SONATA19_HEV, CAR.KONA_EV, CAR.KONA_HEV, CAR.IONIQ_EV, CAR.IONIQ20_EV, CAR.IONIQ_HEV, CAR.GRANDEUR_HEV, CAR.GRANDEUR20_HEV, CAR.NEXO,
                           CAR.OPTIMA_HEV, CAR.CADENZA_HEV, CAR.NIRO_EV, CAR.SOUL_EV]),
-  # Use E_EMS11 Message for Gas and Brake for Hybrid/ELectric
-  "use_elect_ems": set([CAR.SONATA_HEV, CAR.SONATA19_HEV, CAR.KONA_EV, CAR.KONA_HEV, CAR.IONIQ_EV, CAR.IONIQ20_EV, CAR.IONIQ_HEV, CAR.GRANDEUR_HEV, CAR.GRANDEUR20_HEV, CAR.NEXO,
-                        CAR.OPTIMA_HEV, CAR.CADENZA_HEV, CAR.NIRO_EV, CAR.SOUL_EV]),
   # send LFA MFA message for new HKG models
   "send_lfa_mfa": set([CAR.SONATA, CAR.SONATA_HEV, CAR.PALISADE, CAR.SANTA_FE, CAR.KONA_EV, CAR.KONA_HEV, CAR.IONIQ_EV, CAR.IONIQ20_EV, CAR.IONIQ_HEV, CAR.GRANDEUR20, CAR.GRANDEUR20_HEV,
                        CAR.NIRO_EV, CAR.SOUL_EV, CAR.SELTOS]),
@@ -505,6 +502,8 @@ FEATURES = {
                   CAR.OPTIMA, CAR.OPTIMA_HEV, CAR.CADENZA, CAR.CADENZA_HEV, CAR.SORENTO, CAR.SOUL_EV, CAR.NIRO_EV, CAR.NIRO_HEV, ]),
   # carstate not lkas error
   "not_lkas": set([CAR.SONATA, CAR.PALISADE, CAR.SONATA_HEV, CAR.SANTA_FE, CAR.KONA_EV, CAR.NIRO_EV, CAR.KONA]),
+  # tcs message remove
+  "tcs_remove": set([CAR.SANTA_FE]),
 }
 
 DBC = {
@@ -543,7 +542,7 @@ DBC = {
   CAR.SORENTO: dbc_dict('hyundai_kia_generic', None),
   CAR.MOHAVE: dbc_dict('hyundai_kia_generic', None),
   CAR.STINGER: dbc_dict('hyundai_kia_generic', None),
-  CAR.STINGER21: dbc_dict('hyundai_kia_generic', None),  
+  CAR.STINGER21: dbc_dict('hyundai_kia_generic', None),
   CAR.NIRO_EV: dbc_dict('hyundai_kia_generic', None),
   CAR.NIRO_HEV: dbc_dict('hyundai_kia_generic', None),
   CAR.SOUL_EV: dbc_dict('hyundai_kia_generic', None),

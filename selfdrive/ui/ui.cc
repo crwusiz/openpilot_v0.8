@@ -139,11 +139,8 @@ static void update_sockets(UIState *s) {
     if(scene.leftBlinker!=scene.car_state.getLeftBlinker() || scene.rightBlinker!=scene.car_state.getRightBlinker()){
       scene.blinker_blinkingrate = 120;
     }
-    scene.brakeLights = scene.car_state.getBrakeLights();
     scene.leftBlinker = scene.car_state.getLeftBlinker();
     scene.rightBlinker = scene.car_state.getRightBlinker();
-    scene.leftblindspot = scene.car_state.getLeftBlindspot();
-    scene.rightblindspot = scene.car_state.getRightBlindspot();
     scene.tpmsFl = scene.car_state.getTpmsFl();
     scene.tpmsFr = scene.car_state.getTpmsFr();
     scene.tpmsRl = scene.car_state.getTpmsRl();

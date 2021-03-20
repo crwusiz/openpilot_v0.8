@@ -276,6 +276,7 @@ class LateralPlanner():
       dat.liveMpc.x = list(self.mpc_solution[0].x)
       dat.liveMpc.y = list(self.mpc_solution[0].y)
       dat.liveMpc.psi = list(self.mpc_solution[0].psi)
-      dat.liveMpc.tire_angle = list(self.mpc_solution[0].tire_angle)
+#      dat.liveMpc.tire_angle = list(self.mpc_solution[0].tire_angle)
+      dat.liveMpc.curvature = list(self.mpc_solution[0].curvature)
       dat.liveMpc.cost = self.mpc_solution[0].cost
       pm.send('liveMpc', dat)

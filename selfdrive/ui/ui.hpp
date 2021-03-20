@@ -16,9 +16,7 @@
 #include <memory>
 #include <string>
 #include <sstream>
-
 #include "nanovg.h"
-
 #include "common/mat.h"
 #include "common/visionimg.h"
 #include "common/framebuffer.h"
@@ -64,7 +62,6 @@ const int header_h = 420;
 const int footer_h = 280;
 const Rect settings_btn = {50, 35, 200, 117};
 const Rect home_btn = {60, 1080 - 180 - 40, 180, 180};
-
 const int UI_FREQ = 20;   // Hz
 
 typedef enum NetStatus {
@@ -106,10 +103,8 @@ typedef struct UIScene {
 
   mat3 view_from_calib;
   bool world_objects_visible;
-
   bool is_rhd;
   bool frontview;
-
   int lead_status;
   float lead_d_rel, lead_v_rel, lead_y_rel;
   std::string alert_text1;
@@ -121,18 +116,13 @@ typedef struct UIScene {
   // ui add
   bool leftBlinker, rightBlinker;
   bool leftblindspot, rightblindspot;
-  bool brakeLights;
-  bool steerOverride;
   bool batteryCharging;
   int blinker_blinkingrate;
   int batteryPercent;
-  float angleSteers;
-  float angleSteersDes;
   float output_scale;
   float cpuTempAvg;
   float tpmsFl, tpmsFr, tpmsRl, tpmsRr;
   int lateralControlPid, lateralControlIndi, lateralControlLqr;
-
   char batteryStatus[64];
 
   cereal::PandaState::PandaType pandaType;
@@ -144,9 +134,8 @@ typedef struct UIScene {
   cereal::ControlsState::Reader controls_state;
   cereal::DriverState::Reader driver_state;
   cereal::DriverMonitoringState::Reader dmonitoring_state;
-
   cereal::CarState::GearShifter getGearShifter;
-  
+
   // gps
   int satelliteCount;
   bool gpsOK;
