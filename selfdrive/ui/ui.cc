@@ -12,13 +12,11 @@
 #include "ui.hpp"
 #include "paint.hpp"
 
-
 int write_param_float(float param, const char* param_name, bool persistent_param) {
   char s[16];
   int size = snprintf(s, sizeof(s), "%f", param);
   return Params(persistent_param).write_db_value(param_name, s, size < sizeof(s) ? size : sizeof(s));
 }
-
 
 static void ui_init_vision(UIState *s) {
   // Invisible until we receive a calibration message.
@@ -38,7 +36,6 @@ static void ui_init_vision(UIState *s) {
   }
   assert(glGetError() == GL_NO_ERROR);
 }
-
 
 void ui_init(UIState *s) {
   s->sm = new SubMaster({"modelV2", "controlsState", "uiLayoutState", "liveCalibration", "radarState", "deviceState", "roadCameraState", "liveLocationKalman",
@@ -139,20 +136,19 @@ static void update_sockets(UIState *s) {
   }
   if (sm.updated("carState")) {
     scene.car_state = sm["carState"].getCarState();
-    auto data = sm["carState"].getCarState();
-    if(scene.leftBlinker!=data.getLeftBlinker() || scene.rightBlinker!=data.getRightBlinker()){
+    if(scene.leftBlinker!=scene.car_state.getLeftBlinker() || scene.rightBlinker!=scene.car_state.getRightBlinker()){
       scene.blinker_blinkingrate = 120;
     }
-    scene.brakeLights = data.getBrakeLights();
-    scene.leftBlinker = data.getLeftBlinker();
-    scene.rightBlinker = data.getRightBlinker();
-    scene.leftblindspot = data.getLeftBlindspot();
-    scene.rightblindspot = data.getRightBlindspot();
-    scene.tpmsFl = data.getTpmsFl();
-    scene.tpmsFr = data.getTpmsFr();
-    scene.tpmsRl = data.getTpmsRl();
-    scene.tpmsRr = data.getTpmsRr();
-    scene.getGearShifter = data.getGearShifter();
+    scene.brakeLights = scene.car_state.getBrakeLights();
+    scene.leftBlinker = scene.car_state.getLeftBlinker();
+    scene.rightBlinker = scene.car_state.getRightBlinker();
+    scene.leftblindspot = scene.car_state.getLeftBlindspot();
+    scene.rightblindspot = scene.car_state.getRightBlindspot();
+    scene.tpmsFl = scene.car_state.getTpmsFl();
+    scene.tpmsFr = scene.car_state.getTpmsFr();
+    scene.tpmsRl = scene.car_state.getTpmsRl();
+    scene.tpmsRr = scene.car_state.getTpmsRr();
+    scene.getGearShifter = scene.car_state.getGearShifter();
   }
   if (sm.updated("radarState")) {
     auto radar_state = sm["radarState"].getRadarState();

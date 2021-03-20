@@ -149,14 +149,6 @@ class CarInterface(CarInterfaceBase):
         ret.wheelbase = 2.85
         ret.steerRatio = 12.5
 
-    # -----------------------------------------------------------------
-    # -- pid --
-    #    ret.lateralTuning.pid.kf = 0.00005
-    #    ret.lateralTuning.pid.kiBP = [0.]
-    #    ret.lateralTuning.pid.kiV = [0.05]
-    #    ret.lateralTuning.pid.kpBP = [0.]
-    #    ret.lateralTuning.pid.kpV = [0.25]
-    # -----------------------------------------------------------------
     # -- indi --
     #    ret.lateralTuning.init('indi')
     #    ret.lateralTuning.indi.innerLoopGainBP = [0.]
@@ -167,19 +159,42 @@ class CarInterface(CarInterfaceBase):
     #    ret.lateralTuning.indi.timeConstantV = [1.4]
     #    ret.lateralTuning.indi.actuatorEffectivenessBP = [0.]
     #    ret.lateralTuning.indi.actuatorEffectivenessV = [2.3]    
-    # -----------------------------------------------------------------
-    # -- lqr --
-    ret.lateralTuning.init('lqr')
-    ret.lateralTuning.lqr.scale = 1700.0
-    ret.lateralTuning.lqr.ki = 0.03
-    ret.lateralTuning.lqr.a = [0., 1., -0.22619643, 1.21822268]
-    ret.lateralTuning.lqr.b = [-1.92006585e-04, 3.95603032e-05]
-    ret.lateralTuning.lqr.c = [1., 0.]
-    ret.lateralTuning.lqr.k = [-105.0, 450.0]
-    ret.lateralTuning.lqr.l = [0.22, 0.318]
-    ret.lateralTuning.lqr.dcGain = 0.003
-    # -----------------------------------------------------------------
 
+    params = Params()
+    lat_pid = int(params.get('LateralControlPid')) == 1
+    lat_indi = int(params.get('LateralControlIndi')) == 1
+    lat_lqr = int(params.get('LateralControlLqr')) == 1
+# -----------------------------------------------------------------
+    if lat_pid:
+      ret.lateralTuning.pid.kf = 0.00005
+      ret.lateralTuning.pid.kiBP = [0.]
+      ret.lateralTuning.pid.kpBP = [0.]
+      ret.lateralTuning.pid.kpV = [0.25]
+      ret.lateralTuning.pid.kiV = [0.05]
+# -----------------------------------------------------------------
+    elif lat_indi:
+      ret.lateralTuning.init('indi')
+      ret.lateralTuning.indi.innerLoopGainBP = [0.]
+      ret.lateralTuning.indi.innerLoopGainV = [3.5]
+      ret.lateralTuning.indi.outerLoopGainBP = [0.]
+      ret.lateralTuning.indi.outerLoopGainV = [2.0]
+      ret.lateralTuning.indi.timeConstantBP = [0.]
+      ret.lateralTuning.indi.timeConstantV = [1.4]
+      ret.lateralTuning.indi.actuatorEffectivenessBP = [0.]
+      ret.lateralTuning.indi.actuatorEffectivenessV = [2.3]    
+# -----------------------------------------------------------------
+    elif lat_lqr:
+      ret.lateralTuning.init('lqr')
+      ret.lateralTuning.lqr.scale = 1700.0
+      ret.lateralTuning.lqr.ki = 0.03
+      ret.lateralTuning.lqr.a = [0., 1., -0.22619643, 1.21822268]
+      ret.lateralTuning.lqr.b = [-1.92006585e-04, 3.95603032e-05]
+      ret.lateralTuning.lqr.c = [1., 0.]
+      ret.lateralTuning.lqr.k = [-105.0, 450.0]
+      ret.lateralTuning.lqr.l = [0.22, 0.318]
+      ret.lateralTuning.lqr.dcGain = 0.003
+# -----------------------------------------------------------------
+    
     ret.centerToFront = ret.wheelbase * 0.4
 
     # TODO: get actual value, for now starting with reasonable value for
