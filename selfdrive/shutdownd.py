@@ -2,48 +2,27 @@
 
 import os
 import time
-from common.params import Params
-params = Params()
-import cereal
 import cereal.messaging as messaging
 
 
-def main(gctx=None):
-
+def main():
+  shutdown_at = 300
   shutdown_count = 0
-  auto_shutdown_at = get_shutdown_val()
-  frame = 0
-  last_shutdown_val = auto_shutdown_at
-  thermal_sock = messaging.sub_sock('thermal')
-  started = False
+  device_state_sock = messaging.sub_sock('deviceState')
 
   while 1:
-    if frame % 5 == 0:
-      msg = messaging.recv_sock(thermal_sock, wait=True)
-      started = msg.thermal.started
-      with open("/sys/class/power_supply/usb/present") as f:
-        usb_online = bool(int(f.read()))
-      auto_shutdown_at = get_shutdown_val()
-      if not last_shutdown_val == auto_shutdown_at:
-        shutdown_count = 0
-        last_shutdown_val = auto_shutdown_at
-
-    if not started and not usb_online:
-      shutdown_count += 1
+    msg = messaging.recv_sock(device_state_sock, wait=True)
+    if not msg.deviceState.started and not msg.deviceState.usbOnline:
+      shutdown_count += 10
     else:
       shutdown_count = 0
 
-    if auto_shutdown_at is None:
-      auto_shutdown_at = get_shutdown_val()
-    else:
-      if shutdown_count >= auto_shutdown_at > 0:
-        os.system('LD_LIBRARY_PATH="" svc power shutdown')
+    print('current', shutdown_count, 'shutdown_at', shutdown_at)
 
-    time.sleep(1)
+    if shutdown_count >= shutdown_at > 0:
+      os.system('LD_LIBRARY_PATH="" svc power shutdown')
 
-def get_shutdown_val():
-
-  return int(300)
+    time.sleep(10)
 
 
 if __name__ == "__main__":

@@ -1,3 +1,36 @@
+crwusiz openpilot
+=====
+
+<b> This Branch is xx979xx HKG_community base </b>
+- If you have any questions, please send a message to crwusiz from discord. if you like this Branch [Donate](https://paypal.me/crwusiz)
+
+- spinner and colorful spinner track update
+
+[![](https://i.imgur.com/FKjLBh0.jpg)](#)
+
+- kor apk update
+
+[![](https://i.imgur.com/7bZ0cXI.png)](#)
+
+- kor NanumGothic font / Comma Bootlogo / Bootanimation Auto install
+- event message kor translate
+- ignition off auto shutdown 5min
+- wifi ip address by neokii
+- Battery Charge icon and Battery percent display
+- steeringwheel rotate
+- tpms and gear display
+- brake and bsd icon
+
+[![](https://i.imgur.com/7sYzqOP.jpg)](#)
+
+## Harness Cable Car and Year Compatible Chart
+
+![Connector](https://i.imgur.com/kPXaLFF.jpg)
+
+![Chart](https://i.imgur.com/gw0WcZG.jpg)
+
+https://smartstore.naver.com/hyotrade/products/5341431170
+-----
 HKG Community information
 ======
 

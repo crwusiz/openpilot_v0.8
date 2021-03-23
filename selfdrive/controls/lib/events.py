@@ -180,7 +180,7 @@ class NormalPermanentAlert(Alert):
 
 def below_steer_speed_alert(CP: car.CarParams, sm: messaging.SubMaster, metric: bool) -> Alert:
   speed = int(round(CP.minSteerSpeed * (CV.MS_TO_KPH if metric else CV.MS_TO_MPH)))
-  unit = "km/h" if metric else "mph"
+  unit = "㎞/h" if metric else "mph"
   return Alert(
     "핸들을 잡아주세요",
     "%d %s 이상의 속도에서 자동조향됩니다" % (speed, unit),
@@ -189,7 +189,7 @@ def below_steer_speed_alert(CP: car.CarParams, sm: messaging.SubMaster, metric: 
 
 def calibration_incomplete_alert(CP: car.CarParams, sm: messaging.SubMaster, metric: bool) -> Alert:
   speed = int(MIN_SPEED_FILTER * (CV.MS_TO_KPH if metric else CV.MS_TO_MPH))
-  unit = "km/h" if metric else "mph"
+  unit = "㎞/h" if metric else "mph"
   return Alert(
     "캘리브레이션 진행중입니다 : %d%%" % sm['liveCalibration'].calPerc,
     "속도를 %d %s 이상으로 주행하세요" % (speed, unit),
@@ -265,8 +265,8 @@ EVENTS: Dict[int, Dict[str, Union[Alert, Callable[[Any, messaging.SubMaster, boo
 
   EventName.startupOneplus: {
     ET.PERMANENT: Alert(
-      "경고 : 원래 EON은 더 이상 사용되지 않습니다.",
-      "기기가 더 이상 업데이트되지 않습니다.",
+      "경고 : onelplus는 더이상 지원되지 않습니다.",
+      "기기가 더이상 지원되지 않습니다.",
       AlertStatus.userPrompt, AlertSize.mid,
       Priority.LOWER, VisualAlert.none, AudibleAlert.none, 0., 0., 15.),
   },

@@ -57,6 +57,7 @@ static void draw_sidebar_battery_per(UIState *s) {
   nvgTextBox(s->vg, battery_per_x, battery_per_y, battery_per_w, battery_str, NULL);
 }
 
+/*
 static void draw_network_type(UIState *s) {
   static std::map<cereal::DeviceState::NetworkType, const char *> network_type_map = {
       {cereal::DeviceState::NetworkType::NONE, "--"},
@@ -75,6 +76,7 @@ static void draw_network_type(UIState *s) {
   nvgTextAlign(s->vg, NVG_ALIGN_CENTER | NVG_ALIGN_MIDDLE);
   nvgTextBox(s->vg, network_x, network_y, network_w, network_type ? network_type : "--", NULL);
 }
+*/
 
 static void draw_metric(UIState *s, const char *label_str, const char *value_str, const int severity, const int y_offset, const char *message_str) {
   NVGcolor status_color;
@@ -165,7 +167,7 @@ void ui_draw_sidebar(UIState *s) {
   draw_sidebar_ipaddress(s);
   draw_sidebar_battery_icon(s);
   draw_sidebar_battery_per(s);
-  draw_network_type(s);
+//  draw_network_type(s);
   draw_temp_metric(s);
   draw_panda_metric(s);
   draw_connectivity(s);

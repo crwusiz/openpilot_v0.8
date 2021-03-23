@@ -442,9 +442,9 @@ def manager_thread():
     persistent_processes.remove( 'tombstoned' )
     car_started_processes.remove( 'loggerd' )
     car_started_processes.remove( 'logcatd' )
-  else:
+  #else:
   # save boot log
-    subprocess.call(["./loggerd", "--bootlog"], cwd=os.path.join(BASEDIR, "selfdrive/loggerd"))
+  #  subprocess.call(["./loggerd", "--bootlog"], cwd=os.path.join(BASEDIR, "selfdrive/loggerd"))
 
   cloudlog.info("manager start")
   cloudlog.info({"environ": os.environ})
