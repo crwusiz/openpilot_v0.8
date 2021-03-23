@@ -646,7 +646,7 @@ static void ui_draw_driver_view(UIState *s) {
   // draw face icon
   const int face_size = 85;
   const int x = (valid_frame_x + face_size + (bdr_s * 2)) + (scene->is_rhd ? valid_frame_w - box_h / 2:0);
-  const int y = (box_y + box_h - face_size - bdr_s - (bdr_s * 1.5));
+  const int y = (box_y + box_h - face_size - (bdr_s * 2.5));
   ui_draw_circle_image(s->vg, x, y + (bdr_s*4.5), face_size, s->img_face, scene->dmonitoring_state.getFaceDetected());
 }
 
