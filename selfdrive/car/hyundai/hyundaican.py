@@ -22,25 +22,27 @@ def create_lkas11(packer, frame, car_fingerprint, apply_steer, steer_req,
   if car_fingerprint in FEATURES["send_lfa_mfa"]:
     values["CF_Lkas_LdwsActivemode"] = int(left_lane) + (int(right_lane) << 1)
     values["CF_Lkas_LdwsOpt_USM"] = 2
-
-    # FcwOpt_USM 5 = Orange blinking car + lanes
-    # FcwOpt_USM 4 = Orange car + lanes
-    # FcwOpt_USM 3 = Green blinking car + lanes
-    # FcwOpt_USM 2 = Green car + lanes
-    # FcwOpt_USM 1 = White car + lanes
-    # FcwOpt_USM 0 = No car + lanes
     values["CF_Lkas_FcwOpt_USM"] = 2 if enabled else 1
-
-    # SysWarning 4 = keep hands on wheel
-    # SysWarning 5 = keep hands on wheel (red)
-    # SysWarning 6 = keep hands on wheel (red) + beep
-    # Note: the warning is hidden while the blinkers are on
     values["CF_Lkas_SysWarning"] = 4 if sys_warning else 0
+    # ---------------------------------------------------------------------------------------
+    # FcwOpt_USM 0 = No car + lanes
+    #            1 = White car + lanes
+    #            2 = Green car + lanes
+    #            3 = Green blinking car + lanes
+    #            4 = Orange car + lanes
+    #            5 = Orange blinking car + lanes
+    # SysWarning 4 = keep hands on wheel
+    #            5 = keep hands on wheel (red)
+    #            6 = keep hands on wheel (red) + beep
+    # Note: the warning is hidden while the blinkers are on
+    # ---------------------------------------------------------------------------------------
 
-    # This field is actually LdwsActivemode ( only use ldws camera )
   elif car_fingerprint == CAR.GENESIS:
     values["CF_Lkas_LdwsActivemode"] = 2
     values["CF_Lkas_SysWarning"] = lkas11["CF_Lkas_SysWarning"]
+    # ---------------------------------------------------------------------------------------
+    # This field is actually LdwsActivemode ( only use ldws camera )
+    # ---------------------------------------------------------------------------------------
 
   elif car_fingerprint in [CAR.OPTIMA, CAR.OPTIMA_HEV, CAR.CADENZA, CAR.CADENZA_HEV]:
     values["CF_Lkas_LdwsActivemode"] = 0
@@ -51,18 +53,18 @@ def create_lkas11(packer, frame, car_fingerprint, apply_steer, steer_req,
     values["CF_Lkas_LdwsOpt_USM"] = 3
     values["CF_Lkas_FcwOpt_USM"] = 2 if enabled else 1
 #    values["CF_Lkas_SysWarning"] = 4 if sys_warning else 0
+    # ---------------------------------------------------------------------------------------
+    # This field using ldws mfc camare using car / apk toggle using
+    # ---------------------------------------------------------------------------------------
 
   dat = packer.make_can_msg("LKAS11", 0, values)[2]
 
-  if car_fingerprint in CHECKSUM["crc8"]:
-    # CRC Checksum as seen on 2019 Hyundai Santa Fe
+  if car_fingerprint in CHECKSUM["crc8"]: # CRC Checksum
     dat = dat[:6] + dat[7:8]
     checksum = hyundai_checksum(dat)
-  elif car_fingerprint in CHECKSUM["6B"]:
-    # Checksum of first 6 Bytes, as seen on 2018 Kia Sorento
+  elif car_fingerprint in CHECKSUM["6B"]: # Checksum of first 6 Bytes
     checksum = sum(dat[:6]) % 256
-  else:
-    # Checksum of first 6 Bytes and last Byte as seen on 2018 Kia Stinger
+  else:                                   # Checksum of first 6 Bytes and last Byte
     checksum = (sum(dat[:6]) + dat[7]) % 256
 
   values["CF_Lkas_Chksum"] = checksum
@@ -73,13 +75,13 @@ def create_clu11(packer, frame, bus, clu11, button, speed):
   values = clu11
   values["CF_Clu_CruiseSwState"] = button
   values["CF_Clu_Vanz"] = speed
-  values["CF_Clu_AliveCnt1"] = frame // 2 % 0x10
+  values["CF_Clu_AliveCnt1"] = frame % 0x10
   return packer.make_can_msg("CLU11", bus, values)
 
 def create_lfahda_mfc(packer, enabled, hda_set_speed=0):
   values = {
-    #"ACTIVE": enabled,
-    #"HDA_USM": 2,
+#    "ACTIVE": enabled,
+#    "HDA_USM": 2,
     "LFA_Icon_State": 2 if enabled else 0,
     "HDA_Active": 1 if hda_set_speed else 0,
     "HDA_Icon_State": 2 if hda_set_speed else 0,
@@ -107,7 +109,7 @@ def create_scc11(packer, frame, enabled, set_speed, lead_visible, scc_live, scc1
     values["MainMode_ACC"] = 1
     values["VSetDis"] = set_speed
     values["ObjValid"] = 1 if enabled else 0
-#  values["ACC_ObjStatus"] = lead_visible
+#    values["ACC_ObjStatus"] = lead_visible
 
   return packer.make_can_msg("SCC11", 0, values)
 
@@ -118,7 +120,7 @@ def create_scc12(packer, apply_accel, enabled, cnt, scc_live, scc12):
   values["CR_VSM_Alive"] = cnt
   values["CR_VSM_ChkSum"] = 0
   if not scc_live:
-    values["ACCMode"] = 1  if enabled else 0 # 2 if gas padel pressed
+    values["ACCMode"] = 1 if enabled else 0 # 2 if gas padel pressed
 
   dat = packer.make_can_msg("SCC12", 0, values)[2]
   values["CR_VSM_ChkSum"] = 16 - sum([sum(divmod(i, 16)) for i in dat]) % 16

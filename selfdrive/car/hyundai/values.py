@@ -14,12 +14,6 @@ class CarControllerParams:
     self.STEER_DRIVER_MULTIPLIER = 2
     self.STEER_DRIVER_FACTOR = 1
 
-# ---------------------------------------------------------------------------------------
-# Using E-CAN CAR
-# hyundai - G80 2020(RG3) , GV70 2021(JK1) , GV80 2020(JX1) , TUSON 2021(NX4)
-# kia - CARNIVAL 2021(KA4) , SORENTO 2020(MQ4)
-# ---------------------------------------------------------------------------------------
-
 class CAR:
   # genesis
   GENESIS = "GENESIS 2014-2016 (DH)"
@@ -64,6 +58,12 @@ class CAR:
   CADENZA = "KIA K7 2016-2019 (YG)"
   CADENZA_HEV = "KIA K7 HEV 2017-2019 (YG)"
 
+# ---------------------------------------------------------------------------------------
+# Using E-CAN CAR
+# hyundai - G80 2020(RG3) , GV70 2021(JK1) , GV80 2020(JX1) , TUSON 2021(NX4)
+# kia - CARNIVAL 2021(KA4) , SORENTO 2020(MQ4)
+# ---------------------------------------------------------------------------------------
+
 class Buttons:
   NONE = 0
   RES_ACCEL = 1
@@ -72,6 +72,7 @@ class Buttons:
   CANCEL = 4
 
 FINGERPRINTS = {
+  # ---------------------------------------------------------------------------------------
   # genesis
   CAR.GENESIS: [{
     67: 8, 68: 8, 304: 8, 320: 8, 339: 8, 356: 4, 544: 7, 593: 8, 608: 8, 688: 5, 809: 8, 832: 8, 854: 7, 870: 7, 871: 8, 872: 5, 897: 8, 902: 8, 903: 6, 912: 7, 916: 8, 1024: 2, 1040: 8, 1056: 8, 1057: 8, 1078: 4, 1107: 5, 1136: 8, 1151: 6, 1168: 7, 1170: 8, 1173: 8, 1184: 8, 1265: 4, 1268: 8, 1280: 1, 1281: 3, 1287: 4, 1292: 8, 1312: 8, 1322: 8, 1331: 8, 1332: 8, 1333: 8, 1334: 8, 1335: 8, 1342: 6, 1345: 8, 1363: 8, 1369: 8, 1370: 8, 1371: 8, 1378: 4, 1379: 8, 1384: 5, 1407: 8, 1419: 8, 1425: 2, 1427: 6, 1434: 2, 1437: 8, 1456: 4
@@ -85,6 +86,7 @@ FINGERPRINTS = {
   CAR.GENESIS_G90: [{
     67: 8, 68: 8, 127: 8, 304: 8, 320: 8, 339: 8, 356: 4, 358: 6, 359: 8, 544: 8, 546: 8, 593: 8, 608: 8, 688: 5, 809: 8, 832: 8, 854: 7, 870: 7, 871: 8, 872: 8, 897: 8, 902: 8, 903: 8, 916: 8, 1040: 8, 1056: 8, 1057: 8, 1064: 8, 1078: 4, 1107: 5, 1136: 8, 1151: 6, 1156: 8, 1162: 4, 1168: 7, 1170: 8, 1173: 8, 1184: 8, 1265: 4, 1280: 1, 1281: 3, 1287: 4, 1290: 8, 1292: 8, 1294: 8, 1312: 8, 1322: 8, 1342: 6, 1345: 8, 1348: 8, 1363: 8, 1369: 8, 1370: 8, 1371: 8, 1378: 4, 1384: 8, 1407: 8, 1419: 8, 1425: 2, 1427: 6, 1434: 2, 1456: 4, 1470: 8, 1988: 8, 2000: 8, 2003: 8, 2004: 8, 2005: 8, 2008: 8, 2011: 8, 2012: 8, 2013: 8, 2015: 8
   }],
+  # ---------------------------------------------------------------------------------------
   # hyundai
   CAR.ELANTRA: [{
     66: 8, 67: 8, 68: 8, 127: 8, 273: 8, 274: 8, 275: 8, 339: 8, 356: 4, 399: 8, 512: 6, 544: 8, 593: 8, 608: 8, 688: 5, 790: 8, 809: 8, 897: 8, 832: 8, 899: 8, 902: 8, 903: 8, 905: 8, 909: 8, 916: 8, 1040: 8, 1056: 8, 1057: 8, 1078: 4, 1170: 8, 1265: 4, 1280: 1, 1282: 4, 1287: 4, 1290: 8, 1292: 8, 1294: 8, 1312: 8, 1314: 8, 1322: 8, 1345: 8, 1349: 8, 1351: 8, 1353: 8, 1363: 8, 1366: 8, 1367: 8, 1369: 8, 1407: 8, 1415: 8, 1419: 8, 1425: 2, 1427: 6, 1440: 8, 1456: 4, 1472: 8, 1486: 8, 1487: 8, 1491: 8, 1530: 8, 1532: 5, 2001: 8, 2003: 8, 2004: 8, 2009: 8, 2012: 8, 2016: 8, 2017: 8, 2024: 8, 2025: 8
@@ -149,6 +151,7 @@ FINGERPRINTS = {
   CAR.NEXO: [{
     127: 8, 145: 8, 146: 8, 304: 8, 320: 8, 339: 8, 352: 8, 356: 4, 512: 6, 544: 8, 546: 8, 593: 8, 688: 5, 832: 8, 881: 8, 882: 8, 897: 8, 902: 8, 903: 8, 905: 8, 908: 8, 909: 8, 912: 7, 916: 8, 1056: 8, 1057: 8, 1078: 4, 1136: 8, 1151: 8, 1155: 8, 1156: 8, 1157: 4, 1162: 8, 1164: 8, 1168: 7, 1173: 8, 1174: 8, 1180: 8, 1183: 8, 1186: 2, 1191: 2, 1192: 8, 1193: 8, 1210: 8, 1219: 8, 1220: 8, 1222: 6, 1223: 8, 1224: 8, 1227: 8, 1230: 6, 1231: 6, 1265: 4, 1268: 8, 1280: 1, 1287: 4, 1290: 8, 1291: 8, 1292: 8, 1294: 8, 1297: 8, 1298: 8, 1305: 8, 1312: 8, 1315: 8, 1316: 8, 1322: 8, 1324: 8, 1342: 6, 1345: 8, 1348: 8, 1355: 8, 1363: 8, 1369: 8, 1371: 8, 1407: 8, 1419: 8, 1427: 6, 1429: 8, 1430: 8, 1437: 8, 1456: 4, 1460: 8, 1470: 8, 1484: 8, 1507: 8, 1520: 8, 1535: 8
   }],
+  # ---------------------------------------------------------------------------------------
   # kia
   CAR.FORTE: [{
     67: 8, 127: 8, 304: 8, 320: 8, 339: 8, 356: 4, 544: 8, 593: 8, 608: 8, 688: 5, 809: 8, 832: 8, 854: 7, 870: 7, 871: 8, 872: 8, 897: 8, 902: 8, 903: 8, 909: 8, 916: 8, 1040: 8, 1042: 8, 1078: 4, 1107: 5, 1136: 8, 1156: 8, 1170: 8, 1173: 8, 1191: 2, 1225: 8, 1265: 4, 1280: 4, 1287: 4, 1292: 8, 1294: 8, 1312: 8, 1322: 8, 1342: 6, 1345: 8, 1348: 8, 1363: 8, 1369: 8, 1384: 8, 1394: 8, 1407: 8, 1427: 6, 1456: 4, 1470: 8
@@ -194,14 +197,15 @@ FINGERPRINTS = {
   }],
 }
 
-#ECU_FINGERPRINT = {
-#  Ecu.fwdCamera: [832, 1156, 1191, 1342]
-#}
+ECU_FINGERPRINT = {
+  Ecu.fwdCamera: [832, 1156, 1191, 1342]
+}
 
 # Don't use these fingerprints for fingerprinting, they are still used for ECU detection
 IGNORED_FINGERPRINTS = [CAR.VELOSTER, CAR.GENESIS_G70, CAR.KONA, CAR.NIRO_EV, CAR.STINGER21, CAR.SELTOS]
 
 FW_VERSIONS = {
+  # ---------------------------------------------------------------------------------------
   # genesis
   CAR.GENESIS_G70: {
     (Ecu.fwdRadar, 0x7d0, None): [b'\xf1\x00IK__ SCC F-CUP      1.00 1.02 96400-G9100         \xf1\xa01.02',],
@@ -211,6 +215,7 @@ FW_VERSIONS = {
     (Ecu.fwdCamera, 0x7c4, None): [b'\xf1\x00IK  MFC  AT USA LHD 1.00 1.01 95740-G9000 170920',],
     (Ecu.transmission, 0x7e1, None): [b'\xf1\x87VDJLT17895112DN4\x88fVf\x99\x88\x88\x88\x87fVe\x88vhwwUFU\x97eFex\x99\xff\xb7\x82\xf1\x81E25\x00\x00\x00\x00\x00\x00\x00\xf1\x00bcsh8p54  E25\x00\x00\x00\x00\x00\x00\x00SIK0T33NB2\x11\x1am\xda',],
   },
+  # ---------------------------------------------------------------------------------------
   # hyundai
   CAR.ELANTRA_I30: {
     (Ecu.fwdRadar, 0x7d0, None): [b'\xf1\x00PD__ SCC F-CUP      1.00 1.01 99110-G3100         ',],
@@ -269,15 +274,23 @@ FW_VERSIONS = {
   },
   CAR.SONATA19: {
     (Ecu.fwdRadar, 0x7d0, None): [b'\xf1\x00LF__ SCC F-CUP      1.00 1.00 96401-C2200         ',],
-    (Ecu.esp, 0x7d1, None): [b'\xf1\x00LF ESC \t 11 \x17\x01\x13 58920-C2610',],
-    (Ecu.engine, 0x7e0, None): [b'\xf1\x81606D5K51\x00\x00\x00\x00\x00\x00\x00\x00',],
+    (Ecu.esp, 0x7d1, None): [
+      b'\xf1\x00LF ESC \f 11 \x27\x01\x23 58920-C2610',
+      b'\xf1\x00LF ESC \t 11 \x17\x01\x13 58920-C2610',
+    ],
+    (Ecu.engine, 0x7e0, None): [
+      b'\xf1\x81606D5K51\x00\x00\x00\x00\x00\x00\x00\x00',
+      b'\xf1\x81606G1051\x00\x00\x00\x00\x00\x00\x00\x00',
+    ],
     (Ecu.fwdCamera, 0x7c4, None): [
       b'\xf1\x00LFF LKAS AT USA LHD 1.00 1.01 95740-C1000 E51',
+      b'\xf1\x00LFF LKAS AT USA LHD 1.01 1.02 95740-C1000 E52',
       b'\xf1\xa01.01',
     ],
     (Ecu.transmission, 0x7e1, None): [
       b'\xf1\x87\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xf1\x816T6B4051\x00\x00\xf1\x006T6H0_C2\x00\x006T6B4051\x00\x00TLF0G24NL1\xb0\x9f\xee\xf5',
       b'\xf1\x87\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xf1\x816T6B4051\x00\x00\xf1\x006T6H0_C2\x00\x006T6B4051\x00\x00TLF0G24NL1\x00\x00\x00\x00',
+      b'\xf1\x87LAJSG48170554HF0Wwwwx\x88\x88\x88\x88\x99\xa8\x89\x87\x99\xa8y\x88\x99\xa8\x891?\xf6\xff\x97w\177\xff\xb0\x20\xf1\x816W3B1051\x00\x00\xf1\x006W351_C2\x00\x006W3B1051\x00\x00TLF0T20NL2\x00\x00\x00\x00',
       b'\xf1\x006T6H0_C2\x00\x006T6B4051\x00\x00TLF0G24NL1\xb0\x9f\xee\xf5',
     ],
   },
@@ -404,6 +417,7 @@ FW_VERSIONS = {
     (Ecu.fwdCamera, 0x7c4, None): [b'\xf1\x00JS  LKAS AT USA LHD 1.00 1.02 95740-J3000 K32',],
     (Ecu.transmission, 0x7e1, None): [b'\xf1\x816U2V8051\x00\x00\xf1\x006U2V0_C2\x00\x006U2V8051\x00\x00DJS0T16NS1\xba\x02\xb8\x80',],
   },
+  # ---------------------------------------------------------------------------------------
   # kia
   CAR.FORTE: {
     (Ecu.fwdRadar, 0x7d0, None): [b'\xf1\x00BD__ SCC H-CUP      1.00 1.02 99110-M6000         \xf1\xa01.02'],
@@ -481,29 +495,30 @@ CHECKSUM = {
 }
 
 FEATURES = {
-  # Use Cluster for Gear Selection, rather than Transmission
-  "use_cluster_gears": set([CAR.ELANTRA, CAR.ELANTRA20, CAR.KONA, CAR.ELANTRA_I30, CAR.MOHAVE, CAR.CADENZA, CAR.NIRO_HEV, CAR.GRANDEUR, CAR.GRANDEUR20]),
-  # Use TCU Message for Gear Selection
-  "use_tcu_gears": set([CAR.OPTIMA, CAR.SONATA19, CAR.VELOSTER]),
-  # Use E_GEAR Message for Gear Selection
-  "use_elect_ems_gears": set([CAR.SONATA_HEV, CAR.SONATA19_HEV, CAR.KONA_EV, CAR.KONA_HEV, CAR.IONIQ_EV, CAR.IONIQ20_EV, CAR.IONIQ_HEV, CAR.GRANDEUR_HEV, CAR.GRANDEUR20_HEV, CAR.NEXO,
-                          CAR.OPTIMA_HEV, CAR.CADENZA_HEV, CAR.NIRO_EV, CAR.SOUL_EV]),
-  # send LFA MFA message for new HKG models
-  "send_lfa_mfa": set([CAR.SONATA, CAR.SONATA_HEV, CAR.PALISADE, CAR.SANTA_FE, CAR.KONA_EV, CAR.KONA_HEV, CAR.IONIQ_EV, CAR.IONIQ20_EV, CAR.IONIQ_HEV, CAR.GRANDEUR20, CAR.GRANDEUR20_HEV,
-                       CAR.NIRO_EV, CAR.SOUL_EV, CAR.SELTOS]),
+  "use_cluster_gears": # Use Cluster for Gear Selection, rather than Transmission
+    set([CAR.ELANTRA, CAR.ELANTRA20, CAR.ELANTRA_I30, CAR.KONA, CAR.GRANDEUR, CAR.GRANDEUR20, CAR.MOHAVE, CAR.NIRO_HEV, CAR.CADENZA]),
+  "use_tcu_gears": # Use TCU Message for Gear Selection
+    set([CAR.SONATA19, CAR.VELOSTER, CAR.OPTIMA]),
+  "use_elect_ems_gears": # Use Elect GEAR Message for Gear Selection
+    set([CAR.SONATA_HEV, CAR.SONATA19_HEV, CAR.KONA_EV, CAR.KONA_HEV, CAR.IONIQ_EV, CAR.IONIQ20_EV, CAR.IONIQ_HEV, CAR.GRANDEUR_HEV, CAR.GRANDEUR20_HEV, CAR.NEXO,
+         CAR.OPTIMA_HEV, CAR.CADENZA_HEV, CAR.NIRO_EV, CAR.SOUL_EV]),
+  "send_lfa_mfa": # send LFA MFA message for new HKG models
+    set([CAR.SONATA, CAR.SONATA_HEV, CAR.PALISADE, CAR.SANTA_FE, CAR.KONA_EV, CAR.KONA_HEV, CAR.IONIQ_EV, CAR.IONIQ20_EV, CAR.IONIQ_HEV, CAR.GRANDEUR20, CAR.GRANDEUR20_HEV,
+         CAR.NIRO_EV, CAR.SOUL_EV, CAR.SELTOS]),
+  "use_fca": # these cars use the FCA11 message for the AEB and FCW signals, all others use SCC12
+    set([CAR.SONATA, CAR.PALISADE, CAR.ELANTRA, CAR.ELANTRA_I30, CAR.KONA, CAR.KONA_HEV, CAR.IONIQ_HEV, CAR.IONIQ20_EV,
+         CAR.GENESIS_G70, CAR.FORTE, CAR.STINGER, CAR.STINGER21]),
+  "use_bsm": # blindspot signal
+    set([CAR.GENESIS, CAR.GENESIS_G70, CAR.GENESIS_G80, CAR.GENESIS_G90,
+         CAR.SONATA, CAR.SONATA_HEV, CAR.PALISADE, CAR.KONA, CAR.KONA_EV, CAR.KONA_HEV, CAR.IONIQ_EV, CAR.IONIQ_HEV, CAR.IONIQ20_EV, CAR.NEXO,
+         CAR.SONATA19, CAR.SONATA19_HEV, CAR.GRANDEUR, CAR.GRANDEUR_HEV, CAR.GRANDEUR20, CAR.GRANDEUR20_HEV, CAR.SANTA_FE,
+         CAR.OPTIMA, CAR.OPTIMA_HEV, CAR.CADENZA, CAR.CADENZA_HEV, CAR.SORENTO, CAR.SOUL_EV, CAR.NIRO_EV, CAR.NIRO_HEV]),
+  "not_lkas": # not lkas error car set
+    set([CAR.SONATA, CAR.PALISADE, CAR.SONATA_HEV, CAR.SANTA_FE, CAR.KONA, CAR.KONA_EV, CAR.NIRO_EV]),
+  "tcs_remove": # tcs13 message remove
+    set([CAR.SANTA_FE]),
   "has_scc13": set([]),
   "has_scc14": set([]),
-  # these cars use the FCA11 message for the AEB and FCW signals, all others use SCC12
-  "use_fca": set([CAR.SONATA, CAR.PALISADE, CAR.ELANTRA, CAR.ELANTRA_I30, CAR.KONA, CAR.KONA_HEV, CAR.IONIQ_HEV, CAR.IONIQ20_EV,
-                  CAR.GENESIS_G70, CAR.FORTE, CAR.STINGER, CAR.STINGER21, ]),
-  "use_bsm": set([CAR.GENESIS, CAR.GENESIS_G70, CAR.GENESIS_G80, CAR.GENESIS_G90,
-                  CAR.SONATA, CAR.SONATA_HEV, CAR.PALISADE, CAR.KONA, CAR.KONA_EV, CAR.KONA_HEV, CAR.IONIQ_EV, CAR.IONIQ_HEV, CAR.IONIQ20_EV, CAR.NEXO,
-                  CAR.SONATA19, CAR.SONATA19_HEV, CAR.GRANDEUR, CAR.GRANDEUR_HEV, CAR.GRANDEUR20, CAR.GRANDEUR20_HEV, CAR.SANTA_FE,
-                  CAR.OPTIMA, CAR.OPTIMA_HEV, CAR.CADENZA, CAR.CADENZA_HEV, CAR.SORENTO, CAR.SOUL_EV, CAR.NIRO_EV, CAR.NIRO_HEV, ]),
-  # carstate not lkas error
-  "not_lkas": set([CAR.SONATA, CAR.PALISADE, CAR.SONATA_HEV, CAR.SANTA_FE, CAR.KONA_EV, CAR.NIRO_EV, CAR.KONA]),
-  # tcs message remove
-  "tcs_remove": set([CAR.SANTA_FE]),
 }
 
 DBC = {
