@@ -145,7 +145,6 @@ static void update_sockets(UIState *s) {
     scene.tpmsFr = scene.car_state.getTpmsFr();
     scene.tpmsRl = scene.car_state.getTpmsRl();
     scene.tpmsRr = scene.car_state.getTpmsRr();
-    scene.getGearShifter = scene.car_state.getGearShifter();
   }
   if (sm.updated("radarState")) {
     auto radar_state = sm["radarState"].getRadarState();

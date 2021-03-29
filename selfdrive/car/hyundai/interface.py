@@ -124,11 +124,11 @@ class CarInterface(CarInterfaceBase):
         ret.mass = 2305. + STD_CARGO_KG
         ret.wheelbase = 2.895
         ret.steerRatio = 14.1
-    elif candidate in [CAR.STINGER, CAR.STINGER21]:
+    elif candidate == CAR.STINGER:
         ret.mass = 1913. + STD_CARGO_KG
         ret.wheelbase = 2.905
         ret.steerRatio = 13.5
-    elif candidate in [CAR.NIRO_HEV, CAR.NIRO_EV]:
+    elif candidate in [CAR.NIRO_EV, CAR.NIRO_HEV]:
         ret.mass = 1748. + STD_CARGO_KG
         ret.wheelbase = 2.700
         ret.steerRatio = 13.7
@@ -188,6 +188,16 @@ class CarInterface(CarInterfaceBase):
           ret.lateralTuning.indi.innerLoopGainV = [2.5]
           ret.lateralTuning.indi.outerLoopGainBP = [0.]
           ret.lateralTuning.indi.outerLoopGainV = [3.5]
+          ret.lateralTuning.indi.timeConstantBP = [0.]
+          ret.lateralTuning.indi.timeConstantV = [1.4]
+          ret.lateralTuning.indi.actuatorEffectivenessBP = [0.]
+          ret.lateralTuning.indi.actuatorEffectivenessV = [1.8]
+      elif candidate == CAR.SELTOS:
+          ret.lateralTuning.init('indi')
+          ret.lateralTuning.indi.innerLoopGainBP = [0.]
+          ret.lateralTuning.indi.innerLoopGainV = [4.]
+          ret.lateralTuning.indi.outerLoopGainBP = [0.]
+          ret.lateralTuning.indi.outerLoopGainV = [3.]
           ret.lateralTuning.indi.timeConstantBP = [0.]
           ret.lateralTuning.indi.timeConstantV = [1.4]
           ret.lateralTuning.indi.actuatorEffectivenessBP = [0.]

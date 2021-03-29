@@ -775,37 +775,6 @@ static void bb_ui_draw_tpms(UIState *s) {
   }
 }
 
-static void bb_ui_draw_gear(UIState *s) {
-  UIScene &scene = s->scene;
-  int viz_gear_w = 120;
-  int viz_gear_h = 120;
-  int viz_gear_x = s->viz_rect.x + s->viz_rect.w - 400;
-  int viz_gear_y = s->viz_rect.y + (bdr_s*4.5) + 870;
-  int getGear = int(scene.getGearShifter);
-  char gear_msg[32];
-
-  // Draw Border
-  const Rect rect = {viz_gear_x, viz_gear_y, viz_gear_w, viz_gear_h};
-  ui_draw_rect(s->vg, rect, COLOR_WHITE_ALPHA(80), 5, 20);
-  NVGcolor Color = COLOR_WHITE_ALPHA(200);
-  nvgTextAlign(s->vg, NVG_ALIGN_CENTER | NVG_ALIGN_BASELINE);
-
-  const int pos_x = viz_gear_x + (viz_gear_w / 2);
-  const int pos_y = 985;
-  const int pos_add = 50;
-  const int fontsize = 60;
-  ui_draw_text(s, pos_x, pos_y + pos_add, "Gear", fontsize - 20, Color, "sans-regular");
-
-  switch( getGear ) {
-    case 1 : strcpy( gear_msg, "P" ); break;
-    case 2 : strcpy( gear_msg, "D" ); Color = COLOR_ENGAGED; break;
-    case 3 : strcpy( gear_msg, "N" ); break;
-    case 4 : strcpy( gear_msg, "R" ); Color = COLOR_RED_ALPHA(200); break;
-    default: sprintf( gear_msg, "%d", getGear ); break;
-  }
-    ui_draw_text(s, pos_x, pos_y, gear_msg, fontsize + 20, Color, "sans-semibold");
-}
-
 //BB END: functions added for the display of various items
 
 static void ui_draw_vision_footer(UIState *s) {
@@ -815,7 +784,6 @@ static void ui_draw_vision_footer(UIState *s) {
   ui_draw_vision_bsd_right(s);
   bb_ui_draw_UI(s);
   bb_ui_draw_tpms(s);
-  bb_ui_draw_gear(s);
 }
 
 static float get_alert_alpha(float blink_rate) {

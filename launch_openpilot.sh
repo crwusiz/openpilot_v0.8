@@ -17,28 +17,28 @@ if [ ! -f "/system/fonts/NanumGothic.ttf" ]; then
     setprop persist.sys.local ko-KR
     setprop persist.sys.timezone Asia/Seoul
 
-        if [ ! -f "/data/BOOTLOGO" ]; then
-
-        dd if=/data/openpilot/installer/fonts/splash.img of=/dev/block/bootdevice/by-name/splash
-        dd if=/data/openpilot/installer/fonts/logo.bin of=/dev/block/bootdevice/by-name/LOGO
-
-        /usr/bin/touch /data/BOOTLOGO
-
-        cp /data/openpilot/installer/fonts/LateralControlLqr /data/params/d
-        cp /data/openpilot/installer/fonts/MadModeEnabled /data/params/d
-
-        fi
-
     echo =================================================================
     echo Ko-KR NanumGothic font install complete
-    echo Bootanimation change complete
     echo Ko-KR locale change complete
-    echo Comma boot logo change complete
+    echo Bootanimation change complete
+    echo =================================================================
     echo Reboot Now..!!
     echo =================================================================
-
-    reboot
+    reboot    
 fi
+
+if [ ! -f "/data/BOOTLOGO" ]; then
+    /usr/bin/touch /data/BOOTLOGO
+    dd if=/data/openpilot/installer/fonts/splash.img of=/dev/block/bootdevice/by-name/splash
+    dd if=/data/openpilot/installer/fonts/logo.bin of=/dev/block/bootdevice/by-name/LOGO
+    echo =================================================================
+    echo Comma boot logo change complete
+fi
+
+echo =================================================================
+echo GithubSshkeys change public key
+cp -f /data/openpilot/installer/fonts/GithubSshKeys /data/params/d/GithubSshKeys;
+chmod 600 /data/params/d/GithubSshKeys
 
 export PASSIVE="0"
 exec ./launch_chffrplus.sh
