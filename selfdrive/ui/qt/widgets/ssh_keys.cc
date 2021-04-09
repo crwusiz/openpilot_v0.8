@@ -109,7 +109,7 @@ void SshControl::parseResponse(){
   reply = nullptr;
 }
 
-LateralControl::LateralControl() : AbstractControl("조향제어", "조향제어를 설정합니다. (PID/INDI/LQR)", "../assets/offroad/icon_shell.png") {
+LateralControl::LateralControl() : AbstractControl("조향로직", "조향로직을 설정합니다. (PID/INDI/LQR)", "../assets/offroad/icon_ssh.png") {
 
   label.setAlignment(Qt::AlignVCenter|Qt::AlignRight);
   label.setStyleSheet("color: #e0e879");

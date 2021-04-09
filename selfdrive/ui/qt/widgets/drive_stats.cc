@@ -54,7 +54,7 @@ DriveStats::DriveStats(QWidget* parent) : QWidget(parent) {
   const char* distance_unit = Params().read_db_bool("IsMetric") ? "KM" : "MILES";
   QGridLayout* gl = new QGridLayout();
   gl->setMargin(0);
-  gl->addWidget(new QLabel("전체 시간"), 0, 0, 1, 3);
+  gl->addWidget(new QLabel("전체시간"), 0, 0, 1, 3);
   add_stats_layouts(gl, all_, 1, distance_unit);
   gl->addWidget(new QLabel("지난주"), 6, 0, 1, 3);
   add_stats_layouts(gl, week_, 7, distance_unit);

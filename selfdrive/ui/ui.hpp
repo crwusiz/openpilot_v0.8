@@ -183,8 +183,6 @@ typedef struct UIState {
 
   // device state
   bool awake;
-  int lat_control_pid, lat_control_indi, lat_control_lqr, lat_control_angle;
-
   bool sidebar_collapsed;
   Rect video_rect, viz_rect;
   float car_space_transform[6];

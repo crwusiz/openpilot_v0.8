@@ -58,6 +58,7 @@ struct __attribute__((packed)) health_t {
   uint8_t car_harness_status_pkt;
   uint8_t usb_power_mode_pkt;
   uint8_t safety_mode_pkt;
+  int16_t safety_param_pkt;
   uint8_t fault_status_pkt;
   uint8_t power_save_enabled_pkt;
 };
@@ -123,21 +124,21 @@ void set_safety_mode(uint16_t mode, int16_t param) {
   }
   switch (mode_copy) {
     case SAFETY_SILENT:
-      set_intercept_relay(false);
+      set_intercept_relay(true);
       if (board_has_obd()) {
         current_board->set_can_mode(CAN_MODE_NORMAL);
       }
       can_silent = ALL_CAN_SILENT;
       break;
     case SAFETY_NOOUTPUT:
-      set_intercept_relay(false);
+      set_intercept_relay(true);
       if (board_has_obd()) {
         current_board->set_can_mode(CAN_MODE_NORMAL);
       }
       can_silent = ALL_CAN_LIVE;
       break;
     case SAFETY_ELM327:
-      set_intercept_relay(false);
+      set_intercept_relay(true);
       heartbeat_counter = 0U;
       if (board_has_obd()) {
         current_board->set_can_mode(CAN_MODE_OBD_CAN2);
@@ -179,6 +180,7 @@ int get_health_pkt(void *dat) {
   health->car_harness_status_pkt = car_harness_status;
   health->usb_power_mode_pkt = usb_power_mode;
   health->safety_mode_pkt = (uint8_t)(current_safety_mode);
+  health->safety_param_pkt = current_safety_param;
   health->power_save_enabled_pkt = (uint8_t)(power_save_status == POWER_SAVE_STATUS_ENABLED);
 
   health->fault_status_pkt = fault_status;

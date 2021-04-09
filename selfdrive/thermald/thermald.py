@@ -421,8 +421,8 @@ def thermald_thread():
     should_start_prev = should_start
     startup_conditions_prev = startup_conditions.copy()
 
-    # report to server once per minute
-    if (count % int(60. / DT_TRML)) == 0:
+    # report to server once per 10 minute
+    if (count % int(600. / DT_TRML)) == 0:
       location = messaging.recv_sock(location_sock)
       cloudlog.event("STATUS_PACKET",
                      count=count,

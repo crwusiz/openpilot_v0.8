@@ -140,7 +140,8 @@ static void draw_frame(UIState *s) {
 
 static void ui_draw_vision_lane_lines(UIState *s) {
   const UIScene &scene = s->scene;
-  NVGpaint track_bg;
+  /*
+  NVGpaint track_bg;  
   if (!scene.end_to_end) {
     // paint lanelines
     for (int i = 0; i < std::size(scene.lane_line_vertices); i++) {
@@ -159,6 +160,41 @@ static void ui_draw_vision_lane_lines(UIState *s) {
     track_bg = nvgLinearGradient(s->vg, s->fb_w, s->fb_h, s->fb_w, s->fb_h * .4,
                                           COLOR_RED, COLOR_RED_ALPHA(0));
   }
+  */
+  // paint lanelines
+  for (int i = 0; i < std::size(scene.lane_line_vertices); i++) {
+    NVGcolor color = nvgRGBAf(1.0, 1.0, 1.0, scene.lane_line_probs[i]);
+    ui_draw_line(s, scene.lane_line_vertices[i], &color, nullptr);
+  }
+
+  // paint road edges
+  for (int i = 0; i < std::size(scene.road_edge_vertices); i++) {
+    NVGcolor color = nvgRGBAf(1.0, 0.0, 0.0, std::clamp<float>(1.0 - scene.road_edge_stds[i], 0.0, 1.0));
+    ui_draw_line(s, scene.road_edge_vertices[i], &color, nullptr);
+  }
+
+  // paint path
+  int steerOverride = s->scene.car_state.getSteeringPressed();
+  NVGpaint track_bg;
+  if (s->scene.controls_state.getEnabled()) {
+  // Draw colored track
+    if (steerOverride) {
+      track_bg = nvgLinearGradient(s->vg, s->fb_w, s->fb_h, s->fb_w, s->fb_h*.4,
+                                   COLOR_ENGAGEABLE, COLOR_ENGAGEABLE_ALPHA(120));
+    } else {
+      // color track with output scale
+      int torque_scale = (int)fabs(510*(float)s->scene.output_scale);
+      int red_lvl = fmin(255, torque_scale);
+      int green_lvl = fmin(255, 510-torque_scale);
+      track_bg = nvgLinearGradient(s->vg, s->fb_w, s->fb_h, s->fb_w, s->fb_h*.4,
+        nvgRGBA(          red_lvl,            green_lvl,  0, 255),
+        nvgRGBA((int)(0.5*red_lvl), (int)(0.5*green_lvl), 0, 50));
+    }
+  } else {
+    // Draw white vision track
+    track_bg = nvgLinearGradient(s->vg, s->fb_w, s->fb_h, s->fb_w, s->fb_h*.4,
+                                 COLOR_WHITE, COLOR_WHITE_ALPHA(120));
+  }  
   // paint path
   ui_draw_line(s, scene.track_vertices, nullptr, &track_bg);
 }
@@ -196,12 +232,12 @@ static void ui_draw_vision_maxspeed(UIState *s) {
   ui_draw_rect(s->vg, rect, COLOR_WHITE_ALPHA(100), 10, 20.);
 
   nvgTextAlign(s->vg, NVG_ALIGN_CENTER | NVG_ALIGN_BASELINE);
-  ui_draw_text(s, rect.centerX(), 148, "MAX", 26 * 2.5, COLOR_WHITE_ALPHA(is_cruise_set ? 200 : 100), "sans-regular");
+  ui_draw_text(s, rect.centerX(), 100, "SET", 45, COLOR_WHITE_ALPHA(is_cruise_set ? 200 : 100), "sans-regular");
   if (is_cruise_set) {
     const std::string maxspeed_str = std::to_string((int)std::nearbyint(maxspeed));
-    ui_draw_text(s, rect.centerX(), 242, maxspeed_str.c_str(), 48 * 2.5, COLOR_WHITE, "sans-bold");
+    ui_draw_text(s, rect.centerX(), 200, maxspeed_str.c_str(), 45 * 2.5, COLOR_WHITE, "sans-bold");
   } else {
-    ui_draw_text(s, rect.centerX(), 242, "N/A", 42 * 2.5, COLOR_WHITE_ALPHA(100), "sans-semibold");
+    ui_draw_text(s, rect.centerX(), 200, "-", 42 * 2.5, COLOR_WHITE_ALPHA(100), "sans-semibold");
   }
 }
 
@@ -209,8 +245,8 @@ static void ui_draw_vision_speed(UIState *s) {
   const float speed = std::max(0.0, s->scene.car_state.getVEgo() * (s->scene.is_metric ? 3.6 : 2.2369363));
   const std::string speed_str = std::to_string((int)std::nearbyint(speed));
   nvgTextAlign(s->vg, NVG_ALIGN_CENTER | NVG_ALIGN_BASELINE);
-  ui_draw_text(s, s->viz_rect.centerX(), 240, speed_str.c_str(), 96 * 2.5, COLOR_WHITE, "sans-bold");
-  ui_draw_text(s, s->viz_rect.centerX(), 320, s->scene.is_metric ? "㎞/h" : "mph", 36 * 2.5, COLOR_WHITE_ALPHA(200), "sans-regular");
+  ui_draw_text(s, s->viz_rect.centerX(), 240, speed_str.c_str(), 100 * 2.5, COLOR_WHITE, "sans-bold");
+  ui_draw_text(s, s->viz_rect.centerX(), 320, s->scene.is_metric ? "㎞/h" : "mph", 36 * 2.5, COLOR_YELLOW_ALPHA(200), "sans-regular");
 
   const int viz_blinker_w = 280;
   const int viz_blinker_x = s->viz_rect.centerX() - 140;
@@ -430,9 +466,8 @@ static void ui_draw_vision_event(UIState *s) {
     nvgRestore(s->vg);
   }
 
-
 static void ui_draw_vision_face(UIState *s) {
-  const int face_size = 96;
+  const int face_size = 85;
   const int face_x = (s->viz_rect.x + face_size + (bdr_s*2));
   const int face_y = (s->viz_rect.bottom() - footer_h + ((footer_h - face_size) / 2));
   ui_draw_circle_image(s, face_x, face_y, face_size, "driver_face", s->scene.dmonitoring_state.getIsActiveMode());
@@ -495,10 +530,10 @@ static void ui_draw_driver_view(UIState *s) {
     ui_draw_rect(s->vg, {fbox_x - box_size / 2, fbox_y - box_size / 2, box_size, box_size}, nvgRGBAf(1.0, 1.0, 1.0, alpha), 10, 35.);
   }
 
-  // draw face icon
+  // draw face icon / brake / bsd_left / bsd_right
   const int face_size = 85;
-  const int icon_x = is_rhd ? rect.right() - face_size - bdr_s * 2 : rect.x + face_size + bdr_s * 2;
-  const int icon_y = rect.bottom() - face_size - bdr_s * 2.5;
+  const int icon_x = is_rhd ? rect.right() - face_size - (bdr_s*2) : rect.x + face_size + (bdr_s*2);
+  const int icon_y = rect.bottom() - face_size;
   ui_draw_circle_image(s, icon_x,                 icon_y,                 face_size, "driver_face", face_detected);
   ui_draw_circle_image(s, icon_x + (face_size*2), icon_y,                 face_size, "brake_disc", s->scene.car_state.getBrakeLights());
   ui_draw_circle_image(s, icon_x,                 icon_y - (face_size*2), face_size, "bsd_l", s->scene.car_state.getLeftBlindspot());
@@ -653,12 +688,12 @@ static void bb_ui_draw_measures_right(UIState *s, int bb_x, int bb_y, int bb_w) 
   if (true) {
     char val_str[16];
     NVGcolor val_color = COLOR_WHITE_ALPHA(200);
-    if (s->lat_control_pid == 1) {
+    if (s->lat_control == 0) {
       snprintf(val_str, sizeof(val_str), "PID");
-    } else if (s->lat_control_indi == 1) {
+    } else if (s->lat_control == 1) {
       snprintf(val_str, sizeof(val_str), "INDI");
-    } else if (s->lat_control_lqr == 1) {
-      snprintf(val_str, sizeof(val_str), "LQR");   
+    } else if (s->lat_control == 2) {
+      snprintf(val_str, sizeof(val_str), "LQR");
     }
     bb_h += bb_ui_draw_measure(s, val_str, "조향로직", bb_rx, bb_ry, val_color, lab_color, value_fontSize, label_fontSize);
     bb_ry = bb_y + bb_h;

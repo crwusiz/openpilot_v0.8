@@ -62,4 +62,7 @@ public:
   static void launch_tethering() {
     launch_activity("com.android.settings/.TetherSettings");
   }
+  static void launch_setting() {
+    launch_activity("com.android.settings/.Settings");
+  }  
 };

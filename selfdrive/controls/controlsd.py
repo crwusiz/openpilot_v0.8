@@ -104,22 +104,19 @@ class Controls:
     self.LoC = LongControl(self.CP, self.CI.compute_gb)
     self.VM = VehicleModel(self.CP)
     
-    self.lateral_control_pid = 0
-    self.lateral_control_indi = 0
-    self.lateral_control_lqr = 0
-    self.lateral_control_angle = 0
+    self.lateral_control_method = 0
     if self.CP.steerControlType == car.CarParams.SteerControlType.angle:
       self.LaC = LatControlAngle(self.CP)
-      self.lateral_control_angle = 1
+      self.lateral_control_method = 3
     elif self.CP.lateralTuning.which() == 'pid':
       self.LaC = LatControlPID(self.CP)
-      self.lateral_control_pid = 1
+      self.lateral_control_method = 0
     elif self.CP.lateralTuning.which() == 'indi':
       self.LaC = LatControlINDI(self.CP)
-      self.lateral_control_indi = 1
+      self.lateral_control_method = 1
     elif self.CP.lateralTuning.which() == 'lqr':
       self.LaC = LatControlLQR(self.CP)
-      self.lateral_control_lqr = 1
+      self.lateral_control_method = 2
 
     self.state = State.disabled
     self.enabled = False
@@ -507,7 +504,6 @@ class Controls:
     curvature = -self.VM.calc_curvature(steer_angle_without_offset, CS.vEgo)
     angle_steers_des = math.degrees(self.VM.get_steer_from_curvature(-lat_plan.curvature, CS.vEgo))
     angle_steers_des += params.angleOffsetDeg
-    steer_angle_rad = (CS.steeringAngleDeg - self.sm['lateralPlan'].angleOffsetDeg) * CV.DEG_TO_RAD
 
     # controlsState
     dat = messaging.new_message('controlsState')
@@ -525,10 +521,8 @@ class Controls:
     controlsState.lateralPlanMonoTime = self.sm.logMonoTime['lateralPlan']
     controlsState.enabled = self.enabled
     controlsState.active = self.active
-#    controlsState.curvature = curvature
-    controlsState.curvature = self.VM.calc_curvature(steer_angle_rad, CS.vEgo)
-#    controlsState.steeringAngleDesiredDeg = angle_steers_des
-    controlsState.steeringAngleDesiredDeg = float(self.LaC.angle_steers_des)
+    controlsState.curvature = curvature
+    controlsState.steeringAngleDesiredDeg = angle_steers_des
     controlsState.state = self.state
     controlsState.engageable = not self.events.any(ET.NO_ENTRY)
     controlsState.longControlState = self.LoC.long_control_state
@@ -543,10 +537,7 @@ class Controls:
     controlsState.startMonoTime = int(start_time * 1e9)
     controlsState.forceDecel = bool(force_decel)
     controlsState.canErrorCounter = self.can_error_counter
-    controlsState.lateralControlPid = int(self.lateral_control_pid)
-    controlsState.lateralControlIndi = int(self.lateral_control_indi)
-    controlsState.lateralControlLqr = int(self.lateral_control_lqr)
-    controlsState.lateralControlAngle = int(self.lateral_control_angle)
+    controlsState.lateralControlMethod = int(self.lateral_control_method)
 
     if self.CP.steerControlType == car.CarParams.SteerControlType.angle:
       controlsState.lateralControlState.angleState = lac_log

@@ -15,9 +15,9 @@ from cereal import log
 LaneChangeState = log.LateralPlan.LaneChangeState
 LaneChangeDirection = log.LateralPlan.LaneChangeDirection
 
-LOG_MPC = os.environ.get('LOG_MPC', False)
+LOG_MPC = os.environ.get('LOG_MPC', True)
 
-LANE_CHANGE_SPEED_MIN = 45 * CV.MPH_TO_MS
+LANE_CHANGE_SPEED_MIN = 60 * CV.KPH_TO_MS
 LANE_CHANGE_TIME_MAX = 10.
 # this corresponds to 80deg/s and 20deg/s steering angle in a toyota corolla
 MAX_CURVATURE_RATES = [0.03762194918267951, 0.003441203371932992]
@@ -55,12 +55,15 @@ class LateralPlanner():
     self.setup_mpc()
     self.solution_invalid_cnt = 0
     self.use_lanelines = Params().get('EndToEndToggle') != b'1'
+    self.auto_lane_change_enabled = Params().get('AutoLaneChangeEnabled') == b'1'
     self.lane_change_state = LaneChangeState.off
     self.lane_change_direction = LaneChangeDirection.none
     self.lane_change_timer = 0.0
     self.lane_change_ll_prob = 1.0
     self.prev_one_blinker = False
     self.desire = log.LateralPlan.Desire.none
+    self.auto_lane_change_timer = 0.0
+    self.prev_torque_applied = False
 
     self.path_xyz = np.zeros((TRAJECTORY_SIZE,3))
     self.plan_yaw = np.zeros((TRAJECTORY_SIZE,))
@@ -84,6 +87,13 @@ class LateralPlanner():
     self.safe_desired_curvature_rate = 0.0
 
   def update(self, sm, CP):
+    lateral_control_method = sm['controlsState'].lateralControlMethod
+    if lateral_control_method == 0:
+      self.output_scale = sm['controlsState'].lateralControlState.pidState.output
+    elif lateral_control_method == 1:
+      self.output_scale = sm['controlsState'].lateralControlState.indiState.output
+    elif lateral_control_method == 2:
+      self.output_scale = sm['controlsState'].lateralControlState.lqrState.output    
     v_ego = sm['carState'].vEgo
     active = sm['controlsState'].active
     measured_curvature = sm['controlsState'].curvature
@@ -110,7 +120,8 @@ class LateralPlanner():
     else:
       torque_applied = sm['carState'].steeringPressed and \
                        ((sm['carState'].steeringTorque > 0 and self.lane_change_direction == LaneChangeDirection.left) or
-                        (sm['carState'].steeringTorque < 0 and self.lane_change_direction == LaneChangeDirection.right))
+                        (sm['carState'].steeringTorque < 0 and self.lane_change_direction == LaneChangeDirection.right)) or \
+                        self.auto_lane_change_enabled and 3.25 > self.auto_lane_change_timer > 3.
 
       blindspot_detected = ((sm['carState'].leftBlindspot and self.lane_change_direction == LaneChangeDirection.left) or
                             (sm['carState'].rightBlindspot and self.lane_change_direction == LaneChangeDirection.right))
@@ -127,8 +138,12 @@ class LateralPlanner():
       elif self.lane_change_state == LaneChangeState.preLaneChange:
         if not one_blinker or below_lane_change_speed:
           self.lane_change_state = LaneChangeState.off
-        elif torque_applied and not blindspot_detected:
+        elif torque_applied and (not blindspot_detected or self.prev_torque_applied):
           self.lane_change_state = LaneChangeState.laneChangeStarting
+        elif torque_applied and blindspot_detected and self.auto_lane_change_timer != 10.0:
+          self.auto_lane_change_timer = 10.0
+        elif not torque_applied and self.auto_lane_change_timer == 10.0 and not self.prev_torque_applied:
+          self.prev_torque_applied = True
 
       # starting
       elif self.lane_change_state == LaneChangeState.laneChangeStarting:
@@ -151,6 +166,12 @@ class LateralPlanner():
       self.lane_change_timer = 0.0
     else:
       self.lane_change_timer += DT_MDL
+
+    if self.lane_change_state == LaneChangeState.off:
+      self.auto_lane_change_timer = 0.0
+      self.prev_torque_applied = False
+    elif self.auto_lane_change_timer < 3.25: # stop afer 3 sec resume from 10 when torque applied
+      self.auto_lane_change_timer += DT_MDL
 
     self.prev_one_blinker = one_blinker
 
@@ -239,6 +260,8 @@ class LateralPlanner():
     plan_send.lateralPlan.desire = self.desire
     plan_send.lateralPlan.laneChangeState = self.lane_change_state
     plan_send.lateralPlan.laneChangeDirection = self.lane_change_direction
+    plan_send.lateralPlan.autoLaneChangeEnabled = self.auto_lane_change_enabled
+    plan_send.lateralPlan.autoLaneChangeTimer = 3 - int(self.auto_lane_change_timer)
 
     pm.send('lateralPlan', plan_send)
 
