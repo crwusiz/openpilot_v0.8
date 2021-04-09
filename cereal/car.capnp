@@ -102,6 +102,11 @@ struct CarEvent @0x9b1657f34caf3ad3 {
     processNotRunning @95;
     dashcamMode @96;
 
+    #hkg
+    autoLaneChange @97;
+    turningIndicatorOn @98;
+    lkasButtonOff @99;
+
     radarCanErrorDEPRECATED @15;
     radarCommIssueDEPRECATED @67;
     gasUnavailableDEPRECATED @3;
@@ -186,6 +191,12 @@ struct CarState {
   # blindspot sensors
   leftBlindspot @33 :Bool; # Is there something blocking the left lane change
   rightBlindspot @34 :Bool; # Is there something blocking the right lane change
+
+  # tpms
+  tpmsFl @37 :Float32;
+  tpmsFr @38 :Float32;
+  tpmsRl @39 :Float32;
+  tpmsRr @40 :Float32;
 
   struct WheelSpeeds {
     # optional wheel speeds
@@ -338,6 +349,17 @@ struct CarControl {
       chimeWarningRepeat @6;
       chimePrompt @7;
       chimeWarning2Repeat @8;
+      chimeDing @9;
+      chimeDingRepeat @ 10;
+      chimeGeard @11;
+      chimeAlca @12;
+      chimeSeatbelt @13;
+      chimeVision @14;
+      chimeDistracted @15;
+      chimeCalibration1 @16;
+      chimeCalibration2 @17;
+      chimeEngage2 @18;
+      chimeDisengage2 @19;
     }
   }
 
@@ -416,6 +438,11 @@ struct CarParams {
   communityFeature @46: Bool;  # true if a community maintained feature is detected
   fingerprintSource @49: FingerprintSource;
   networkLocation @50 :NetworkLocation;  # Where Panda/C2 is integrated into the car's CAN network
+
+  mdpsBus @55: Int8;
+  sasBus @56: Int8;
+  sccBus @57: Int8;
+  spasEnabled @58: Bool;
 
   struct LateralParams {
     torqueBP @0 :List(Int32);

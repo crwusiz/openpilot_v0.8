@@ -26,10 +26,10 @@ SshControl::SshControl() : AbstractControl("SSH Keys", "Warning: This grants SSH
   hlayout->addWidget(&btn);
 
   QObject::connect(&btn, &QPushButton::released, [=]() {
-    if (btn.text() == "ADD") {
-      username = InputDialog::getText("Enter your GitHub username");
+    if (btn.text() == "추가") {
+      username = InputDialog::getText("GitHub ID");
       if (username.length() > 0) {
-        btn.setText("LOADING");
+        btn.setText("로딩중");
         btn.setEnabled(false);
         getUserKeys(username);
       }
@@ -54,10 +54,10 @@ void SshControl::refresh() {
   QString param = QString::fromStdString(Params().get("GithubSshKeys"));
   if (param.length()) {
     username_label.setText(QString::fromStdString(Params().get("GithubUsername")));
-    btn.setText("REMOVE");
+    btn.setText("제거");
   } else {
     username_label.setText("");
-    btn.setText("ADD");
+    btn.setText("추가");
   }
   btn.setEnabled(true);
 }
@@ -107,4 +107,72 @@ void SshControl::parseResponse(){
   refresh();
   reply->deleteLater();
   reply = nullptr;
+}
+
+LateralControl::LateralControl() : AbstractControl("조향제어", "조향제어를 설정합니다. (PID/INDI/LQR)", "../assets/offroad/icon_shell.png") {
+
+  label.setAlignment(Qt::AlignVCenter|Qt::AlignRight);
+  label.setStyleSheet("color: #e0e879");
+  hlayout->addWidget(&label);
+
+  btnminus.setStyleSheet(R"(
+    padding: 0;
+    border-radius: 50px;
+    font-size: 35px;
+    font-weight: 500;
+    color: #E4E4E4;
+    background-color: #393939;
+  )");
+  btnplus.setStyleSheet(R"(
+    padding: 0;
+    border-radius: 50px;
+    font-size: 35px;
+    font-weight: 500;
+    color: #E4E4E4;
+    background-color: #393939;
+  )");
+  btnminus.setFixedSize(150, 100);
+  btnplus.setFixedSize(150, 100);
+  hlayout->addWidget(&btnminus);
+  hlayout->addWidget(&btnplus);
+
+  QObject::connect(&btnminus, &QPushButton::released, [=]() {
+    auto str = QString::fromStdString(Params().get("LateralControlMethod"));
+    int latcontrol = str.toInt();
+    latcontrol = latcontrol - 1;
+    if (latcontrol <= 0 ) {
+      latcontrol = 0;
+    } else {
+    }
+    QString latcontrols = QString::number(latcontrol);
+    Params().write_db_value("LateralControlMethod", latcontrols.toStdString());
+    refresh();
+  });
+
+  QObject::connect(&btnplus, &QPushButton::released, [=]() {
+    auto str = QString::fromStdString(Params().get("LateralControlMethod"));
+    int latcontrol = str.toInt();
+    latcontrol = latcontrol + 1;
+    if (latcontrol >= 2 ) {
+      latcontrol = 2;
+    } else {
+    }
+    QString latcontrols = QString::number(latcontrol);
+    Params().write_db_value("LateralControlMethod", latcontrols.toStdString());
+    refresh();
+  });
+  refresh();
+}
+
+void LateralControl::refresh() {
+  QString latcontrol = QString::fromStdString(Params().get("LateralControlMethod"));
+  if (latcontrol == "0") {
+    label.setText(QString::fromStdString("PID"));
+  } else if (latcontrol == "1") {
+    label.setText(QString::fromStdString("INDI"));
+  } else if (latcontrol == "2") {
+    label.setText(QString::fromStdString("LQR"));
+  }
+  btnminus.setText("◀");
+  btnplus.setText("▶");
 }

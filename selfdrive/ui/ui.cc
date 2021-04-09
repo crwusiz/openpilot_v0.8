@@ -64,6 +64,7 @@ void ui_init(UIState *s) {
 
   s->scene.started = false;
   s->status = STATUS_OFFROAD;
+  read_param(&s->lat_control, "LateralControlMethod");
 
   ui_nvg_init(s);
 
@@ -147,9 +148,26 @@ static void update_sockets(UIState *s) {
   UIScene &scene = s->scene;
   if (scene.started && sm.updated("controlsState")) {
     scene.controls_state = sm["controlsState"].getControlsState();
+    scene.lateralControlMethod = scene.controls_state.getLateralControlMethod();
+    if (scene.lateralControlMethod == 0) {
+      scene.output_scale = scene.controls_state.getLateralControlState().getPidState().getOutput();
+    } else if (scene.lateralControlMethod == 1) {
+      scene.output_scale = scene.controls_state.getLateralControlState().getIndiState().getOutput();
+    } else if (s->scene.lateralControlMethod == 2) {
+      scene.output_scale = scene.controls_state.getLateralControlState().getLqrState().getOutput();
+    }
   }
   if (sm.updated("carState")) {
     scene.car_state = sm["carState"].getCarState();
+    if(scene.leftBlinker!=scene.car_state.getLeftBlinker() || scene.rightBlinker!=scene.car_state.getRightBlinker()){
+      scene.blinker_blinkingrate = 120;
+    }
+    scene.leftBlinker = scene.car_state.getLeftBlinker();
+    scene.rightBlinker = scene.car_state.getRightBlinker();
+    scene.tpmsFl = scene.car_state.getTpmsFl();
+    scene.tpmsFr = scene.car_state.getTpmsFr();
+    scene.tpmsRl = scene.car_state.getTpmsRl();
+    scene.tpmsRr = scene.car_state.getTpmsRr();
   }
   if (sm.updated("radarState")) {
     std::optional<cereal::ModelDataV2::XYZTData::Reader> line;
@@ -180,6 +198,7 @@ static void update_sockets(UIState *s) {
   }
   if (sm.updated("deviceState")) {
     scene.deviceState = sm["deviceState"].getDeviceState();
+    scene.cpuTempAvg = (scene.deviceState.getCpuTempC()[0] + scene.deviceState.getCpuTempC()[1] + scene.deviceState.getCpuTempC()[2] + scene.deviceState.getCpuTempC()[3]) / 4;
   }
   if (sm.updated("pandaState")) {
     auto pandaState = sm["pandaState"].getPandaState();
@@ -263,18 +282,18 @@ static void update_alert(UIState *s) {
     const uint64_t cs_frame = s->sm->rcv_frame("controlsState");
     if (cs_frame < scene.started_frame) {
       // car is started, but controlsState hasn't been seen at all
-      scene.alert_text1 = "openpilot Unavailable";
-      scene.alert_text2 = "Waiting for controls to start";
+      scene.alert_text1 = "오픈파일럿을 사용할수없습니다";
+      scene.alert_text2 = "컨트롤 시작을 기다리는중...";
       scene.alert_size = cereal::ControlsState::AlertSize::MID;
     } else if ((s->sm->frame - cs_frame) > 5 * UI_FREQ) {
       // car is started, but controls is lagging or died
-      if (scene.alert_text2 != "Controls Unresponsive") {
+      if (scene.alert_text2 != "컨트롤이 응답하지않습니다") {
         s->sound->play(AudibleAlert::CHIME_WARNING_REPEAT);
         LOGE("Controls unresponsive");
       }
 
-      scene.alert_text1 = "TAKE CONTROL IMMEDIATELY";
-      scene.alert_text2 = "Controls Unresponsive";
+      scene.alert_text1 = "즉시 핸들을 잡아주세요";
+      scene.alert_text2 = "컨트롤이 응답하지않습니다";
       scene.alert_size = cereal::ControlsState::AlertSize::FULL;
       s->status = STATUS_ALERT;
     }
@@ -287,6 +306,7 @@ static void update_params(UIState *s) {
 
   if (frame % (5*UI_FREQ) == 0) {
     read_param(&scene.is_metric, "IsMetric");
+    read_param(&s->lat_control, "LateralControlMethod");
   } else if (frame % (6*UI_FREQ) == 0) {
     scene.athenaStatus = NET_DISCONNECTED;
     uint64_t last_ping = 0;

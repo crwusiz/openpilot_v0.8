@@ -83,6 +83,14 @@ keys = {
   b"Offroad_UpdateFailed": [TxType.CLEAR_ON_MANAGER_START],
   b"Offroad_HardwareUnsupported": [TxType.CLEAR_ON_MANAGER_START],
   b"ForcePowerDown": [TxType.CLEAR_ON_MANAGER_START],
+
+  # add
+  b"LongControlEnabled": [TxType.PERSISTENT],
+  b"MadModeEnabled": [TxType.PERSISTENT],
+  b"AutoLaneChangeEnabled": [TxType.PERSISTENT],
+  b"PutPrebuilt": [TxType.PERSISTENT],
+  b"LdwsMfc": [TxType.PERSISTENT],
+  b"LateralControlMethod": [TxType.PERSISTENT],
 }
 
 def ensure_bytes(v):

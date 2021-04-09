@@ -58,7 +58,6 @@ struct __attribute__((packed)) health_t {
   uint8_t car_harness_status_pkt;
   uint8_t usb_power_mode_pkt;
   uint8_t safety_mode_pkt;
-  int16_t safety_param_pkt;
   uint8_t fault_status_pkt;
   uint8_t power_save_enabled_pkt;
 };
@@ -180,7 +179,6 @@ int get_health_pkt(void *dat) {
   health->car_harness_status_pkt = car_harness_status;
   health->usb_power_mode_pkt = usb_power_mode;
   health->safety_mode_pkt = (uint8_t)(current_safety_mode);
-  health->safety_param_pkt = current_safety_param;
   health->power_save_enabled_pkt = (uint8_t)(power_save_status == POWER_SAVE_STATUS_ENABLED);
 
   health->fault_status_pkt = fault_status;
@@ -721,16 +719,17 @@ void TIM1_BRK_TIM9_IRQ_Handler(void) {
       #ifdef EON
       // check heartbeat counter if we are running EON code.
       // if the heartbeat has been gone for a while, go to SILENT safety mode and enter power save
+      // MDPS will hard fault if SAFETY_SILENT set or panda slept
       if (heartbeat_counter >= (check_started() ? EON_HEARTBEAT_IGNITION_CNT_ON : EON_HEARTBEAT_IGNITION_CNT_OFF)) {
         puts("EON hasn't sent a heartbeat for 0x");
         puth(heartbeat_counter);
-        puts(" seconds. Safety is set to SILENT mode.\n");
-        if (current_safety_mode != SAFETY_SILENT) {
-          set_safety_mode(SAFETY_SILENT, 0U);
+        puts(" seconds. Safety is set to NOOUTPUT mode.\n");
+        if (current_safety_mode != SAFETY_NOOUTPUT) {
+          set_safety_mode(SAFETY_NOOUTPUT, 0U);
         }
-        if (power_save_status != POWER_SAVE_STATUS_ENABLED) {
-          set_power_save_state(POWER_SAVE_STATUS_ENABLED);
-        }
+        // if (power_save_status != POWER_SAVE_STATUS_ENABLED) {
+        //   set_power_save_state(POWER_SAVE_STATUS_ENABLED);
+        // }
 
         // Also disable IR when the heartbeat goes missing
         current_board->set_ir_power(0U);
@@ -840,7 +839,7 @@ int main(void) {
   // use TIM2->CNT to read
 
   // init to SILENT and can silent
-  set_safety_mode(SAFETY_SILENT, 0);
+  set_safety_mode(SAFETY_NOOUTPUT, 0); // MDPS will hard fault if SAFETY_SILENT set
 
   // enable CAN TXs
   current_board->enable_can_transceivers(true);

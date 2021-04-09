@@ -261,7 +261,7 @@ void WifiUI::refresh() {
       hlayout->addWidget(icon, 0, Qt::AlignRight);
 
       // connect button
-      QPushButton* btn = new QPushButton(network.security_type == SecurityType::UNSUPPORTED ? "Unsupported" : (network.connected == ConnectedType::CONNECTED ? "Connected" : (network.connected == ConnectedType::CONNECTING ? "Connecting" : "Connect")));
+      QPushButton* btn = new QPushButton(network.security_type == SecurityType::UNSUPPORTED ? "지원되지 않음" : (network.connected == ConnectedType::CONNECTED ? "연결됨" : (network.connected == ConnectedType::CONNECTING ? "연결중" : "연결")));
       btn->setDisabled(network.connected == ConnectedType::CONNECTED || network.connected == ConnectedType::CONNECTING || network.security_type == SecurityType::UNSUPPORTED);
       btn->setFixedWidth(350);
       hlayout->addWidget(btn, 0, Qt::AlignRight);
@@ -282,12 +282,12 @@ void WifiUI::refresh() {
   // Setup buttons for pagination
   QHBoxLayout *prev_next_buttons = new QHBoxLayout;
 
-  QPushButton* prev = new QPushButton("Previous");
+  QPushButton* prev = new QPushButton("이전");
   prev->setEnabled(page);
   QObject::connect(prev, SIGNAL(released()), this, SLOT(prevPage()));
   prev_next_buttons->addWidget(prev);
 
-  QPushButton* next = new QPushButton("Next");
+  QPushButton* next = new QPushButton("다음");
   next->setEnabled(wifi->seen_networks.size() > (page + 1) * networks_per_page);
   QObject::connect(next, SIGNAL(released()), this, SLOT(nextPage()));
   prev_next_buttons->addWidget(next);

@@ -5,6 +5,7 @@ import signal
 import subprocess
 import sys
 import traceback
+from multiprocessing.context import Process
 
 import cereal.messaging as messaging
 import selfdrive.crash as crash
@@ -13,7 +14,7 @@ from common.params import Params
 from common.text_window import TextWindow
 from selfdrive.hardware import HARDWARE
 from selfdrive.manager.helpers import unblock_stdout
-from selfdrive.manager.process import ensure_running
+from selfdrive.manager.process import ensure_running, launcher
 from selfdrive.manager.process_config import managed_processes
 from selfdrive.registration import register
 from selfdrive.swaglog import cloudlog, add_file_handler
@@ -29,7 +30,7 @@ def manager_init():
     ("EndToEndToggle", "0"),
     ("CompletedTrainingVersion", "0"),
     ("IsRHD", "0"),
-    ("IsMetric", "0"),
+    ("IsMetric", "1"),
     ("RecordFront", "0"),
     ("HasAcceptedTerms", "0"),
     ("HasCompletedSetup", "0"),
@@ -39,6 +40,12 @@ def manager_init():
     ("OpenpilotEnabledToggle", "1"),
     ("VisionRadarToggle", "0"),
     ("IsDriverViewEnabled", "0"),
+    ("LongControlEnabled", "0"),
+    ("MadModeEnabled", "1"),
+    ("AutoLaneChangeEnabled", "0"),
+    ("PutPrebuilt", "0"),
+    ("LdwsMfc", "0"),
+    ("LateralControlMethod", "0"),
   ]
 
   if params.get("RecordFrontLock", encoding='utf-8') == "1":
@@ -96,11 +103,14 @@ def manager_cleanup():
 
 
 def manager_thread():
+  # shutdownd processes
+  Process(name="shutdownd", target=launcher, args=("selfdrive.shutdownd",)).start()
+
   cloudlog.info("manager start")
   cloudlog.info({"environ": os.environ})
 
   # save boot log
-  subprocess.call("./bootlog", cwd=os.path.join(BASEDIR, "selfdrive/loggerd"))
+#  subprocess.call("./bootlog", cwd=os.path.join(BASEDIR, "selfdrive/loggerd"))
 
   ignore = []
   if os.getenv("NOBOARD") is not None:
