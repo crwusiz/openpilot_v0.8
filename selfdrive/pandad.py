@@ -87,9 +87,7 @@ def update_panda():
     panda_signature.hex(),
     fw_signature.hex(),
   ))
-
-  return
-
+  
   if panda.bootstub or panda_signature != fw_signature:
     cloudlog.info("Panda firmware out of date, update required")
     panda.flash(fw_fn)
@@ -113,13 +111,13 @@ def update_panda():
   cloudlog.info("Resetting panda")
   panda.reset()
 
+
 def main():
   set_panda_power()
   update_panda()
 
   os.chdir(os.path.join(BASEDIR, "selfdrive/boardd"))
   os.execvp("./boardd", ["./boardd"])
-
 
 if __name__ == "__main__":
   main()
