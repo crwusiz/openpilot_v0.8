@@ -4,10 +4,8 @@ from selfdrive.car.hyundai.values import CAR, CHECKSUM, FEATURES
 
 hyundai_checksum = crcmod.mkCrcFun(0x11D, initCrc=0xFD, rev=False, xorOut=0xdf)
 
-def create_lkas11(packer, frame, car_fingerprint, apply_steer, steer_req,
-                  lkas11, sys_warning, sys_state, enabled,
-                  left_lane, right_lane,
-                  left_lane_depart, right_lane_depart, bus):
+def create_lkas11(packer, frame, car_fingerprint, apply_steer, steer_req, lkas11, sys_warning, sys_state,
+                  enabled, left_lane, right_lane, left_lane_depart, right_lane_depart, bus):
   values = lkas11
   values["CF_Lkas_LdwsSysState"] = sys_state
   values["CF_Lkas_SysWarning"] = 3 if sys_warning else 0
@@ -26,15 +24,15 @@ def create_lkas11(packer, frame, car_fingerprint, apply_steer, steer_req,
   elif car_fingerprint in [CAR.OPTIMA, CAR.OPTIMA_HEV, CAR.CADENZA, CAR.CADENZA_HEV]:
     values["CF_Lkas_LdwsActivemode"] = 0  
 
-  ldws_mfc = int(Params().get('MfcSelect')) == 1
-  if ldws_mfc: # This field is LDWS Mfc car ( set is setup screen toggle )
+  # This field is LDWS Mfc car ( set is setup screen toggle )    
+  if Params().get("MfcSelect", encoding='utf8') == "1": 
     values["CF_Lkas_LdwsActivemode"] = 0
     values["CF_Lkas_LdwsOpt_USM"] = 3
     values["CF_Lkas_FcwOpt_USM"] = 2 if enabled else 1
 #    values["CF_Lkas_SysWarning"] = 4 if sys_warning else 0
-
-  lfa_mfc = int(Params().get('MfcSelect')) == 2
-  if lfa_mfc: # This field is LFA Mfc car ( set is setup screen toggle )
+  
+  # This field is LFA Mfc car ( set is setup screen toggle )
+  if Params().get("MfcSelect", encoding='utf8') == "2":
     values["CF_Lkas_LdwsActivemode"] = int(left_lane) + (int(right_lane) << 1)
     values["CF_Lkas_LdwsOpt_USM"] = 2
     values["CF_Lkas_FcwOpt_USM"] = 2 if enabled else 1

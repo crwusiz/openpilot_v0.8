@@ -95,7 +95,7 @@ class CarInterface(CarInterfaceBase):
         ret.mass = 1350. + STD_CARGO_KG
         ret.wheelbase = 2.650
         ret.steerRatio = 15.8
-    elif candidate in [CAR.GRANDEUR, CAR.GRANDEUR_HEV]:
+    elif candidate in [CAR.GRANDEUR, CAR.GRANDEUR_HEV, CAR.GRANDEUR20, CAR.GRANDEUR20_HEV]:
         ret.mass = 1719. + STD_CARGO_KG
         ret.wheelbase = 2.885
         ret.steerRatio = 12.5
@@ -146,12 +146,7 @@ class CarInterface(CarInterfaceBase):
         ret.steerRatio = 12.5
 
 # -----------------------------------------------------------------
-    params = Params()
-    lat_pid = int(params.get("LateralControlMethod", encoding='utf8')) == 0
-    lat_indi = int(params.get("LateralControlMethod", encoding='utf8')) == 1
-    lat_lqr = int(params.get("LateralControlMethod", encoding='utf8')) == 2
-
-    if lat_pid:
+    if Params().get("LateralControlMethod", encoding='utf8') == "0":
       if candidate in [CAR.GENESIS, CAR.GENESIS_G70, CAR.GENESIS_G80, CAR.GENESIS_G90]:
           ret.lateralTuning.pid.kf = 0.00005
           ret.lateralTuning.pid.kpBP = [0.]
@@ -171,7 +166,7 @@ class CarInterface(CarInterfaceBase):
           ret.lateralTuning.pid.kiBP = [0.]
           ret.lateralTuning.pid.kiV = [0.05]
 # -----------------------------------------------------------------
-    elif lat_indi:
+    elif Params().get("LateralControlMethod", encoding='utf8') == "1":
       if candidate in [CAR.GENESIS]:
           ret.lateralTuning.init('indi')
           ret.lateralTuning.indi.innerLoopGainBP = [0.]
@@ -213,7 +208,7 @@ class CarInterface(CarInterfaceBase):
           ret.lateralTuning.indi.actuatorEffectivenessBP = [0.]
           ret.lateralTuning.indi.actuatorEffectivenessV = [2.3]
 # -----------------------------------------------------------------
-    elif lat_lqr:
+    elif Params().get("LateralControlMethod", encoding='utf8') == "2":
       if candidate in [CAR.GENESIS, CAR.GENESIS_G70, CAR.GENESIS_G80, CAR.GENESIS_G90]:
           ret.lateralTuning.init('lqr')
           ret.lateralTuning.lqr.scale = 1900.

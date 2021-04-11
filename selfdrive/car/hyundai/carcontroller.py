@@ -1,11 +1,12 @@
 from cereal import car
 from common.realtime import DT_CTRL
 from common.numpy_fast import clip
+from common.params import Params
 from selfdrive.car import apply_std_steer_torque_limits
 from selfdrive.car.hyundai.hyundaican import create_lkas11, create_clu11, create_lfahda_mfc, \
                                              create_scc11, create_scc12, create_scc13, create_scc14, \
                                              create_mdps12, create_spas11, create_spas12, create_ems11
-from selfdrive.car.hyundai.values import Buttons, CarControllerParams, CAR, FEATURES
+from selfdrive.car.hyundai.values import Buttons, CarControllerParams, CAR
 from opendbc.can.packer import CANPacker
 from selfdrive.config import Conversions as CV
 
@@ -76,6 +77,7 @@ class CarController():
       self.en_spas = 3
       self.mdps11_stat_last = 0
       self.spas_always = False
+    self.lfamfc = Params().get("MfcSelect", encoding='utf8') == "2"
 
   def update(self, enabled, CS, frame, actuators, pcm_cancel_cmd, visual_alert,
              left_lane, right_lane, left_lane_depart, right_lane_depart, set_speed, lead_visible):
@@ -204,7 +206,7 @@ class CarController():
       self.scc12_cnt += 1
 
     # 20 Hz LFA MFA message
-    if frame % 5 == 0 and self.car_fingerprint in FEATURES["send_lfa_mfa"]:
+    if frame % 5 == 0 and self.lfamfc:
       can_sends.append(create_lfahda_mfc(self.packer, enabled))
 
     if CS.spas_enabled:

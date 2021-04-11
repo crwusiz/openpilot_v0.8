@@ -64,9 +64,9 @@ QWidget * toggles_panel() {
 */                                              
   toggles_list->addWidget(horizontal_line());  
   toggles_list->addWidget(new ParamControl("EndToEndToggle",
-                                           "\U0001f96c Kale 모드 (Alpha) \U0001f96c",
+                                           "Kale 모드 (Alpha)",
                                            "오픈파일럿이 차선없이 운전자가 운전하는것처럼 주행합니다.",
-                                           "../assets/offroad/icon_mdps.png"));
+                                           "../assets/offroad/icon_kale.png"));
 //  bool record_lock = Params().read_db_bool("RecordFrontLock");
 //  record_toggle->setEnabled(!record_lock);
 
@@ -284,7 +284,7 @@ SettingsWindow::SettingsWindow(QWidget *parent) : QFrame(parent) {
     {"장치", new DevicePanel(this)},
     {"네트워크", network_panel(this)},
     {"토글", toggles_panel()},
-    {"개발자", new DeveloperPanel()},
+    {"정보", new DeveloperPanel()},
   };
 
   sidebar_layout->addSpacing(45);
