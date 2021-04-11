@@ -89,7 +89,7 @@ keys = {
   b"MadModeEnabled": [TxType.PERSISTENT],
   b"AutoLaneChangeEnabled": [TxType.PERSISTENT],
   b"PutPrebuilt": [TxType.PERSISTENT],
-  b"LdwsMfc": [TxType.PERSISTENT],
+  b"MfcSelect": [TxType.PERSISTENT],
   b"LateralControlMethod": [TxType.PERSISTENT],
 }
 

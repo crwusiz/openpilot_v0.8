@@ -19,7 +19,22 @@ def create_lkas11(packer, frame, car_fingerprint, apply_steer, steer_req,
   values["CF_Lkas_MsgCount"] = frame % 0x10
   values["CF_Lkas_Chksum"] = 0
 
-  if car_fingerprint in FEATURES["send_lfa_mfa"]:
+  if car_fingerprint == CAR.GENESIS:
+    values["CF_Lkas_LdwsActivemode"] = 2
+    values["CF_Lkas_SysWarning"] = lkas11["CF_Lkas_SysWarning"]
+
+  elif car_fingerprint in [CAR.OPTIMA, CAR.OPTIMA_HEV, CAR.CADENZA, CAR.CADENZA_HEV]:
+    values["CF_Lkas_LdwsActivemode"] = 0  
+
+  ldws_mfc = int(Params().get('MfcSelect')) == 1
+  if ldws_mfc: # This field is LDWS Mfc car ( set is setup screen toggle )
+    values["CF_Lkas_LdwsActivemode"] = 0
+    values["CF_Lkas_LdwsOpt_USM"] = 3
+    values["CF_Lkas_FcwOpt_USM"] = 2 if enabled else 1
+#    values["CF_Lkas_SysWarning"] = 4 if sys_warning else 0
+
+  lfa_mfc = int(Params().get('MfcSelect')) == 2
+  if lfa_mfc: # This field is LFA Mfc car ( set is setup screen toggle )
     values["CF_Lkas_LdwsActivemode"] = int(left_lane) + (int(right_lane) << 1)
     values["CF_Lkas_LdwsOpt_USM"] = 2
     values["CF_Lkas_FcwOpt_USM"] = 2 if enabled else 1
@@ -35,26 +50,6 @@ def create_lkas11(packer, frame, car_fingerprint, apply_steer, steer_req,
     #            5 = keep hands on wheel (red)
     #            6 = keep hands on wheel (red) + beep
     # Note: the warning is hidden while the blinkers are on
-    # ---------------------------------------------------------------------------------------
-
-  elif car_fingerprint == CAR.GENESIS:
-    values["CF_Lkas_LdwsActivemode"] = 2
-    values["CF_Lkas_SysWarning"] = lkas11["CF_Lkas_SysWarning"]
-    # ---------------------------------------------------------------------------------------
-    # This field is actually LdwsActivemode ( only use ldws camera )
-    # ---------------------------------------------------------------------------------------
-
-  elif car_fingerprint in [CAR.OPTIMA, CAR.OPTIMA_HEV, CAR.CADENZA, CAR.CADENZA_HEV]:
-    values["CF_Lkas_LdwsActivemode"] = 0
-
-  ldws_mfc = int(Params().get('LdwsMfc')) == 1
-  if ldws_mfc:
-    values["CF_Lkas_LdwsActivemode"] = 0
-    values["CF_Lkas_LdwsOpt_USM"] = 3
-    values["CF_Lkas_FcwOpt_USM"] = 2 if enabled else 1
-#    values["CF_Lkas_SysWarning"] = 4 if sys_warning else 0
-    # ---------------------------------------------------------------------------------------
-    # This field using ldws mfc camare using car / apk toggle using
     # ---------------------------------------------------------------------------------------
 
   dat = packer.make_can_msg("LKAS11", 0, values)[2]

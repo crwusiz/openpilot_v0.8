@@ -5,7 +5,7 @@
 #include "common/params.h"
 
 
-SshControl::SshControl() : AbstractControl("SSH Keys", "Warning: This grants SSH access to all public keys in your GitHub settings. Never enter a GitHub username other than your own. A comma employee will NEVER ask you to add their GitHub username.", "") {
+SshControl::SshControl() : AbstractControl("SSH키 변경", "Github 사용자 id에 등록된 ssh-rsa키로 변경됩니다.", "../assets/offroad/icon_ssh.png") {
 
   // setup widget
   hlayout->addStretch(1);
@@ -92,12 +92,12 @@ void SshControl::parseResponse(){
       Params().write_db_value("GithubUsername", username.toStdString());
       Params().write_db_value("GithubSshKeys", response.toStdString());
     } else if(reply->error() == QNetworkReply::NoError){
-      err = "Username '" + username + "' has no keys on GitHub";
+      err = username + " 에 등록된 ssh-rsa키가 없습니다.";
     } else {
-      err = "Username '" + username + "' doesn't exist on GitHub";
+      err = username + " 이 등록된 Github id가 아닙니다.";
     }
   } else {
-    err = "Request timed out";
+    err = "요청시간이 초과되었습니다.";
   }
 
   if (err.length()) {
@@ -109,7 +109,7 @@ void SshControl::parseResponse(){
   reply = nullptr;
 }
 
-LateralControl::LateralControl() : AbstractControl("조향로직", "조향로직을 설정합니다. (PID/INDI/LQR)", "../assets/offroad/icon_ssh.png") {
+LateralControl::LateralControl() : AbstractControl("조향로직", "조향로직을 설정합니다. (PID/INDI/LQR)", "../assets/offroad/icon_logic.png") {
 
   label.setAlignment(Qt::AlignVCenter|Qt::AlignRight);
   label.setStyleSheet("color: #e0e879");
@@ -172,6 +172,74 @@ void LateralControl::refresh() {
     label.setText(QString::fromStdString("INDI"));
   } else if (latcontrol == "2") {
     label.setText(QString::fromStdString("LQR"));
+  }
+  btnminus.setText("◀");
+  btnplus.setText("▶");
+}
+
+MfcSelect::MfcSelect() : AbstractControl("MFC 선택", "MFC를 선택합니다. (LKAS/LDWS/LFA)", "../assets/offroad/icon_mfc.png") {
+
+  label.setAlignment(Qt::AlignVCenter|Qt::AlignRight);
+  label.setStyleSheet("color: #e0e879");
+  hlayout->addWidget(&label);
+
+  btnminus.setStyleSheet(R"(
+    padding: 0;
+    border-radius: 50px;
+    font-size: 35px;
+    font-weight: 500;
+    color: #E4E4E4;
+    background-color: #393939;
+  )");
+  btnplus.setStyleSheet(R"(
+    padding: 0;
+    border-radius: 50px;
+    font-size: 35px;
+    font-weight: 500;
+    color: #E4E4E4;
+    background-color: #393939;
+  )");
+  btnminus.setFixedSize(150, 100);
+  btnplus.setFixedSize(150, 100);
+  hlayout->addWidget(&btnminus);
+  hlayout->addWidget(&btnplus);
+
+  QObject::connect(&btnminus, &QPushButton::released, [=]() {
+    auto str = QString::fromStdString(Params().get("MfcSelect"));
+    int mfc = str.toInt();
+    mfc = mfc - 1;
+    if (mfc <= 0 ) {
+      mfc = 0;
+    } else {
+    }
+    QString mfcs = QString::number(mfc);
+    Params().write_db_value("MfcSelect", mfcs.toStdString());
+    refresh();
+  });
+
+  QObject::connect(&btnplus, &QPushButton::released, [=]() {
+    auto str = QString::fromStdString(Params().get("MfcSelect"));
+    int mfc = str.toInt();
+    mfc = mfc + 1;
+    if (mfc >= 2 ) {
+      mfc = 2;
+    } else {
+    }
+    QString mfcs = QString::number(mfc);
+    Params().write_db_value("MfcSelect", mfcs.toStdString());
+    refresh();
+  });
+  refresh();
+}
+
+void MfcSelect::refresh() {
+  QString mfc = QString::fromStdString(Params().get("MfcSelect"));
+  if (mfc == "0") {
+    label.setText(QString::fromStdString("LKAS"));
+  } else if (mfc == "1") {
+    label.setText(QString::fromStdString("LDWS"));
+  } else if (mfc == "2") {
+    label.setText(QString::fromStdString("LFA"));
   }
   btnminus.setText("◀");
   btnplus.setText("▶");

@@ -49,18 +49,20 @@ QWidget * toggles_panel() {
                                             "../assets/offroad/icon_lca.png"
                                               ));
   toggles_list->addWidget(horizontal_line());
+//  toggles_list->addWidget(new LabelControl("이 설정은 둘중하나만 선택가능합니다", ""));
   toggles_list->addWidget(new ParamControl("MadModeEnabled",
                                             "MAD 모드 사용",
                                             "이 기능은 크루즈버튼으로 오픈파일럿이 활성화됩니다.",
                                             "../assets/offroad/icon_warning.png"
                                               ));
-  toggles_list->addWidget(horizontal_line());
+/*
   toggles_list->addWidget(new ParamControl("LongControlEnabled",
-                                            "Long Control ",
+                                            "Long Control 사용",
                                             "이 기능은 오픈파일럿이 속도를 컨트롤하기때문에 사용시 주의하세요.",
                                             "../assets/offroad/icon_long.png"
                                               ));
-  toggles_list->addWidget(horizontal_line());
+*/                                              
+  toggles_list->addWidget(horizontal_line());  
   toggles_list->addWidget(new ParamControl("EndToEndToggle",
                                            "\U0001f96c Kale 모드 (Alpha) \U0001f96c",
                                            "오픈파일럿이 차선없이 운전자가 운전하는것처럼 주행합니다.",
@@ -85,11 +87,11 @@ DevicePanel::DevicePanel(QWidget* parent) : QWidget(parent) {
   QList<ButtonControl*> offroad_btns;
 
   offroad_btns.append(new ButtonControl("운전자 모니터링", "미리보기",
-                                   "정확한 운전자 모니터링 환경을 위해 운전자 모니터링 카메라를 미리보고 최적의 장착위치를 찾아보세요.",
-                                   [=]() { Params().write_db_value("IsDriverViewEnabled", "1", 1); }));
+                                        "정확한 운전자 모니터링 환경을 위해 운전자 모니터링 카메라를 미리보고 최적의 장착위치를 찾아보세요.", [=]() {
+                                          Params().write_db_value("IsDriverViewEnabled", "1", 1); }));
 
   offroad_btns.append(new ButtonControl("캘리브레이션", "초기화",
-                                   "오픈파일럿은 마운트에 장착시 위와 아래쪽은 5˚이내 그리고 왼쪽과 오른쪽은 4˚이내에 장착해야 합니다. 장착위치가 변경되면 캘리브레이션을 진행하세요.", [=]() {
+                                        "오픈파일럿은 마운트에 장착시 위와 아래쪽은 5˚이내 그리고 왼쪽과 오른쪽은 4˚이내에 장착해야 합니다. 장착위치가 변경되면 캘리브레이션을 진행하세요.", [=]() {
     if (ConfirmationDialog::confirm("초기화하시겠습니까?")) {
       Params().delete_db_value("CalibrationParams");
     }
@@ -193,11 +195,12 @@ QWidget * network_panel(QWidget * parent) {
   QVBoxLayout *layout = new QVBoxLayout;
   layout->setSpacing(30);
 
-  // wifi + tethering buttons
+  // Wifi Setting
   layout->addWidget(new ButtonControl("WiFi 설정", "열기", "",
                                       [=]() { HardwareEon::launch_wifi(); }));
   layout->addWidget(horizontal_line());
 
+  // Android Setting
   layout->addWidget(new ButtonControl("안드로이드 설정", "열기", "",
                                       [=]() { HardwareEon::launch_setting(); }));
   layout->addWidget(horizontal_line());
@@ -214,8 +217,9 @@ QWidget * network_panel(QWidget * parent) {
   layout->addWidget(horizontal_line());
   layout->addWidget(new LateralControl());
   layout->addWidget(horizontal_line());
-  layout->addWidget(new LDWSToggle());
-  layout->addWidget(horizontal_line());
+//  layout->addWidget(new LabelControl("차량의 MFC 카메라의 종류를 선택하세요", ""));
+  layout->addWidget(new MfcSelect());
+  layout->addWidget(horizontal_line()); 
   layout->addWidget(new PrebuiltToggle());
   layout->addWidget(horizontal_line());
   const char* gitpull = "/data/openpilot/gitpull.sh ''";

@@ -12,7 +12,7 @@ class SshToggle : public ToggleControl {
   Q_OBJECT
 
 public:
-  SshToggle() : ToggleControl("SSH 사용", "", "", Hardware::get_ssh_enabled()) {
+  SshToggle() : ToggleControl("SSH 사용", "", "../assets/offroad/icon_ssh.png", Hardware::get_ssh_enabled()) {
     QObject::connect(this, &SshToggle::toggleFlipped, [=](bool state) {
       Hardware::set_ssh_enabled(state);
     });
@@ -32,17 +32,73 @@ public:
   }
 };
 
-// ldws MFC
-class LDWSToggle : public ToggleControl {
+/*
+// LDWS MFC
+class LdwsToggle : public ToggleControl {
   Q_OBJECT
 
 public:
-  LDWSToggle() : ToggleControl("LDWS MFC", "", "../assets/offroad/icon_ldwsmfc.png", Params().read_db_bool("LdwsMfc")) {
-    QObject::connect(this, &LDWSToggle::toggleFlipped, [=](int state) {
+  LdwsToggle() : ToggleControl("LDWS MFC", "", "../assets/offroad/icon_ldwsmfc.png", Params().read_db_bool("LdwsMfc")) {
+    QObject::connect(this, &LdwsToggle::toggleFlipped, [=](int state) {
       char value = state ? '1' : '0';
       Params().write_db_value("LdwsMfc", &value, 1);
     });
   }
+};
+
+// LFA MFC
+class LfaToggle : public ToggleControl {
+  Q_OBJECT
+
+public:
+  LfaToggle() : ToggleControl("LFA MFC", "", "../assets/offroad/icon_lfamfc.png", Params().read_db_bool("LfaMfc")) {
+    QObject::connect(this, &LfaToggle::toggleFlipped, [=](int state) {
+      char value = state ? '1' : '0';
+      Params().write_db_value("LfaMfc", &value, 1);
+    });
+  }
+};
+
+// MadMode
+class MadModeToggle : public ToggleControl {
+  Q_OBJECT
+
+public:
+  MadModeToggle() : ToggleControl("MAD 모드 사용", "", "../assets/offroad/icon_warning.png", Params().read_db_bool("MadModeEnabled")) {
+    QObject::connect(this, &MadModeToggle::toggleFlipped, [=](int state) {
+      char value = state ? '1' : '0';
+      Params().write_db_value("MadModeEnabled", &value, 1);
+    });
+  }
+};
+
+// LongControl
+class LongControlToggle : public ToggleControl {
+  Q_OBJECT
+
+public:
+  LongControlToggle() : ToggleControl("LongControl 사용", "", "../assets/offroad/icon_long.png", Params().read_db_bool("LongControlEnabled")) {
+    QObject::connect(this, &LongControlToggle::toggleFlipped, [=](int state) {
+      char value = state ? '1' : '0';
+      Params().write_db_value("LongControlEnabled", &value, 1);
+    });
+  }
+};
+*/
+
+// MfcSelect
+class MfcSelect : public AbstractControl {
+  Q_OBJECT
+
+public:
+  MfcSelect();
+
+private:
+  QPushButton btnplus;
+  QPushButton btnminus;
+  QLabel label;
+
+  void refresh();
 };
 
 // 조향로직

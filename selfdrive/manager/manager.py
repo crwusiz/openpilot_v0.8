@@ -44,7 +44,7 @@ def manager_init():
     ("MadModeEnabled", "1"),
     ("AutoLaneChangeEnabled", "0"),
     ("PutPrebuilt", "0"),
-    ("LdwsMfc", "0"),
+    ("MfcSelect", "0"),
     ("LateralControlMethod", "0"),
   ]
 

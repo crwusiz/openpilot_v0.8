@@ -27,6 +27,7 @@ class CarState(CarStateBase):
     self.has_scc13 = CP.carFingerprint in FEATURES["has_scc13"]
     self.has_scc14 = CP.carFingerprint in FEATURES["has_scc14"]
     self.not_lkas = CP.carFingerprint in FEATURES["not_lkas"]
+    #self.use_bsd = CP.carFingerprint in FEATURES["use_bsd"]
 
   def update(self, cp, cp2, cp_cam):
     cp_mdps = cp2 if self.mdps_bus else cp
@@ -176,6 +177,7 @@ class CarState(CarStateBase):
 
     # Blind Spot Detection and Lane Change Assist signals
     self.lca_state = cp.vl["LCA11"]["CF_Lca_Stat"]
+    #if self.use_bsd:
     ret.leftBlindspot = cp.vl["LCA11"]["CF_Lca_IndLeft"] != 0
     ret.rightBlindspot = cp.vl["LCA11"]["CF_Lca_IndRight"] != 0
 
@@ -402,7 +404,7 @@ class CarState(CarStateBase):
       ]
       if not CP.openpilotLongitudinalControl:
         checks += [("FCA11", 50)]
-    if CP.carFingerprint in FEATURES["tcs_remove"]:
+    if CP.carFingerprint in FEATURES["tcs13_remove"]:
       checks.remove(("TCS13", 50))
     if CP.spasEnabled:
       if CP.mdpsBus == 1:

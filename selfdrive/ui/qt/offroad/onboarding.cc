@@ -100,7 +100,7 @@ TermsPage::TermsPage(QWidget *parent) : QFrame(parent){
 }
 
 void TermsPage::enableAccept(){
-  accept_btn->setText("Accept");
+  accept_btn->setText("");
   accept_btn->setEnabled(true);
   return;
 }
