@@ -6,11 +6,7 @@ crwusiz openpilot
 
 - spinner and colorful spinner track update
 
-[![](https://i.imgur.com/FKjLBh0.jpg)](#)
-
-- kor apk update
-
-[![](https://i.imgur.com/NIGGbTq.png)](#)
+[![](https://i.imgur.com/TMtVMV8.png)](#)
 
 - kor NanumGothic font / Comma Bootlogo / Bootanimation Auto install
 - event message kor translate
