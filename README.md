@@ -6,7 +6,7 @@ crwusiz openpilot
 
 - spinner and colorful spinner track update
 
-[![](https://i.imgur.com/FKjLBh0.jpg)](#)
+[![](https://i.imgur.com/TMtVMV8.png)](#)
 
 - kor apk update
 
