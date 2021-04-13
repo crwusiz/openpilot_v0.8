@@ -520,7 +520,7 @@ struct ControlsState @0x97ff69c53601abf1 {
   canErrorCounter @57 :UInt32;
 
   # add
-  lateralControlMethod  @59 :UInt8;
+  lateralControlSelect  @59 :UInt8;
 
   lateralControlState :union {
     indiState @52 :LateralINDIState;

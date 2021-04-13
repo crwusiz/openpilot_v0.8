@@ -1,12 +1,14 @@
 crwusiz openpilot
 =====
 
-<b> This Branch is xx979xx HKG_community base </b>
+<b> This Branch is xx979xx HKG_community base comma devel-staging v0.8.3</b>
 - If you have any questions, please send a message to crwusiz from discord. if you like this Branch [Donate](https://paypal.me/crwusiz)
 
 [![](https://i.imgur.com/TMtVMV8.png)](#)
 
 [![](https://i.imgur.com/E68o3cz.png)](#)
+
+[![](https://i.imgur.com/OdNh0D2.png)](#)
 
 - kor NanumGothic font / Comma Bootlogo / Bootanimation Auto install
 - event message kor translate

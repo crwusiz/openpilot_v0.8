@@ -64,7 +64,6 @@ void ui_init(UIState *s) {
 
   s->scene.started = false;
   s->status = STATUS_OFFROAD;
-  read_param(&s->lat_control, "LateralControlMethod");
 
   ui_nvg_init(s);
 
@@ -148,13 +147,15 @@ static void update_sockets(UIState *s) {
   UIScene &scene = s->scene;
   if (scene.started && sm.updated("controlsState")) {
     scene.controls_state = sm["controlsState"].getControlsState();
-    scene.lateralControlMethod = scene.controls_state.getLateralControlMethod();
-    if (scene.lateralControlMethod == 0) {
+    scene.lateralControlSelect = scene.controls_state.getLateralControlSelect();
+    if (scene.lateralControlSelect == 0) {
       scene.output_scale = scene.controls_state.getLateralControlState().getPidState().getOutput();
-    } else if (scene.lateralControlMethod == 1) {
+    } else if (scene.lateralControlSelect == 1) {
       scene.output_scale = scene.controls_state.getLateralControlState().getIndiState().getOutput();
-    } else if (s->scene.lateralControlMethod == 2) {
+    } else if (s->scene.lateralControlSelect == 2) {
       scene.output_scale = scene.controls_state.getLateralControlState().getLqrState().getOutput();
+    } else if (s->scene.lateralControlSelect == 3) {
+      scene.output_scale = scene.controls_state.getLateralControlState().getAngleState().getOutput();
     }
   }
   if (sm.updated("carState")) {
@@ -306,7 +307,6 @@ static void update_params(UIState *s) {
 
   if (frame % (5*UI_FREQ) == 0) {
     read_param(&scene.is_metric, "IsMetric");
-    read_param(&s->lat_control, "LateralControlMethod");
   } else if (frame % (6*UI_FREQ) == 0) {
     scene.athenaStatus = NET_DISCONNECTED;
     uint64_t last_ping = 0;

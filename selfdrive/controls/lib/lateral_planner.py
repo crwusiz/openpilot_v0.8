@@ -87,13 +87,15 @@ class LateralPlanner():
     self.safe_desired_curvature_rate = 0.0
 
   def update(self, sm, CP):
-    lateral_control_method = sm['controlsState'].lateralControlMethod
-    if lateral_control_method == 0:
+    lateral_control_select = sm['controlsState'].lateralControlSelect
+    if lateral_control_select == 0:
       self.output_scale = sm['controlsState'].lateralControlState.pidState.output
-    elif lateral_control_method == 1:
+    elif lateral_control_select == 1:
       self.output_scale = sm['controlsState'].lateralControlState.indiState.output
-    elif lateral_control_method == 2:
-      self.output_scale = sm['controlsState'].lateralControlState.lqrState.output    
+    elif lateral_control_select == 2:
+      self.output_scale = sm['controlsState'].lateralControlState.lqrState.output
+    elif lateral_control_select == 3:
+      self.output_scale = sm['controlsState'].lateralControlState.angleState.output
     v_ego = sm['carState'].vEgo
     active = sm['controlsState'].active
     measured_curvature = sm['controlsState'].curvature

@@ -121,7 +121,7 @@ typedef struct UIScene {
   float output_scale;
   float cpuTempAvg;
   float tpmsFl, tpmsFr, tpmsRl, tpmsRr;
-  int lateralControlMethod;
+  int lateralControlSelect;
   char batteryStatus[64];
 
   cereal::PandaState::PandaType pandaType;
@@ -186,7 +186,6 @@ typedef struct UIState {
   bool sidebar_collapsed;
   Rect video_rect, viz_rect;
   float car_space_transform[6];
-  int lat_control;  
 } UIState;
 
 void ui_init(UIState *s);

@@ -688,12 +688,14 @@ static void bb_ui_draw_measures_right(UIState *s, int bb_x, int bb_y, int bb_w) 
   if (true) {
     char val_str[16];
     NVGcolor val_color = COLOR_WHITE_ALPHA(200);
-    if (s->lat_control == 0) {
-      snprintf(val_str, sizeof(val_str), "PID");
-    } else if (s->lat_control == 1) {
-      snprintf(val_str, sizeof(val_str), "INDI");
-    } else if (s->lat_control == 2) {
-      snprintf(val_str, sizeof(val_str), "LQR");
+    if (s->scene.lateralControlSelect == 0) {
+      snprintf(val_str, sizeof(val_str), "Pid");
+    } else if (s->scene.lateralControlSelect == 1) {
+      snprintf(val_str, sizeof(val_str), "Indi");
+    } else if (s->scene.lateralControlSelect == 2) {
+      snprintf(val_str, sizeof(val_str), "Lqr");
+    } else if (s->scene.lateralControlSelect == 3) {
+      snprintf(val_str, sizeof(val_str), "Kale");
     }
     bb_h += bb_ui_draw_measure(s, val_str, "조향로직", bb_rx, bb_ry, val_color, lab_color, value_fontSize, label_fontSize);
     bb_ry = bb_y + bb_h;

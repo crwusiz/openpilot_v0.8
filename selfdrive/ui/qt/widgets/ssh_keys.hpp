@@ -32,7 +32,65 @@ public:
   }
 };
 
-/*
+// MfcSelect
+class MfcSelect : public AbstractControl {
+  Q_OBJECT
+
+public:
+  MfcSelect();
+
+private:
+  QPushButton btnplus;
+  QPushButton btnminus;
+  QLabel label;
+
+  void refresh();
+};
+
+// LateralControlSelect
+class LateralControlSelect : public AbstractControl {
+  Q_OBJECT
+
+public:
+  LateralControlSelect();
+
+private:
+  QPushButton btnplus;
+  QPushButton btnminus;
+  QLabel label;
+
+  void refresh();
+};
+
+// SSH key management widget
+class SshControl : public AbstractControl {
+  Q_OBJECT
+
+public:
+  SshControl();
+
+private:
+  QPushButton btn;
+  QString username;
+  QLabel username_label;
+
+  // networking
+  QTimer* networkTimer;
+  QNetworkReply* reply;
+  QNetworkAccessManager* manager;
+
+  void refresh();
+  void getUserKeys(QString username);
+
+signals:
+  void failedResponse(QString errorString);
+
+private slots:
+  void timeout();
+  void parseResponse();
+};
+
+/* =====================================================================================================================
 // LDWS MFC
 class LdwsToggle : public ToggleControl {
   Q_OBJECT
@@ -85,61 +143,3 @@ public:
   }
 };
 */
-
-// MfcSelect
-class MfcSelect : public AbstractControl {
-  Q_OBJECT
-
-public:
-  MfcSelect();
-
-private:
-  QPushButton btnplus;
-  QPushButton btnminus;
-  QLabel label;
-
-  void refresh();
-};
-
-// 조향로직
-class LateralControl : public AbstractControl {
-  Q_OBJECT
-
-public:
-  LateralControl();
-
-private:
-  QPushButton btnplus;
-  QPushButton btnminus;
-  QLabel label;
-
-  void refresh();
-};
-
-// SSH key management widget
-class SshControl : public AbstractControl {
-  Q_OBJECT
-
-public:
-  SshControl();
-
-private:
-  QPushButton btn;
-  QString username;
-  QLabel username_label;
-
-  // networking
-  QTimer* networkTimer;
-  QNetworkReply* reply;
-  QNetworkAccessManager* manager;
-
-  void refresh();
-  void getUserKeys(QString username);
-
-signals:
-  void failedResponse(QString errorString);
-
-private slots:
-  void timeout();
-  void parseResponse();
-};

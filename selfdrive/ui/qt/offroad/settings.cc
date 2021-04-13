@@ -60,13 +60,13 @@ QWidget * toggles_panel() {
                                             "Long Control 사용",
                                             "이 기능은 오픈파일럿이 속도를 컨트롤하기때문에 사용시 주의하세요.",
                                             "../assets/offroad/icon_long.png"
-                                              ));
-*/                                              
+                                              ));                                              
   toggles_list->addWidget(horizontal_line());  
   toggles_list->addWidget(new ParamControl("EndToEndToggle",
                                            "Kale 모드 (Alpha)",
                                            "오픈파일럿이 차선없이 운전자가 운전하는것처럼 주행합니다.",
                                            "../assets/offroad/icon_kale.png"));
+*/                                           
 //  bool record_lock = Params().read_db_bool("RecordFrontLock");
 //  record_toggle->setEnabled(!record_lock);
 
@@ -215,7 +215,7 @@ QWidget * network_panel(QWidget * parent) {
   layout->addWidget(horizontal_line());
   layout->addWidget(new SshControl());
   layout->addWidget(horizontal_line());
-  layout->addWidget(new LateralControl());
+  layout->addWidget(new LateralControlSelect());
   layout->addWidget(horizontal_line());
 //  layout->addWidget(new LabelControl("차량의 MFC 카메라의 종류를 선택하세요", ""));
   layout->addWidget(new MfcSelect());

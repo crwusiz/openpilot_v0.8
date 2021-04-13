@@ -146,7 +146,7 @@ class CarInterface(CarInterfaceBase):
         ret.steerRatio = 12.5
 
 # -----------------------------------------------------------------
-    if Params().get("LateralControlMethod", encoding='utf8') == "0":
+    if Params().get("LateralControlSelect", encoding='utf8') == "0":
       if candidate in [CAR.GENESIS, CAR.GENESIS_G70, CAR.GENESIS_G80, CAR.GENESIS_G90]:
           ret.lateralTuning.pid.kf = 0.00005
           ret.lateralTuning.pid.kpBP = [0.]
@@ -166,7 +166,7 @@ class CarInterface(CarInterfaceBase):
           ret.lateralTuning.pid.kiBP = [0.]
           ret.lateralTuning.pid.kiV = [0.05]
 # -----------------------------------------------------------------
-    elif Params().get("LateralControlMethod", encoding='utf8') == "1":
+    elif Params().get("LateralControlSelect", encoding='utf8') == "1":
       if candidate in [CAR.GENESIS]:
           ret.lateralTuning.init('indi')
           ret.lateralTuning.indi.innerLoopGainBP = [0.]
@@ -208,7 +208,7 @@ class CarInterface(CarInterfaceBase):
           ret.lateralTuning.indi.actuatorEffectivenessBP = [0.]
           ret.lateralTuning.indi.actuatorEffectivenessV = [2.3]
 # -----------------------------------------------------------------
-    elif Params().get("LateralControlMethod", encoding='utf8') == "2":
+    elif Params().get("LateralControlSelect", encoding='utf8') == "2":
       if candidate in [CAR.GENESIS, CAR.GENESIS_G70, CAR.GENESIS_G80, CAR.GENESIS_G90]:
           ret.lateralTuning.init('lqr')
           ret.lateralTuning.lqr.scale = 1900.
@@ -239,7 +239,7 @@ class CarInterface(CarInterfaceBase):
           ret.lateralTuning.lqr.c = [1., 0.]
           ret.lateralTuning.lqr.k = [-110., 451.]
           ret.lateralTuning.lqr.l = [0.33, 0.318]
-      elif candidate in [CAR.GRANDEUR, CAR.GRANDEUR_HEV]:
+      elif candidate in [CAR.GRANDEUR, CAR.GRANDEUR_HEV, CAR.GRANDEUR20, CAR.GRANDEUR20_HEV]:
           ret.lateralTuning.init('lqr')
           ret.lateralTuning.lqr.scale = 1600.
           ret.lateralTuning.lqr.ki = 0.01

@@ -26,7 +26,7 @@ def manager_init():
   params.manager_start()
 
   default_params = [
-    ("CommunityFeaturesToggle", "0"),
+    ("CommunityFeaturesToggle", "1"),
     ("EndToEndToggle", "0"),
     ("CompletedTrainingVersion", "0"),
     ("IsRHD", "0"),
@@ -45,7 +45,7 @@ def manager_init():
     ("AutoLaneChangeEnabled", "0"),
     ("PutPrebuilt", "0"),
     ("MfcSelect", "0"),
-    ("LateralControlMethod", "0"),
+    ("LateralControlSelect", "0"),
   ]
 
   if params.get("RecordFrontLock", encoding='utf-8') == "1":

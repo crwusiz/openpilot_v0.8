@@ -90,7 +90,7 @@ keys = {
   b"AutoLaneChangeEnabled": [TxType.PERSISTENT],
   b"PutPrebuilt": [TxType.PERSISTENT],
   b"MfcSelect": [TxType.PERSISTENT],
-  b"LateralControlMethod": [TxType.PERSISTENT],
+  b"LateralControlSelect": [TxType.PERSISTENT],
 }
 
 def ensure_bytes(v):

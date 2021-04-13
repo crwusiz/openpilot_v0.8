@@ -104,19 +104,19 @@ class Controls:
     self.LoC = LongControl(self.CP, self.CI.compute_gb)
     self.VM = VehicleModel(self.CP)
     
-    self.lateral_control_method = 0
+    self.lateral_control_select = 0
     if self.CP.steerControlType == car.CarParams.SteerControlType.angle:
       self.LaC = LatControlAngle(self.CP)
-      self.lateral_control_method = 3
+      self.lateral_control_select = 3
     elif self.CP.lateralTuning.which() == 'pid':
       self.LaC = LatControlPID(self.CP)
-      self.lateral_control_method = 0
+      self.lateral_control_select = 0
     elif self.CP.lateralTuning.which() == 'indi':
       self.LaC = LatControlINDI(self.CP)
-      self.lateral_control_method = 1
+      self.lateral_control_select = 1
     elif self.CP.lateralTuning.which() == 'lqr':
       self.LaC = LatControlLQR(self.CP)
-      self.lateral_control_method = 2
+      self.lateral_control_select = 2
 
     self.state = State.disabled
     self.enabled = False
@@ -537,7 +537,7 @@ class Controls:
     controlsState.startMonoTime = int(start_time * 1e9)
     controlsState.forceDecel = bool(force_decel)
     controlsState.canErrorCounter = self.can_error_counter
-    controlsState.lateralControlMethod = int(self.lateral_control_method)
+    controlsState.lateralControlSelect = int(self.lateral_control_select)
 
     if self.CP.steerControlType == car.CarParams.SteerControlType.angle:
       controlsState.lateralControlState.angleState = lac_log
