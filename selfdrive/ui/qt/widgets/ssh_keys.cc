@@ -110,7 +110,7 @@ void SshControl::parseResponse(){
 }
 
 //LateralControlSelect::LateralControlSelect() : AbstractControl("조향로직", "조향로직을 선택합니다. (Pid/Indi/Lqr/Kale)", "../assets/offroad/icon_logic.png") {
-LateralControlSelect::LateralControlSelect() : AbstractControl("조향로직 [√]", "조향로직을 선택합니다. (Pid/Indi/Lqr)", "../assets/offroad/icon_logic.png") {  
+LateralControlSelect::LateralControlSelect() : AbstractControl("조향로직 [√]", "조향로직을 선택합니다. (Pid/Indi/Lqr)", "../assets/offroad/icon_logic.png") {
   label.setAlignment(Qt::AlignVCenter|Qt::AlignRight);
   label.setStyleSheet("color: #e0e879");
   hlayout->addWidget(&label);

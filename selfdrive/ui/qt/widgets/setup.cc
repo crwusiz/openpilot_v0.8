@@ -287,6 +287,6 @@ void SetupWidget::replyFinished(QString response) {
   } else {
     showQr = false;
     //mainLayout->setCurrentWidget(primeUser);
-    mainLayout->setCurrentWidget(primeAd);    
+    mainLayout->setCurrentWidget(primeAd);
   }
 }

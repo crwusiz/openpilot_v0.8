@@ -24,7 +24,7 @@ if [ ! -f "/system/fonts/NanumGothic.ttf" ]; then
     echo =================================================================
     echo Reboot Now..!!
     echo =================================================================
-    reboot    
+    reboot
 fi
 
 if [ ! -f "/data/BOOTLOGO" ]; then

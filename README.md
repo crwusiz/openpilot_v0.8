@@ -2,8 +2,8 @@ crwusiz openpilot
 =====
 
 <b> This Branch is xx979xx HKG_community base comma devel-staging v0.8.3</b>
-- If you have any questions, please send a message to crwusiz from discord. if you like this Branch [Donate](https://paypal.me/crwusiz)
-
+- <b> v0.8.3 [ White panda / Gray panda / Oneplus 3t ] not work </b>
+- If you have any questions, please send a message to crwusiz from discord. if you like this Branch <b> [Donate](https://paypal.me/crwusiz) </b>for me
 [![](https://i.imgur.com/TMtVMV8.png)](#)
 
 [![](https://i.imgur.com/E68o3cz.png)](#)
