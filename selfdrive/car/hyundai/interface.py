@@ -121,7 +121,7 @@ class CarInterface(CarInterfaceBase):
       ret.mass = 2250. + STD_CARGO_KG
       ret.wheelbase = 2.895
       ret.steerRatio = 14.1
-    elif candidate in [CAR.STINGER, CAR.STINGER21]:
+    elif candidate == CAR.STINGER21:
       ret.mass = 1825.0 + STD_CARGO_KG
       ret.wheelbase = 2.906
       ret.steerRatio = 13.56
