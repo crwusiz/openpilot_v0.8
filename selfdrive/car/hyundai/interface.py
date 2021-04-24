@@ -76,7 +76,7 @@ class CarInterface(CarInterfaceBase):
       ret.mass = 1685. + STD_CARGO_KG
       ret.wheelbase = 2.7
       ret.steerRatio = 13.73
-    elif candidate in [CAR.IONIQ_HEV, CAR.IONIQ_EV, CAR.IONIQ20_EV]:
+    elif candidate in [CAR.IONIQ_HEV, CAR.IONIQ_EV]:
       ret.mass = 1490. + STD_CARGO_KG
       ret.wheelbase = 2.7
       ret.steerRatio = 13.73
