@@ -347,12 +347,12 @@ EVENTS: Dict[int, Dict[str, Union[Alert, Callable[[Any, messaging.SubMaster, boo
       Priority.LOWEST, VisualAlert.steerRequired, AudibleAlert.none, .0, .0, .1),
   },
 
-  EventName.steerTempUnavailableMute: {
+  EventName.steerTempUnavailableUserOverride: {
     ET.WARNING: Alert(
-      "핸들을 잡아주세요",
       "조향제어 일시적으로 사용불가",
-      AlertStatus.userPrompt, AlertSize.mid,
-      Priority.LOW, VisualAlert.none, AudibleAlert.none, .2, .2, .2),
+      "",
+      AlertStatus.userPrompt, AlertSize.small,
+      Priority.LOW, VisualAlert.steerRequired, AudibleAlert.chimeDing, 1., 1., 1.),
   },
 
   EventName.preDriverDistracted: {

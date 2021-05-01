@@ -190,7 +190,7 @@ FINGERPRINTS = {
 }
 
 ECU_FINGERPRINT = {
-  Ecu.fwdCamera: [832, 1156, 1191, 1342]
+  Ecu.fwdCamera: [832, 1156, 1191, 1342] #832:lkas11, 1156:hda11_mfc, 1191:mfc_4a7, 1342:lkas12
 }
 
 # Don't use these fingerprints for fingerprinting, they are still used for ECU detection

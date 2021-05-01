@@ -63,7 +63,7 @@ class Controls:
 
     self.can_sock = can_sock
     if can_sock is None:
-      can_timeout = None if os.environ.get('NO_CAN_TIMEOUT', False) else 100
+      can_timeout = None if os.environ.get('NO_CAN_TIMEOUT', False) else 1000
       self.can_sock = messaging.sub_sock('can', timeout=can_timeout)
 
     # wait for one pandaState and one CAN packet
@@ -150,8 +150,8 @@ class Controls:
       self.events.add(EventName.communityFeatureDisallowed, static=True)
     if not car_recognized:
       self.events.add(EventName.carUnrecognized, static=True)
-    elif self.read_only:
-      self.events.add(EventName.dashcamMode, static=True)
+#    elif self.read_only:
+#      self.events.add(EventName.dashcamMode, static=True)
 
     # controlsd is driven by can recv, expected at 100Hz
     self.rk = Ratekeeper(100, print_delay_threshold=None)
