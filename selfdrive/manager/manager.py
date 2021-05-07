@@ -5,7 +5,6 @@ import signal
 import subprocess
 import sys
 import traceback
-from multiprocessing.context import Process
 
 import cereal.messaging as messaging
 import selfdrive.crash as crash
@@ -16,7 +15,7 @@ from selfdrive.hardware import HARDWARE
 from selfdrive.manager.helpers import unblock_stdout
 from selfdrive.manager.process import ensure_running, launcher
 from selfdrive.manager.process_config import managed_processes
-from selfdrive.registration import register
+from selfdrive.registration import register, UNREGISTERED_DONGLE_ID
 from selfdrive.swaglog import cloudlog, add_file_handler
 from selfdrive.version import dirty, version
 
@@ -46,6 +45,8 @@ def manager_init():
     ("PutPrebuilt", "0"),
     ("MfcSelect", "0"),
     ("LateralControlSelect", "0"),
+    ("Shutdownd", "0"),
+    ("DisableLogger", "0"),
   ]
 
   if params.get("RecordFrontLock", encoding='utf-8') == "1":
@@ -103,16 +104,15 @@ def manager_cleanup():
 
 
 def manager_thread():
-  # shutdownd processes
-  Process(name="shutdownd", target=launcher, args=("selfdrive.shutdownd",)).start()
-
   cloudlog.info("manager start")
   cloudlog.info({"environ": os.environ})
 
   # save boot log
-  subprocess.call("./bootlog", cwd=os.path.join(BASEDIR, "selfdrive/loggerd"))
-
+  #subprocess.call("./bootlog", cwd=os.path.join(BASEDIR, "selfdrive/loggerd"))
+  params = Params()
   ignore = []
+  if params.get("DongleId", encoding='utf-8') == UNREGISTERED_DONGLE_ID:
+    ignore += ["manage_athenad", "uploader"]  
   if os.getenv("NOBOARD") is not None:
     ignore.append("pandad")
   if os.getenv("BLOCK") is not None:
@@ -121,7 +121,6 @@ def manager_thread():
   ensure_running(managed_processes.values(), started=False, not_run=ignore)
 
   started_prev = False
-  params = Params()
   sm = messaging.SubMaster(['deviceState'])
   pm = messaging.PubMaster(['managerState'])
 
@@ -131,6 +130,15 @@ def manager_thread():
 
     if sm['deviceState'].freeSpacePercent < 5:
       not_run.append("loggerd")
+
+    if params.get("Shutdownd", encoding='utf-8') == "1":
+      not_run.append("shutdownd")
+    if params.get("DisableLogger", encoding='utf-8') == "1":
+      not_run.append("loggerd")
+      not_run.append("deleter")
+      not_run.append("logmessaged")
+      not_run.append("tombstoned")
+      not_run.append("uploader")
 
     started = sm['deviceState'].started
     driverview = params.get("IsDriverViewEnabled") == b"1"

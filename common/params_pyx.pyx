@@ -91,6 +91,8 @@ keys = {
   b"PutPrebuilt": [TxType.PERSISTENT],
   b"MfcSelect": [TxType.PERSISTENT],
   b"LateralControlSelect": [TxType.PERSISTENT],
+  b"Shutdownd": [TxType.PERSISTENT],
+  b"DisableLogger": [TxType.PERSISTENT],
 }
 
 def ensure_bytes(v):

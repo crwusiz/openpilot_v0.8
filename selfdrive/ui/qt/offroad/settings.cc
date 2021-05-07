@@ -222,6 +222,10 @@ QWidget * network_panel(QWidget * parent) {
   layout->addWidget(horizontal_line());
   layout->addWidget(new PrebuiltToggle());
   layout->addWidget(horizontal_line());
+  layout->addWidget(new ShutdowndToggle());
+  layout->addWidget(horizontal_line());
+  layout->addWidget(new DisableLoggerToggle());
+  layout->addWidget(horizontal_line());
   const char* gitpull = "/data/openpilot/gitpull.sh ''";
   layout->addWidget(new ButtonControl("Git Pull", "실행", "사용중인 브랜치의 최근 수정된 내용으로 변경됩니다.", [=]() {
                                         if (ConfirmationDialog::confirm("진행하시겠습니까?")){

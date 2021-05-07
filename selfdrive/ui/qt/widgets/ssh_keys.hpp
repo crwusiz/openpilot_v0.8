@@ -24,10 +24,36 @@ class PrebuiltToggle : public ToggleControl {
   Q_OBJECT
 
 public:
-  PrebuiltToggle() : ToggleControl("Prebuilt 파일 생성", "Prebuilt 파일을 생성하며 부팅속도를 단축시킵니다.", "../assets/offroad/icon_prebuilt.png", Params().read_db_bool("PutPrebuilt")) {
+  PrebuiltToggle() : ToggleControl("Prebuilt 파일 생성", "Prebuilt 파일을 생성하며 부팅속도를 향상시킵니다.", "../assets/offroad/icon_prebuilt.png", Params().read_db_bool("PutPrebuilt")) {
     QObject::connect(this, &PrebuiltToggle::toggleFlipped, [=](int state) {
       char value = state ? '1' : '0';
       Params().write_db_value("PutPrebuilt", &value, 1);
+    });
+  }
+};
+
+// Shutdownd
+class ShutdowndToggle : public ToggleControl {
+  Q_OBJECT
+
+public:
+  ShutdowndToggle() : ToggleControl("Shutdownd Disable", "Shutdownd (시동 종료후 5분후 자동종료)를 사용하지않습니다. 배터리 없는 기종은 활성화 하세요.", "../assets/offroad/icon_shutdownd.png", Params().read_db_bool("Shutdownd")) {
+    QObject::connect(this, &ShutdowndToggle::toggleFlipped, [=](int state) {
+      char value = state ? '1' : '0';
+      Params().write_db_value("Shutdownd", &value, 1);
+    });
+  }
+};
+
+// DisableLogger
+class DisableLoggerToggle : public ToggleControl {
+  Q_OBJECT
+
+public:
+  DisableLoggerToggle() : ToggleControl("Logger Disable", "Logger 프로세스를 종료하여 시스템 부하를 줄입니다.", "../assets/offroad/icon_logger.png", Params().read_db_bool("DisableLogger")) {
+    QObject::connect(this, &DisableLoggerToggle::toggleFlipped, [=](int state) {
+      char value = state ? '1' : '0';
+      Params().write_db_value("DisableLogger", &value, 1);
     });
   }
 };

@@ -626,6 +626,7 @@ static void bb_ui_draw_measures_right(UIState *s, int bb_x, int bb_y, int bb_w) 
   //add CPU temperature average
   if (true) {
     char val_str[16];
+    char val_add[4] = "℃";
     NVGcolor val_color = COLOR_ENGAGED;
       //show Orange if more than 70℃
       if((int)((scene->cpuTempAvg)) >= 70) {
@@ -635,7 +636,8 @@ static void bb_ui_draw_measures_right(UIState *s, int bb_x, int bb_y, int bb_w) 
       if((int)((scene->cpuTempAvg)) >= 80) {
         val_color = COLOR_RED_ALPHA(200);
       }
-    snprintf(val_str, sizeof(val_str), "%.0f℃", (round((scene->cpuTempAvg))));
+    snprintf(val_str, sizeof(val_str), "%.0f", (round((scene->cpuTempAvg))));
+    strcat(val_str, val_add);
     bb_h += bb_ui_draw_measure(s, val_str, "CPU 온도", bb_rx, bb_ry, val_color, lab_color, value_fontSize, label_fontSize);
     bb_ry = bb_y + bb_h;
   }
@@ -643,6 +645,7 @@ static void bb_ui_draw_measures_right(UIState *s, int bb_x, int bb_y, int bb_w) 
   //add visual radar relative distance
   if (true) {
     char val_str[16];
+    char val_add[4] = "ｍ";
     NVGcolor val_color = COLOR_WHITE_ALPHA(200);
     if (scene->lead_data[0].getStatus()) {
       //show Orange if less than 15ｍ
@@ -653,10 +656,11 @@ static void bb_ui_draw_measures_right(UIState *s, int bb_x, int bb_y, int bb_w) 
       if((int)(scene->lead_data[0].getDRel()) < 5) {
         val_color = COLOR_RED_ALPHA(200);
       }
-      snprintf(val_str, sizeof(val_str), "%dｍ", (int)scene->lead_data[0].getDRel());
+      snprintf(val_str, sizeof(val_str), "%d", (int)scene->lead_data[0].getDRel());
     } else {
       snprintf(val_str, sizeof(val_str), "-");
     }
+    strcat(val_str, val_add);
     bb_h += bb_ui_draw_measure(s, val_str, "앞차 거리차", bb_rx, bb_ry, val_color, lab_color, value_fontSize, label_fontSize);
     bb_ry = bb_y + bb_h;
   }
@@ -664,6 +668,7 @@ static void bb_ui_draw_measures_right(UIState *s, int bb_x, int bb_y, int bb_w) 
   //add visual radar relative speed
   if (true) {
     char val_str[16];
+    char val_add[4] = "㎞";
     NVGcolor val_color = COLOR_WHITE_ALPHA(200);
     if (scene->lead_data[0].getStatus()) {
       //show Orange if negative speed
@@ -674,10 +679,11 @@ static void bb_ui_draw_measures_right(UIState *s, int bb_x, int bb_y, int bb_w) 
       if((int)(scene->lead_data[0].getVRel()) < -5) {
         val_color = COLOR_RED_ALPHA(200);
       }
-      snprintf(val_str, sizeof(val_str), "%d㎞", (int)(scene->lead_data[0].getVRel() * 3.6 + 0.5));
+      snprintf(val_str, sizeof(val_str), "%d", (int)(scene->lead_data[0].getVRel() * 3.6 + 0.5));
     } else {
       snprintf(val_str, sizeof(val_str), "-");
     }
+    strcat(val_str, val_add);
     bb_h +=bb_ui_draw_measure(s, val_str, "앞차 속도차", bb_rx, bb_ry, val_color, lab_color, value_fontSize, label_fontSize);
     bb_ry = bb_y + bb_h;
   }
@@ -685,6 +691,7 @@ static void bb_ui_draw_measures_right(UIState *s, int bb_x, int bb_y, int bb_w) 
   //add steering angle degree
   if (true) {
     char val_str[16];
+    char val_add[4] = "˚";
     NVGcolor val_color = COLOR_ENGAGED;
     float angleSteers = s->scene.car_state.getSteeringAngleDeg();
       //show Orange if more than 30 degree
@@ -696,7 +703,8 @@ static void bb_ui_draw_measures_right(UIState *s, int bb_x, int bb_y, int bb_w) 
         val_color = COLOR_RED_ALPHA(200);
       }
       // steering is in degree
-      snprintf(val_str, sizeof(val_str), "%.1f˚",(angleSteers));
+      snprintf(val_str, sizeof(val_str), "%.1f",(angleSteers));
+    strcat(val_str, val_add);
     bb_h += bb_ui_draw_measure(s, val_str, "핸들 조향각", bb_rx, bb_ry, val_color, lab_color, value_fontSize, label_fontSize);
     bb_ry = bb_y + bb_h;
   }
@@ -704,6 +712,7 @@ static void bb_ui_draw_measures_right(UIState *s, int bb_x, int bb_y, int bb_w) 
   //add desired steering angle degree
   if (true) {
     char val_str[16];
+    char val_add[4] = "˚";
     NVGcolor val_color = COLOR_ENGAGED;
     float angleSteersDes  = s->scene.controls_state.getSteeringAngleDesiredDeg();
     if (scene->controls_state.getEnabled()) {
@@ -716,10 +725,11 @@ static void bb_ui_draw_measures_right(UIState *s, int bb_x, int bb_y, int bb_w) 
         val_color = COLOR_RED_ALPHA(200);
       }
       // steering is in degree
-      snprintf(val_str, sizeof(val_str), "%.1f˚",(angleSteersDes));
+      snprintf(val_str, sizeof(val_str), "%.1f",(angleSteersDes));
     } else {
       snprintf(val_str, sizeof(val_str), "-");
     }
+    strcat(val_str, val_add);
     bb_h += bb_ui_draw_measure(s, val_str, "OP 조향각", bb_rx, bb_ry, val_color, lab_color, value_fontSize, label_fontSize);
     bb_ry = bb_y + bb_h;
   }

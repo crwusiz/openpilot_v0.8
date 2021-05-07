@@ -15,7 +15,7 @@ from cereal import log
 LaneChangeState = log.LateralPlan.LaneChangeState
 LaneChangeDirection = log.LateralPlan.LaneChangeDirection
 
-LOG_MPC = os.environ.get('LOG_MPC', True)
+LOG_MPC = os.environ.get('LOG_MPC', False)
 
 LANE_CHANGE_SPEED_MIN = 60 * CV.KPH_TO_MS
 LANE_CHANGE_TIME_MAX = 10.
@@ -72,6 +72,7 @@ class LateralPlanner():
 
   def setup_mpc(self):
     self.libmpc = libmpc_py.libmpc
+#    self.libmpc.init()
     self.libmpc.init(MPC_COST_LAT.PATH, MPC_COST_LAT.HEADING, self.steer_rate_cost)
 
     self.mpc_solution = libmpc_py.ffi.new("log_t *")
@@ -87,15 +88,19 @@ class LateralPlanner():
     self.safe_desired_curvature_rate = 0.0
 
   def update(self, sm, CP):
-    lateral_control_select = sm['controlsState'].lateralControlSelect
-    if lateral_control_select == 0:
-      self.output_scale = sm['controlsState'].lateralControlState.pidState.output
-    elif lateral_control_select == 1:
-      self.output_scale = sm['controlsState'].lateralControlState.indiState.output
-    elif lateral_control_select == 2:
-      self.output_scale = sm['controlsState'].lateralControlState.lqrState.output
-    elif lateral_control_select == 3:
-      self.output_scale = sm['controlsState'].lateralControlState.angleState.output
+    try:
+      lateral_control_select = 0
+      lateral_control_select = sm['controlsState'].lateralControlSelect
+      if lateral_control_select == 0:
+        self.output_scale = sm['controlsState'].lateralControlState.pidState.output
+      elif lateral_control_select == 1:
+        self.output_scale = sm['controlsState'].lateralControlState.indiState.output
+      elif lateral_control_select == 2:
+        self.output_scale = sm['controlsState'].lateralControlState.lqrState.output
+      elif lateral_control_select == 3:
+        self.output_scale = sm['controlsState'].lateralControlState.angleState.output
+    except:
+      pass
     v_ego = sm['carState'].vEgo
     active = sm['controlsState'].active
     measured_curvature = sm['controlsState'].curvature
@@ -133,6 +138,11 @@ class LateralPlanner():
       # State transitions
       # off
       if self.lane_change_state == LaneChangeState.off and one_blinker and not self.prev_one_blinker and not below_lane_change_speed:
+        if sm['carState'].leftBlinker:
+          self.lane_change_direction = LaneChangeDirection.left
+        elif sm['carState'].rightBlinker:
+          self.lane_change_direction = LaneChangeDirection.right
+
         self.lane_change_state = LaneChangeState.preLaneChange
         self.lane_change_ll_prob = 1.0
 
@@ -230,6 +240,7 @@ class LateralPlanner():
     mpc_nans = any(math.isnan(x) for x in self.mpc_solution.curvature)
     t = sec_since_boot()
     if mpc_nans:
+#      self.libmpc.init()
       self.libmpc.init(MPC_COST_LAT.PATH, MPC_COST_LAT.HEADING, CP.steerRateCost)
       self.cur_state.curvature = measured_curvature
 
@@ -243,7 +254,7 @@ class LateralPlanner():
       self.solution_invalid_cnt = 0
 
   def publish(self, sm, pm):
-    plan_solution_valid = self.solution_invalid_cnt < 2
+    plan_solution_valid = self.solution_invalid_cnt < 3
     plan_send = messaging.new_message('lateralPlan')
     plan_send.valid = sm.all_alive_and_valid(service_list=['carState', 'controlsState', 'modelV2'])
     plan_send.lateralPlan.laneWidth = float(self.LP.lane_width)

@@ -8,4 +8,4 @@ python selfdrive/debug/panda_debug.py
 ```
 python selfdrive/debug/dump.py <category>
 ```
-  - replace `<category>` with any one of these: `health carState carControl controlsState carParams sendcan can`
+  - replace `<category>` with any one of these: `deviceState carState carControl controlsState carParams sendcan can`
