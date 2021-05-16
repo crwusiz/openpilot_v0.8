@@ -80,7 +80,7 @@ PrimeUserWidget::PrimeUserWidget(QWidget* parent) : QWidget(parent) {
   mainLayout->addWidget(commaPrime, 0, Qt::AlignTop);
 
   username = new QLabel();
-  username->setStyleSheet("font-size: 55px;"); // TODO: fit width
+  username->setStyleSheet("font-size: 48px;"); // TODO: fit width
   mainLayout->addWidget(username, 0, Qt::AlignTop);
 
   mainLayout->addSpacing(100);
@@ -133,11 +133,18 @@ void PrimeUserWidget::replyFinished(const QString &response) {
 
 PrimeAdWidget::PrimeAdWidget(QWidget* parent) : QWidget(parent) {
   QVBoxLayout* vlayout = new QVBoxLayout;
-  vlayout->setMargin(30);
+  vlayout->setMargin(15);
   vlayout->setSpacing(15);
 
-  vlayout->addWidget(new QLabel("Upgrade now"), 1, Qt::AlignTop);
+  vlayout->addWidget(new QLabel("Easy Driving~"), 1, Qt::AlignCenter);
 
+  QPixmap logo("../assets/offroad/icon_openpilot.png");
+  QLabel *hkg = new QLabel();
+  hkg->setPixmap(logo.scaledToWidth(430, Qt::SmoothTransformation));
+  hkg->setSizePolicy(QSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed));
+  vlayout->addWidget(hkg, 0, Qt::AlignCenter);
+
+/*
   QLabel* description = new QLabel("Become a comma prime member at my.comma.ai and get premium features!");
   description->setStyleSheet(R"(
     font-size: 50px;
@@ -152,7 +159,7 @@ PrimeAdWidget::PrimeAdWidget(QWidget* parent) : QWidget(parent) {
     feature->setStyleSheet(R"(font-size: 40px;)");
     vlayout->addWidget(feature, 0, Qt::AlignBottom);
   }
-
+*/
   setLayout(vlayout);
 }
 
@@ -169,7 +176,7 @@ SetupWidget::SetupWidget(QWidget* parent) : QFrame(parent) {
   registrationDescription->setWordWrap(true);
   registrationDescription->setAlignment(Qt::AlignCenter);
   registrationDescription->setStyleSheet(R"(
-    font-size: 55px;
+    font-size: 45px;
     font-weight: 400;
   )");
 
@@ -179,7 +186,7 @@ SetupWidget::SetupWidget(QWidget* parent) : QFrame(parent) {
   finishButton->setFixedHeight(200);
   finishButton->setStyleSheet(R"(
     border-radius: 30px;
-    font-size: 55px;
+    font-size: 45px;
     font-weight: 500;
     background: #585858;
   )");
@@ -194,7 +201,7 @@ SetupWidget::SetupWidget(QWidget* parent) : QFrame(parent) {
 
   QVBoxLayout* qrLayout = new QVBoxLayout;
 
-  qrLayout->addSpacing(30);
+  qrLayout->addSpacing(40);
   QLabel* qrLabel = new QLabel("Scan with comma connect!");
   qrLabel->setWordWrap(true);
   qrLabel->setAlignment(Qt::AlignHCenter);
@@ -272,7 +279,9 @@ void SetupWidget::replyFinished(const QString &response) {
   bool is_prime = json["prime"].toBool();
 
   if (!is_paired) {
-    mainLayout->setCurrentIndex(showQr);
+//    mainLayout->setCurrentIndex(showQr);
+    showQr = false;
+    mainLayout->setCurrentWidget(primeAd);
   } else if (!is_prime) {
     showQr = false;
     mainLayout->setCurrentWidget(primeAd);

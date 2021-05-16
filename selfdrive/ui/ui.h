@@ -27,9 +27,16 @@
 #define COLOR_BLACK_ALPHA(x) nvgRGBA(0, 0, 0, x)
 #define COLOR_WHITE nvgRGBA(255, 255, 255, 255)
 #define COLOR_WHITE_ALPHA(x) nvgRGBA(255, 255, 255, x)
-#define COLOR_RED_ALPHA(x) nvgRGBA(201, 34, 49, x)
-#define COLOR_YELLOW nvgRGBA(218, 202, 37, 255)
-#define COLOR_RED nvgRGBA(201, 34, 49, 255)
+#define COLOR_RED nvgRGBA(255, 0, 0, 255)
+#define COLOR_RED_ALPHA(x) nvgRGBA(255, 0, 0, x)
+#define COLOR_YELLOW nvgRGBA(255, 255, 0, 255)
+#define COLOR_YELLOW_ALPHA(x) nvgRGBA(255, 255, 0, x)
+#define COLOR_ENGAGED nvgRGBA(23, 134, 68, 255)
+#define COLOR_ENGAGED_ALPHA(x) nvgRGBA(23, 134, 68, x)
+#define COLOR_WARNING2 nvgRGBA(218, 111, 37, 255)
+#define COLOR_WARNING2_ALPHA(x) nvgRGBA(218, 111, 37, x)
+#define COLOR_ENGAGEABLE nvgRGBA(23, 51, 73, 255)
+#define COLOR_ENGAGEABLE_ALPHA(x) nvgRGBA(23, 51, 73, x)
 
 typedef struct Rect {
   int x, y, w, h;
@@ -42,7 +49,8 @@ typedef struct Rect {
   }
 } Rect;
 
-const int bdr_s = 30;
+const int sbr_w = 300;
+const int bdr_s = 10;
 const int header_h = 420;
 const int footer_h = 280;
 
@@ -57,8 +65,8 @@ typedef enum UIStatus {
 
 static std::map<UIStatus, NVGcolor> bg_colors = {
   {STATUS_DISENGAGED, nvgRGBA(0x17, 0x33, 0x49, 0xc8)},
-  {STATUS_ENGAGED, nvgRGBA(0x17, 0x86, 0x44, 0xf1)},
-  {STATUS_WARNING, nvgRGBA(0xDA, 0x6F, 0x25, 0xf1)},
+  {STATUS_ENGAGED, nvgRGBA(0x17, 0x86, 0x44, 0x01)},
+  {STATUS_WARNING, nvgRGBA(0xDA, 0x6F, 0x25, 0x01)},
   {STATUS_ALERT, nvgRGBA(0xC9, 0x22, 0x31, 0xf1)},
 };
 
@@ -78,6 +86,20 @@ typedef struct UIScene {
 
   bool is_rhd;
   bool driver_view;
+  int lead_status;
+  float lead_d_rel, lead_v_rel, lead_y_rel;
+
+    // ui add
+  bool leftBlinker, rightBlinker;
+  bool leftblindspot, rightblindspot;
+  bool batteryCharging;
+  int blinker_blinkingrate;
+  int batteryPercent;
+  float output_scale;
+  float cpuTempAvg;
+  float tpmsFl, tpmsFr, tpmsRl, tpmsRr;
+  int lateralControlSelect;
+  char batteryStatus[64];
 
   cereal::PandaState::PandaType pandaType;
 
