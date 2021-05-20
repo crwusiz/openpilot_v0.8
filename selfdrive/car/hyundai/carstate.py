@@ -28,7 +28,6 @@ class CarState(CarStateBase):
     self.has_scc13 = CP.carFingerprint in FEATURES["has_scc13"]
     self.has_scc14 = CP.carFingerprint in FEATURES["has_scc14"]
     self.not_lkas = CP.carFingerprint in FEATURES["not_lkas"]
-    #self.use_bsd = CP.carFingerprint in FEATURES["use_bsd"]
 
   def update(self, cp, cp2, cp_cam):
     cp_mdps = cp2 if self.mdps_bus else cp
@@ -65,8 +64,9 @@ class CarState(CarStateBase):
     ret.steeringPressed = abs(ret.steeringTorque) > STEER_THRESHOLD
     self.mdps_error_cnt += 1 if cp_mdps.vl["MDPS12"]['CF_Mdps_ToiUnavail'] != 0 else -self.mdps_error_cnt
     ret.steerWarning = self.mdps_error_cnt > 100 #cp_mdps.vl["MDPS12"]['CF_Mdps_ToiUnavail'] != 0
-    ret.autoHold = cp.vl["ESP11"]['AVH_STAT']
-
+    if self.CP.enableAutoHold:
+      ret.autoHold = cp.vl["ESP11"]['AVH_STAT']
+      
     # cruise state
     if self.CP.openpilotLongitudinalControl:
       ret.cruiseState.available = cp.vl["TCS13"]['ACCEnable'] == 0
@@ -180,10 +180,12 @@ class CarState(CarStateBase):
       ret.stockFcw = cp.vl["SCC12"]['CF_VSM_Warn'] == 2
 
     # Blind Spot Detection and Lane Change Assist signals
-    self.lca_state = cp.vl["LCA11"]["CF_Lca_Stat"]
-    #if self.use_bsd:
-    ret.leftBlindspot = cp.vl["LCA11"]["CF_Lca_IndLeft"] != 0
-    ret.rightBlindspot = cp.vl["LCA11"]["CF_Lca_IndRight"] != 0
+    if self.CP.enableBsm:
+      ret.leftBlindspot = cp.vl["LCA11"]["CF_Lca_IndLeft"] != 0
+      ret.rightBlindspot = cp.vl["LCA11"]["CF_Lca_IndRight"] != 0
+    else:
+      ret.leftBlindspot = False
+      ret.rightBlindspot = False
 
     # save the entire LKAS11, CLU11, SCC12 and MDPS12
     self.lkas11 = cp_cam.vl["LKAS11"]
@@ -262,10 +264,6 @@ class CarState(CarStateBase):
 
       ("CF_Lvr_GearInf", "LVR11", 0),  # Transmission Gear (0 = N or P, 1-8 = Fwd, 14 = Rev)
 
-      ("CF_Lca_Stat", "LCA11", 0),
-      ("CF_Lca_IndLeft", "LCA11", 0),
-      ("CF_Lca_IndRight", "LCA11", 0),
-
       ("MainMode_ACC", "SCC11", 1),
       ("SCCInfoDisplay", "SCC11", 0),
       ("AliveCounterACC", "SCC11", 0),
@@ -319,9 +317,6 @@ class CarState(CarStateBase):
       ("PRESSURE_FR", "TPMS11", 0),
       ("PRESSURE_RL", "TPMS11", 0),
       ("PRESSURE_RR", "TPMS11", 0),
-
-      ("AVH_STAT", "ESP11", -1),
-      ("LDM_STAT", "ESP11", 0),
     ]
 
     checks = [
@@ -329,7 +324,6 @@ class CarState(CarStateBase):
       ("TCS13", 50),
       ("TCS15", 10),
       ("CLU11", 50),
-      ("ESP11", 50),
       ("ESP12", 100),
       ("CGW1", 10),
       ("CGW2", 5),
@@ -441,6 +435,20 @@ class CarState(CarStateBase):
           ("CF_Mdps_Stat", "MDPS11", 0),
         ]
         checks += [("MDPS11", 100)]
+
+    if CP.enableBsm:
+      signals += [
+        ("CF_Lca_IndLeft", "LCA11", 0),
+        ("CF_Lca_IndRight", "LCA11", 0),
+      ]
+      checks += [("LCA11", 50)]
+
+    if CP.enableAutoHold:
+      signals += [
+        ("AVH_STAT", "ESP11", 0),
+        ("LDM_STAT", "ESP11", 0),
+      ]
+      checks += [("ESP11", 50)]
 
     return CANParser(DBC[CP.carFingerprint]['pt'], signals, checks, 0, enforce_checks=False)
 

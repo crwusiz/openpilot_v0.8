@@ -203,13 +203,12 @@ std::unordered_map<std::string, uint32_t> keys = {
     {"VisionRadarToggle", PERSISTENT},
 
     // add
-    {"LongControlEnabled", PERSISTENT},
-    {"MadModeEnabled", PERSISTENT},
+    {"LongControlSelect", PERSISTENT},
     {"AutoLaneChangeEnabled", PERSISTENT},
     {"PutPrebuilt", PERSISTENT},
     {"MfcSelect", PERSISTENT},
     {"LateralControlSelect", PERSISTENT},
-    {"Shutdownd", PERSISTENT},
+    {"DisableShutdownd", PERSISTENT},
     {"DisableLogger", PERSISTENT},
 
     {"Offroad_ChargeDisabled", CLEAR_ON_MANAGER_START | CLEAR_ON_PANDA_DISCONNECT},

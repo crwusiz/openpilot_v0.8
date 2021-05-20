@@ -261,7 +261,7 @@ static void ui_draw_vision_speed(UIState *s) {
       nvgLineTo(s->vg, viz_blinker_x - (viz_add*offset) - (viz_blinker_w/2), s->viz_rect.y + (header_h/2.1));
       nvgLineTo(s->vg, viz_blinker_x - (viz_add*offset)                    , s->viz_rect.y + (header_h/1.4));
       nvgClosePath(s->vg);
-      nvgFillColor(s->vg, COLOR_WARNING2_ALPHA(180 * alpha));
+      nvgFillColor(s->vg, COLOR_WARNING_ALPHA(180 * alpha));
       nvgFill(s->vg);
     }
     if(s->scene.rightBlinker) {
@@ -270,7 +270,7 @@ static void ui_draw_vision_speed(UIState *s) {
       nvgLineTo(s->vg, viz_blinker_x + (viz_add*offset) + (viz_blinker_w*1.5), s->viz_rect.y + (header_h/2.1));
       nvgLineTo(s->vg, viz_blinker_x + (viz_add*offset) + viz_blinker_w      , s->viz_rect.y + (header_h/1.4));
       nvgClosePath(s->vg);
-      nvgFillColor(s->vg, COLOR_WARNING2_ALPHA(180 * alpha));
+      nvgFillColor(s->vg, COLOR_WARNING_ALPHA(180 * alpha));
       nvgFill(s->vg);
     }
   }
@@ -303,7 +303,7 @@ static void ui_draw_vision_event(UIState *s) {
     if (is_engaged) {
       nvgFillColor(s->vg, COLOR_ENGAGED_ALPHA(180));
     } else if (is_warning) {
-      nvgFillColor(s->vg, COLOR_WARNING2_ALPHA(180));
+      nvgFillColor(s->vg, COLOR_WARNING_ALPHA(180));
     } else if (is_engageable) {
       nvgFillColor(s->vg, COLOR_ENGAGEABLE_ALPHA(180));
     }
@@ -461,7 +461,7 @@ static void bb_ui_draw_measures_right(UIState *s, int bb_x, int bb_y, int bb_w) 
     NVGcolor val_color = COLOR_ENGAGED;
       //show Orange if more than 70℃
       if((int)((scene->cpuTempAvg)) >= 70) {
-        val_color = COLOR_WARNING2;
+        val_color = COLOR_WARNING;
       }
       //show Red if more than 80℃
       if((int)((scene->cpuTempAvg)) >= 80) {
@@ -481,7 +481,7 @@ static void bb_ui_draw_measures_right(UIState *s, int bb_x, int bb_y, int bb_w) 
     if (scene->lead_data[0].getStatus()) {
       //show Orange if less than 15ｍ
       if((int)(scene->lead_data[0].getDRel()) < 15) {
-        val_color = COLOR_WARNING2;
+        val_color = COLOR_WARNING;
       }
       //show Red if less than 5ｍ
       if((int)(scene->lead_data[0].getDRel()) < 5) {
@@ -504,7 +504,7 @@ static void bb_ui_draw_measures_right(UIState *s, int bb_x, int bb_y, int bb_w) 
     if (scene->lead_data[0].getStatus()) {
       //show Orange if negative speed
       if((int)(scene->lead_data[0].getVRel()) < 0) {
-        val_color = COLOR_WARNING2;
+        val_color = COLOR_WARNING;
       }
       //show Red if positive speed
       if((int)(scene->lead_data[0].getVRel()) < -5) {
@@ -527,7 +527,7 @@ static void bb_ui_draw_measures_right(UIState *s, int bb_x, int bb_y, int bb_w) 
     float angleSteers = s->scene.car_state.getSteeringAngleDeg();
       //show Orange if more than 30 degree
       if(((int)(angleSteers) < -30) || ((int)(angleSteers) > 30)) {
-        val_color = COLOR_WARNING2;
+        val_color = COLOR_WARNING;
       }
       //show Red if more than 90 degree
       if(((int)(angleSteers) < -90) || ((int)(angleSteers) > 90)) {
@@ -549,7 +549,7 @@ static void bb_ui_draw_measures_right(UIState *s, int bb_x, int bb_y, int bb_w) 
     if (scene->controls_state.getEnabled()) {
       //show Orange if more than 30 degree
       if(((int)(angleSteersDes) < -30) || ((int)(angleSteersDes) > 30)) {
-        val_color = COLOR_WARNING2;
+        val_color = COLOR_WARNING;
       }
       //show Red if more than 90 degree
       if(((int)(angleSteersDes) < -90) || ((int)(angleSteersDes) > 90)) {
@@ -653,7 +653,7 @@ static void bb_ui_draw_tpms(UIState *s) {
     ui_draw_text(s, pos_x + pos_add, pos_y, tpmsRr, fontsize, COLOR_WHITE_ALPHA(200), "sans-semibold");
   }
 }
-
+/*
 static void bb_ui_battery(UIState *s) {
   const char *battery_img = s->scene.deviceState.getBatteryStatus() == "Charging" ? "battery_charging" : "battery";
   const Rect rect = {20, 245, 200, 50};
@@ -671,7 +671,7 @@ static void bb_ui_battery(UIState *s) {
   nvgTextAlign(s->vg, NVG_ALIGN_CENTER | NVG_ALIGN_MIDDLE);
   nvgTextBox(s->vg, battery_per_x, battery_per_y, battery_per_w, battery_str, NULL);
 }
-
+*/
 //BB END: functions added for the display of various items
 
 static void ui_draw_vision_frame(UIState *s) {
@@ -702,7 +702,7 @@ static void ui_draw_vision(UIState *s) {
       ui_draw_vision_bsd_right(s);
       bb_ui_draw_UI(s);
       bb_ui_draw_tpms(s);
-      bb_ui_battery(s);
+//      bb_ui_battery(s);
     }
   } else {
     ui_draw_driver_view(s);
@@ -854,9 +854,9 @@ void ui_nvg_init(UIState *s) {
 
   // init fonts
   std::pair<const char *, const char *> fonts[] = {
-      {"sans-regular", "../assets/fonts/NanumGothic.ttf"},
-      {"sans-semibold", "../assets/fonts/NanumGothicBold.ttf"},
-      {"sans-bold", "../assets/fonts/NanumGothicExtraBold.ttf"},
+      {"sans-regular", "../assets/fonts/opensans_regular.ttf"},
+      {"sans-semibold", "../assets/fonts/opensans_semibold.ttf"},
+      {"sans-bold", "../assets/fonts/opensans_bold.ttf"},
   };
   for (auto [name, file] : fonts) {
     int font_id = nvgCreateFont(s->vg, name, file);
@@ -870,8 +870,8 @@ void ui_nvg_init(UIState *s) {
     {"brake_disc", "../assets/img_brake_disc.png"},
     {"bsd_l", "../assets/img_bsd_l.png"},
     {"bsd_r", "../assets/img_bsd_r.png"},
-    {"battery", "../assets/images/battery.png"},
-    {"battery_charging", "../assets/images/battery_charging.png"},
+//    {"battery", "../assets/images/battery.png"},
+//    {"battery_charging", "../assets/images/battery_charging.png"},
     {"autohold_warning", "../assets/img_autohold_warning.png"},
     {"autohold_active", "../assets/img_autohold_active.png"},
   };

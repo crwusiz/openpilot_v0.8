@@ -25,9 +25,8 @@ class CAR:
   GENESIS_G80 = "GENESIS G80 2018~ (DH)"
   GENESIS_G90 = "GENESIS G90,EQ900 2016~2019 (HI)"
   # hyundai
-  ELANTRA = "HYUNDAI AVANTE 2016~2019 (AD)"
-  ELANTRA_I30 = "HYUNDAI I30 2017~2020 (PD)"
-  ELANTRA20 = "HYUNDAI AVANTE 2021 (CN7)"
+  ELANTRA_I30 = "HYUNDAI AVANTE,I30 2017~2020 (AD,PD)"
+  ELANTRA21 = "HYUNDAI AVANTE 2021 (CN7)"
   SONATA = "HYUNDAI SONATA 2020 (DN8)"
   SONATA_HEV = "HYUNDAI SONATA HEV 2020 (DN8)"
   SONATA19 = "HYUNDAI SONATA 2016~2019 (LF)"
@@ -49,6 +48,8 @@ class CAR:
   FORTE = "KIA K3 2018 (BD)"
   OPTIMA = "KIA K5 2016~2020 (JF)"
   OPTIMA_HEV = "KIA K5 HEV 2016~2020 (JF)"
+  OPTIMA20 = "KIA K5 2021 (DL3)"
+  OPTIMA20_HEV = "KIA K5 HEV 2021 (DL3)"  
   SPORTAGE = "KIA SPORTAGE 2016~2020 (QL)"
   SORENTO = "KIA SORENTO 2017~2020 (UM)"
   MOHAVE = "KIA MOHAVE 2020 (HM)"
@@ -90,14 +91,11 @@ FINGERPRINTS = {
   }],
   # ---------------------------------------------------------------------------------------
   # hyundai
-  CAR.ELANTRA: [{
-    66: 8, 67: 8, 68: 8, 127: 8, 273: 8, 274: 8, 275: 8, 339: 8, 356: 4, 399: 8, 512: 6, 544: 8, 593: 8, 608: 8, 688: 5, 790: 8, 809: 8, 897: 8, 832: 8, 899: 8, 902: 8, 903: 8, 905: 8, 909: 8, 916: 8, 1040: 8, 1056: 8, 1057: 8, 1078: 4, 1170: 8, 1265: 4, 1280: 1, 1282: 4, 1287: 4, 1290: 8, 1292: 8, 1294: 8, 1312: 8, 1314: 8, 1322: 8, 1345: 8, 1349: 8, 1351: 8, 1353: 8, 1363: 8, 1366: 8, 1367: 8, 1369: 8, 1407: 8, 1415: 8, 1419: 8, 1425: 2, 1427: 6, 1440: 8, 1456: 4, 1472: 8, 1486: 8, 1487: 8, 1491: 8, 1530: 8, 1532: 5, 2001: 8, 2003: 8, 2004: 8, 2009: 8, 2012: 8, 2016: 8, 2017: 8, 2024: 8, 2025: 8
-  }],
   CAR.ELANTRA_I30: [{
-    66: 8, 67: 8, 68: 8, 127: 8, 128: 8, 129: 8, 273: 8, 274: 8, 275: 8, 339: 8, 354: 3, 356: 4, 399: 8, 512: 6, 544: 8, 593: 8, 608: 8, 688: 5, 790: 8, 809: 8, 832: 8, 884: 8, 897: 8, 899: 8, 902: 8, 903: 8, 905: 8, 909: 8, 916: 8, 1040: 8, 1056: 8, 1057: 8, 1078: 4, 1151: 6, 1168: 7, 1170: 8, 1193: 8, 1265: 4, 1280: 1, 1282: 4, 1287: 4, 1290: 8, 1292: 8, 1294: 8, 1312: 8, 1322: 8, 1342: 6, 1345: 8, 1348: 8, 1349: 8, 1351: 8, 1353: 8, 1356: 8, 1363: 8, 1365: 8, 1366: 8, 1367: 8, 1369: 8, 1407: 8, 1414: 3, 1415: 8, 1419: 8, 1427: 6, 1440: 8, 1456: 4, 1470: 8, 1486: 8, 1487: 8, 1491: 8, 1530: 8, 1952: 8, 1960: 8, 1988: 8, 1990: 8, 1998: 8, 2000: 8, 2001: 8, 2004: 8, 2005: 8, 2008: 8, 2009: 8, 2012: 8, 2013: 8, 2015: 8, 2016: 8, 2017: 8, 2024: 8, 2025: 8
+    66: 8, 67: 8, 68: 8, 127: 8, 128: 8, 129: 8, 273: 8, 274: 8, 275: 8, 339: 8, 354: 3, 356: 4, 399: 8, 512: 6, 544: 8, 546: 8, 547: 8, 593: 8, 608: 8, 688: 5, 790: 8, 809: 8, 832: 8, 838: 8, 844: 8, 884: 8, 897: 8, 899: 8, 902: 8, 903: 8, 905: 8, 909: 8, 916: 8, 1040: 8, 1056: 8, 1057: 8, 1078: 4, 1087: 8, 1151: 6, 1155: 8, 1164: 8, 1168: 7, 1170: 8, 1191: 2, 1193: 8, 1253: 8, 1254: 8, 1255: 8, 1265: 4, 1280: 1, 1282: 4, 1287: 4, 1290: 8, 1292: 8, 1294: 8, 1312: 8, 1314: 8, 1322: 8, 1331: 8, 1332: 8, 1342: 6, 1345: 8, 1348: 8, 1349: 8, 1351: 8, 1353: 8, 1356: 8, 1363: 8, 1365: 8, 1366: 8, 1367: 8, 1369: 8, 1407: 8, 1414: 3, 1415: 8, 1419: 8, 1425: 2, 1427: 6, 1440: 8, 1456: 4, 1470: 8, 1472: 8, 1485: 8, 1486: 8, 1487: 8, 1491: 8, 1530: 8, 1532: 5, 1792: 8, 1872: 8, 1937: 8, 1952: 8, 1953: 8, 1960: 8, 1968: 8, 1988: 8, 1990: 8, 1998: 8, 2000: 8, 2001: 8, 2003: 8, 2004: 8, 2005: 8, 2008: 8, 2009: 8, 2012: 8, 2013: 8, 2015: 8, 2016: 8, 2017: 8, 2024: 8, 2025: 8
   }],
-  CAR.ELANTRA20: [{
-    64: 8, 66: 8, 67: 8, 68: 8, 127: 8, 273: 8, 274: 8, 275: 8, 339: 8, 356: 4, 399: 8, 512: 6, 544: 8, 546: 8, 547: 8, 593: 8, 608: 8, 688: 5, 790: 8, 809: 8, 832: 8, 838: 8, 844: 8, 884: 8, 897: 8, 899: 8, 902: 8, 903: 8, 909: 8, 916: 8, 1040: 8, 1078: 4, 1087: 8, 1155: 8, 1164: 8, 1170: 8, 1191: 2, 1253: 8, 1254: 8, 1255: 8, 1265: 4, 1280: 1, 1282: 4, 1287: 4, 1292: 8, 1294: 8, 1312: 8, 1314: 8, 1322: 8, 1331: 8, 1332: 8, 1342: 6, 1345: 8, 1348: 8, 1349: 8, 1351: 8, 1353: 8, 1363: 8, 1366: 8, 1367: 8, 1369: 8, 1407: 8, 1415: 8, 1419: 8, 1427: 6, 1440: 8, 1456: 4, 1470: 8, 1472: 8, 1485: 8, 1486: 8, 1487: 8, 1491: 8, 1530: 8, 1532: 5, 1792: 8, 1872: 8, 1937: 8, 1953: 8, 1968: 8, 2004: 8, 2012: 8, 2015: 8, 2016: 8, 2024: 8
+  CAR.ELANTRA21: [{
+    67: 8, 127: 8, 304: 8, 320: 8, 339: 8, 356: 4, 524: 8, 544: 8, 593: 8, 608: 8, 688: 6, 809: 8, 832: 8, 854: 8, 865: 8, 870: 7, 871: 8, 872: 8, 897: 8, 902: 8, 903: 8, 905: 8, 909: 8, 913: 8, 916: 8, 1040: 8, 1042: 8, 1056: 8, 1057: 8, 1069: 8, 1078: 4, 1102: 8, 1107: 5, 1108: 8, 1136: 8, 1145: 8, 1151: 8, 1155: 8, 1156: 8, 1157: 4, 1162: 8, 1164: 8, 1168: 8, 1170: 8, 1173: 8, 1183: 8, 1186: 2, 1191: 2, 1193: 8, 1225: 8, 1227: 8, 1265: 4, 1268: 8, 1280: 8, 1287: 4, 1290: 8, 1292: 8, 1294: 8, 1312: 8, 1322: 8, 1339: 8, 1342: 8, 1343: 8, 1345: 8, 1348: 8, 1363: 8, 1369: 8, 1379: 8, 1384: 8, 1394: 8, 1407: 8, 1419: 8, 1427: 6, 1446: 8, 1456: 4, 1470: 8, 1485: 8, 1988: 8, 1996: 8, 2000: 8, 2004: 8, 2008: 8, 2012: 8
   }],
   CAR.SONATA: [{
     67: 8, 68: 8, 127: 8, 304: 8, 320: 8, 339: 8, 356: 4, 544: 8, 545: 8, 546: 8, 547: 8, 548: 8, 549: 8, 550: 8, 576: 8, 593: 8, 608: 8, 688: 6, 809: 8, 832: 8, 854: 8, 865: 8, 870: 7, 871: 8, 872: 8, 897: 8, 902: 8, 903: 8, 905: 8, 908: 8, 909: 8, 912: 7, 913: 8, 916: 8, 1040: 8, 1042: 8, 1056: 8, 1057: 8, 1078: 4, 1089: 5, 1096: 8, 1107: 5, 1108: 8, 1114: 8, 1136: 8, 1145: 8, 1151: 8, 1155: 8, 1156: 8, 1157: 4, 1162: 8, 1164: 8, 1168: 8, 1170: 8, 1173: 8, 1180: 8, 1183: 8, 1184: 8, 1186: 2, 1191: 2, 1193: 8, 1210: 8, 1225: 8, 1227: 8, 1265: 4, 1268: 8, 1280: 8, 1287: 4, 1290: 8, 1292: 8, 1294: 8, 1312: 8, 1322: 8, 1330: 8, 1339: 8, 1342: 6, 1343: 8, 1345: 8, 1348: 8, 1363: 8, 1369: 8, 1371: 8, 1378: 8, 1379: 8, 1384: 8, 1394: 8, 1407: 8, 1419: 8, 1427: 6, 1446: 8, 1456: 4, 1460: 8, 1470: 8, 1485: 8, 1504: 3, 1988: 8, 1996: 8, 2000: 8, 2004: 8, 2008: 8, 2012: 8, 2015: 8
@@ -161,6 +159,10 @@ FINGERPRINTS = {
   CAR.OPTIMA_HEV: [{
     68: 8, 127: 8, 304: 8, 320: 8, 339: 8, 352: 8, 356: 4, 544: 8, 576: 8, 593: 8, 688: 5, 832: 8, 881: 8, 882: 8, 897: 8, 902: 8, 903: 6, 909: 8, 912: 7, 916: 8, 1040: 8, 1056: 8, 1057: 8, 1078: 4, 1136: 6, 1151: 6, 1168: 7, 1173: 8, 1180: 8, 1186: 2, 1191: 2, 1236: 2, 1265: 4, 1268: 8, 1280: 1, 1287: 4, 1290: 8, 1291: 8, 1292: 8, 1294: 8, 1312: 8, 1322: 8, 1331: 8, 1332: 8, 1333: 8, 1342: 6, 1345: 8, 1348: 8, 1355: 8, 1363: 8, 1369: 8, 1371: 8, 1407: 8, 1419: 8, 1420: 8, 1425: 2, 1427: 6, 1429: 8, 1430: 8, 1448: 8, 1456: 4, 1470: 8, 1476: 8, 1535: 8
   }],
+  CAR.OPTIMA20: [{
+  }],
+  CAR.OPTIMA20_HEV: [{
+  }],
   CAR.SPORTAGE: [{
     67: 8, 68: 8, 127: 8, 273: 8, 274: 8, 275: 8, 339: 8, 356: 4, 399: 8, 447: 8, 512: 6, 544: 8, 593: 8, 608: 8, 688: 5, 790: 8, 809: 8, 832: 8, 884: 8, 897: 8, 899: 8, 902: 8, 903: 6, 909: 8, 916: 8, 1040: 8, 1078: 4, 1170: 8, 1191: 2, 1253: 8, 1254: 8, 1255: 8, 1265: 4, 1280: 1, 1282: 4, 1287: 4, 1292: 8, 1294: 8, 1312: 8, 1322: 8, 1342: 6, 1345: 8, 1348: 8, 1349: 8, 1351: 8, 1353: 8, 1363: 8, 1365: 8, 1366: 8, 1367: 8, 1369: 8, 1407: 8, 1419: 8, 1427: 6, 1440: 8, 1456: 4, 1470: 8, 1472: 8, 1486: 8, 1487: 8, 1491: 8, 1492: 8, 1530: 8
   }],
@@ -198,7 +200,7 @@ ECU_FINGERPRINT = {
 }
 
 # Don't use these fingerprints for fingerprinting, they are still used for ECU detection
-IGNORED_FINGERPRINTS = [CAR.VELOSTER, CAR.GENESIS_G70, CAR.KONA, CAR.NIRO_EV, CAR.SELTOS]
+IGNORED_FINGERPRINTS = [CAR.VELOSTER, CAR.GENESIS_G70, CAR.KONA, CAR.NIRO_EV, CAR.SELTOS, CAR.ELANTRA21]
 
 FW_VERSIONS = {
   # ---------------------------------------------------------------------------------------
@@ -220,6 +222,20 @@ FW_VERSIONS = {
     (Ecu.eps, 0x7d4, None): [b'\xf1\x00PDu MDPS C 1.00 1.01 56310/G3690 4PDUC101',],
     (Ecu.fwdCamera, 0x7c4, None): [b'\xf1\x00PDP LKAS AT AUS RHD 1.00 1.01 99211-G4000 v60',],
     (Ecu.transmission, 0x7e1, None): [b'\xf1\x816U2VA051\x00\x00\xf1\x006U2V0_C2\x00\x006U2VA051\x00\x00DPD0H16US0\x00\x00\x00\x00',],
+  },
+  CAR.ELANTRA21: {
+    (Ecu.fwdRadar, 0x7d0, None): [b'\xf1\x00CN7_ SCC FHCUP      1.00 1.01 99110-AA000         '],
+    (Ecu.eps, 0x7d4, None): [
+      b'\xf1\x87\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\xf1\x00CN7 MDPS C 1.00 1.06 \x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00 4CNDC106\xf1\xa01.06',
+      b'\xf1\x8756310AA050\x00\xf1\x00CN7 MDPS C 1.00 1.06 56310AA050\x00 4CNDC106\xf1\xa01.06',
+    ],
+    (Ecu.fwdCamera, 0x7c4, None): [b'\xf1\x00CN7 MFC  AT USA LHD 1.00 1.00 99210-AB000 200819'],
+    (Ecu.esp, 0x7d1, None): [b'\xf1\x8758910-AB800\xf1\x00CN ESC \t 101 \x10\x03 58910-AB800\xf1\xa01.01'],
+    (Ecu.transmission, 0x7e1, None): [
+      b'\xf1\x00HT6WA280BLHT6VA640A1CCN0N20NS5\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00',
+      b'\xf1\x87CXMQFM2135005JB2E\xb9\x89\x98W\xa9y\x97h\xa9\x98\x99wxvwh\x87\177\xffx\xff\xff\xff,,\xf1\x89HT6VA640A1\xf1\x82CCN0N20NS5\x00\x00\x00\x00\x00\x00',
+    ],
+    (Ecu.engine, 0x7e0, None): [b'\xf1\x82CNCWD0AMFCXCSFFA'],
   },
   CAR.SONATA: {
     (Ecu.fwdRadar, 0x7d0, None): [
@@ -637,20 +653,20 @@ FW_VERSIONS = {
 }
 
 CHECKSUM = {
-  "crc8": [CAR.SANTA_FE, CAR.SONATA, CAR.SONATA_HEV, CAR.PALISADE, CAR.SOUL_EV, CAR.SELTOS],
+  "crc8": [CAR.SANTA_FE, CAR.SONATA, CAR.SONATA_HEV, CAR.PALISADE, CAR.SOUL_EV, CAR.SELTOS, CAR.ELANTRA21],
   "6B": [CAR.SORENTO, CAR.GENESIS],
 }
 
 FEATURES = {
   "use_cluster_gears": # Use Cluster for Gear Selection, rather than Transmission
-    set([CAR.ELANTRA, CAR.ELANTRA20, CAR.ELANTRA_I30, CAR.KONA, CAR.GRANDEUR, CAR.MOHAVE, CAR.NIRO_HEV, CAR.CADENZA]),
+    set([CAR.ELANTRA_I30, CAR.KONA, CAR.GRANDEUR, CAR.MOHAVE, CAR.NIRO_HEV, CAR.CADENZA]),
   "use_tcu_gears": # Use TCU Message for Gear Selection
     set([CAR.SONATA19, CAR.VELOSTER, CAR.OPTIMA]),
   "use_elect_ems_gears": # Use Elect GEAR Message for Gear Selection
     set([CAR.SONATA_HEV, CAR.SONATA19_HEV, CAR.KONA_EV, CAR.KONA_HEV, CAR.IONIQ_EV, CAR.IONIQ_HEV, CAR.GRANDEUR_HEV, CAR.GRANDEUR20_HEV, CAR.NEXO,
-         CAR.OPTIMA_HEV, CAR.CADENZA_HEV, CAR.NIRO_EV, CAR.SOUL_EV]),
+         CAR.OPTIMA_HEV, CAR.OPTIMA20_HEV, CAR.CADENZA_HEV, CAR.NIRO_EV, CAR.SOUL_EV]),
   "use_fca": # these cars use the FCA11 message for the AEB and FCW signals, all others use SCC12
-    set([CAR.SONATA, CAR.PALISADE, CAR.ELANTRA, CAR.ELANTRA_I30, CAR.KONA, CAR.KONA_HEV, CAR.IONIQ_EV, CAR.IONIQ_HEV,
+    set([CAR.SONATA, CAR.PALISADE, CAR.ELANTRA_I30, CAR.ELANTRA21, CAR.KONA, CAR.KONA_HEV, CAR.IONIQ_EV, CAR.IONIQ_HEV,
          CAR.GENESIS_G70, CAR.FORTE, CAR.STINGER]),
   "not_lkas": # not lkas error car set
     set([CAR.SONATA, CAR.SONATA_HEV, CAR.PALISADE, CAR.SANTA_FE, CAR.KONA, CAR.KONA_EV, CAR.NIRO_EV]),
@@ -658,6 +674,7 @@ FEATURES = {
   "use_bsd": set([]), # blindspot signal
   "has_scc13": set([]), # scc13 signal
   "has_scc14": set([]), # scc14 signal
+  # new lfa car - carcontroller lfamfc / hyundaican lfamfc using qt ui mfcselect toggle set
 }
 
 DBC = {
@@ -667,9 +684,8 @@ DBC = {
   CAR.GENESIS_G80: dbc_dict('hyundai_kia_generic', None),
   CAR.GENESIS_G90: dbc_dict('hyundai_kia_generic', None),
   # hyundai
-  CAR.ELANTRA: dbc_dict('hyundai_kia_generic', None),
   CAR.ELANTRA_I30: dbc_dict('hyundai_kia_generic', None),
-  CAR.ELANTRA20: dbc_dict('hyundai_kia_generic', None),
+  CAR.ELANTRA21: dbc_dict('hyundai_kia_generic', None),
   CAR.SONATA: dbc_dict('hyundai_kia_generic', None),
   CAR.SONATA_HEV: dbc_dict('hyundai_kia_generic', None),
   CAR.SONATA19: dbc_dict('hyundai_kia_generic', None),
@@ -691,6 +707,8 @@ DBC = {
   CAR.FORTE: dbc_dict('hyundai_kia_generic', None),
   CAR.OPTIMA: dbc_dict('hyundai_kia_generic', None),
   CAR.OPTIMA_HEV: dbc_dict('hyundai_kia_generic', None),
+  CAR.OPTIMA20: dbc_dict('hyundai_kia_generic', None),
+  CAR.OPTIMA20_HEV: dbc_dict('hyundai_kia_generic', None),
   CAR.SPORTAGE: dbc_dict('hyundai_kia_generic', None),
   CAR.SORENTO: dbc_dict('hyundai_kia_generic', None),
   CAR.MOHAVE: dbc_dict('hyundai_kia_generic', None),

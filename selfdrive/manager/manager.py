@@ -38,12 +38,12 @@ def manager_init():
 
     # add
     ("IsMetric", "1"),
-    ("MadModeEnabled", "1"),
+    ("LongControlSelect", "0"),
     ("AutoLaneChangeEnabled", "0"),
     ("PutPrebuilt", "0"),
     ("MfcSelect", "0"),
     ("LateralControlSelect", "0"),
-    ("Shutdownd", "0"),
+    ("DisableShutdownd", "0"),
     ("DisableLogger", "0"),
   ]
 
@@ -147,7 +147,7 @@ def manager_thread():
     if sm['deviceState'].freeSpacePercent < 5:
       not_run.append("loggerd")
 
-    if params.get_bool("Shutdownd"):
+    if params.get_bool("DisableShutdownd"):
       not_run.append("shutdownd")
     if params.get_bool("DisableLogger"):
       not_run.append("loggerd")

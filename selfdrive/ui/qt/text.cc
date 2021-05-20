@@ -34,12 +34,12 @@ int main(int argc, char *argv[]) {
 
   QPushButton *btn = new QPushButton();
 #ifdef __aarch64__
-  btn->setText("Reboot");
+  btn->setText("재부팅");
   QObject::connect(btn, &QPushButton::released, [=]() {
     Hardware::reboot();
   });
 #else
-  btn->setText("Exit");
+  btn->setText("닫기");
   QObject::connect(btn, &QPushButton::released, &a, &QApplication::quit);
 #endif
   layout->addWidget(btn, 0, 0, Qt::AlignRight | Qt::AlignBottom);

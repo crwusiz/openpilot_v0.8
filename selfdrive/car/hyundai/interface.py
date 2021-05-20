@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 from cereal import car
 from selfdrive.config import Conversions as CV
-from selfdrive.car.hyundai.values import CAR, Buttons, Ecu, ECU_FINGERPRINT
+from selfdrive.car.hyundai.values import CAR, Buttons
 from selfdrive.car import STD_CARGO_KG, scale_rot_inertia, scale_tire_stiffness, gen_empty_fingerprint
 from selfdrive.car.interfaces import CarInterfaceBase
 from selfdrive.controls.lib.lateral_planner import LANE_CHANGE_SPEED_MIN
@@ -15,7 +15,7 @@ class CarInterface(CarInterfaceBase):
   def __init__(self, CP, CarController, CarState):
     super().__init__(CP, CarController, CarState)
     self.cp2 = self.CS.get_can2_parser(CP)
-    self.mad_mode_enabled = Params().get_bool('MadModeEnabled')
+    self.mad_mode_enabled = Params().get("LongControlSelect", encoding='utf8') == "0"
     self.lkas_button_alert = False
 
   @staticmethod
@@ -30,7 +30,6 @@ class CarInterface(CarInterfaceBase):
     ret.safetyModel = car.CarParams.SafetyModel.hyundaiLegacy
     if candidate in [CAR.SONATA]:
       ret.safetyModel = car.CarParams.SafetyModel.hyundai
-    #ret.radarOffCan = True
 
     # Most Hyundai car ports are community features for now
     ret.communityFeature = candidate not in [CAR.SONATA, CAR.PALISADE]
@@ -66,7 +65,7 @@ class CarInterface(CarInterfaceBase):
         ret.wheelbase = 3.160
         ret.steerRatio = 12.0
     # hyundai
-    elif candidate in [CAR.ELANTRA, CAR.ELANTRA_I30, CAR.ELANTRA20]:
+    elif candidate in [CAR.ELANTRA_I30, CAR.ELANTRA21]:
         ret.mass = 1340. + STD_CARGO_KG
         ret.wheelbase = 2.720
         ret.steerRatio = 15.4
@@ -111,7 +110,7 @@ class CarInterface(CarInterfaceBase):
         ret.mass = 1345. + STD_CARGO_KG
         ret.wheelbase = 2.700
         ret.steerRatio = 13.7
-    elif candidate in [CAR.OPTIMA, CAR.OPTIMA_HEV]:
+    elif candidate in [CAR.OPTIMA, CAR.OPTIMA_HEV, CAR.OPTIMA20, CAR.OPTIMA20_HEV]:
         ret.mass = 1565. + STD_CARGO_KG
         ret.wheelbase = 2.805
         ret.steerRatio = 15.8
@@ -306,8 +305,9 @@ class CarInterface(CarInterfaceBase):
     ret.startAccel = 0.0
     ret.stoppingControl = True
     ret.enableCamera = True
-    #    ret.enableCamera = is_ecu_disconnected(fingerprint[0], FINGERPRINTS, ECU_FINGERPRINT, candidate, Ecu.fwdCamera)
+
     ret.enableBsm = 0x58b in fingerprint[0]
+    ret.enableAutoHold = 1151 in fingerprint[0]
 
     # ignore CAN2 address if L-CAN on the same BUS
     ret.mdpsBus = 1 if 593 in fingerprint[1] and 1296 not in fingerprint[1] else 0
@@ -315,12 +315,12 @@ class CarInterface(CarInterfaceBase):
     ret.sccBus = 0 if 1056 in fingerprint[0] else 1 if 1056 in fingerprint[1] and 1296 not in fingerprint[1] \
                                                                      else 2 if 1056 in fingerprint[2] else -1
     ret.radarOffCan = ret.sccBus == -1
-    ret.openpilotLongitudinalControl = Params().get_bool('LongControlEnabled')
+    ret.openpilotLongitudinalControl = Params().get("LongControlSelect", encoding='utf8') == "1"
     ret.enableCruise = not ret.radarOffCan
     ret.spasEnabled = False
 
     # set safety_hyundai_community only for non-SCC, MDPS harrness or SCC harrness cars or cars that have unknown issue
-    if ret.radarOffCan or ret.mdpsBus == 1 or ret.openpilotLongitudinalControl or ret.sccBus == 1 or Params().get_bool('MadModeEnabled'):
+    if ret.radarOffCan or ret.mdpsBus == 1 or ret.openpilotLongitudinalControl or ret.sccBus == 1 or Params().get("LongControlSelect", encoding='utf8') == "0":
       ret.safetyModel = car.CarParams.SafetyModel.hyundaiCommunity
     return ret
 

@@ -52,10 +52,10 @@ class ShutdowndToggle : public ToggleControl {
   Q_OBJECT
 
 public:
-  ShutdowndToggle() : ToggleControl("Shutdownd 사용", "Shutdownd (시동 off 5분) 자동종료를 사용합니다.", "../assets/offroad/icon_shutdownd.png", Params().getBool("Shutdownd")) {
+  ShutdowndToggle() : ToggleControl("Shutdownd Disable", "Shutdownd (시동 off 5분) 자동종료를 사용하지않습니다. (batteryless 기종)", "../assets/offroad/icon_shutdownd.png", Params().getBool("DisableShutdownd")) {
     QObject::connect(this, &ShutdowndToggle::toggleFlipped, [=](int state) {
       char value = state ? '1' : '0';
-      Params().put("Shutdownd", &value, 1);
+      Params().put("DisableShutdownd", &value, 1);
     });
   }
 };
@@ -73,6 +73,20 @@ public:
   }
 };
 
+// LateralControlSelect
+class LateralControlSelect : public AbstractControl {
+  Q_OBJECT
+
+public:
+  LateralControlSelect();
+
+private:
+  QPushButton btnplus;
+  QPushButton btnminus;
+  QLabel label;
+
+  void refresh();
+};
 
 // MfcSelect
 class MfcSelect : public AbstractControl {
@@ -89,12 +103,12 @@ private:
   void refresh();
 };
 
-// LateralControlSelect
-class LateralControlSelect : public AbstractControl {
+// LongControlSelect
+class LongControlSelect : public AbstractControl {
   Q_OBJECT
 
 public:
-  LateralControlSelect();
+  LongControlSelect();
 
 private:
   QPushButton btnplus;

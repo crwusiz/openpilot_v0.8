@@ -50,12 +50,12 @@ void Sidebar::mousePressEvent(QMouseEvent *event) {
 
 void Sidebar::update(const UIState &s) {
   if (s.sm->frame % (6*UI_FREQ) == 0) {
-    connect_str = "OFFLINE";
+    connect_str = "오프라인";
     connect_status = warning_color;
     auto last_ping = params.get<float>("LastAthenaPingTime");
     if (last_ping) {
       bool online = nanos_since_boot() - *last_ping < 70e9;
-      connect_str = online ? "ONLINE" : "ERROR";
+      connect_str = online ? "온라인" : "오류";
       connect_status = online ? good_color : danger_color;
     }
     repaint();
@@ -74,17 +74,21 @@ void Sidebar::update(const UIState &s) {
   }
   temp_val = (int)s.scene.deviceState.getAmbientTempC();
 
-  panda_str = "VEHICLE\nONLINE";
+  panda_str = "차량\n연결됨";
   panda_status = good_color;
   if (s.scene.pandaType == cereal::PandaState::PandaType::UNKNOWN) {
     panda_status = danger_color;
-    panda_str = "NO\nPANDA";
+    panda_str = "차량\n연결안됨";
+  } else if (s.scene.satelliteCount > 0) {
+  	panda_str = QString("차량연결됨\nSAT : %1").arg(s.scene.satelliteCount);
   } else if (Hardware::TICI() && s.scene.started) {
     panda_str = QString("SAT CNT\n%1").arg(s.scene.satelliteCount);
     panda_status = s.scene.gpsOK ? good_color : warning_color;
   }
 
   if (s.sm->updated("deviceState") || s.sm->updated("pandaState")) {
+    m_battery_img = s.scene.deviceState.getBatteryStatus() == "Charging" ? 1 : 0;
+    m_batteryPercent = s.scene.deviceState.getBatteryPercent();
     repaint();
   }
 }
@@ -101,18 +105,26 @@ void Sidebar::paintEvent(QPaintEvent *event) {
   p.drawImage(60, 1080 - 180 - 40, home_img);
 
   // network
-  p.drawImage(58, 196, signal_imgs[strength]);
-  configFont(p, "Open Sans", 30, "Regular");
+//  p.drawImage(58, 196, signal_imgs[strength]);
+  p.drawImage(68, 180, battery_imgs[m_battery_img]); // signal_imgs to battery_imgs
+  configFont(p, "Open Sans", 33, "Bold");
+  p.setPen(QColor(0x00, 0x00, 0x00));
+  const QRect r = QRect(78, 192, 100, 50);
+  char battery_str[5];
+  snprintf(battery_str, sizeof(battery_str), "%d%%", m_batteryPercent);
+  p.drawText(r, Qt::AlignCenter, battery_str);
+
+  configFont(p, "Open Sans", 30, "Bold");
   p.setPen(QColor(0xff, 0xff, 0xff));
 //  const QRect r = QRect(50, 247, 100, 50);
-  const QRect r = QRect(0, 247, event->rect().width(), 50);
+  const QRect r2 = QRect(0, 267, event->rect().width(), 50);
   if(Hardware::EON() && net_type == cereal::DeviceState::NetworkType::WIFI)
-    p.drawText(r, Qt::AlignCenter, wifi_addr);
+    p.drawText(r2, Qt::AlignCenter, wifi_addr);
   else
-    p.drawText(r, Qt::AlignCenter, network_type[net_type]);
+    p.drawText(r2, Qt::AlignCenter, network_type[net_type]);
 
   // metrics
-  drawMetric(p, "TEMP", QString("%1°C").arg(temp_val), temp_status, 338);
+  drawMetric(p, "시스템온도", QString("%1°C").arg(temp_val), temp_status, 338);
   drawMetric(p, panda_str, "", panda_status, 518);
-  drawMetric(p, "CONNECT\n" + connect_str, "", connect_status, 676);
+  drawMetric(p, "네트워크\n" + connect_str, "", connect_status, 676);
 }

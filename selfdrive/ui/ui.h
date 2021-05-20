@@ -33,8 +33,8 @@
 #define COLOR_YELLOW_ALPHA(x) nvgRGBA(255, 255, 0, x)
 #define COLOR_ENGAGED nvgRGBA(23, 134, 68, 255)
 #define COLOR_ENGAGED_ALPHA(x) nvgRGBA(23, 134, 68, x)
-#define COLOR_WARNING2 nvgRGBA(218, 111, 37, 255)
-#define COLOR_WARNING2_ALPHA(x) nvgRGBA(218, 111, 37, x)
+#define COLOR_WARNING nvgRGBA(218, 111, 37, 255)
+#define COLOR_WARNING_ALPHA(x) nvgRGBA(218, 111, 37, x)
 #define COLOR_ENGAGEABLE nvgRGBA(23, 51, 73, 255)
 #define COLOR_ENGAGEABLE_ALPHA(x) nvgRGBA(23, 51, 73, x)
 
@@ -86,20 +86,18 @@ typedef struct UIScene {
 
   bool is_rhd;
   bool driver_view;
-  int lead_status;
-  float lead_d_rel, lead_v_rel, lead_y_rel;
 
     // ui add
   bool leftBlinker, rightBlinker;
   bool leftblindspot, rightblindspot;
-  bool batteryCharging;
   int blinker_blinkingrate;
+  bool batteryCharging;
   int batteryPercent;
-  float output_scale;
+  char batteryStatus[64];
   float cpuTempAvg;
   float tpmsFl, tpmsFr, tpmsRl, tpmsRr;
   int lateralControlSelect;
-  char batteryStatus[64];
+  float output_scale;
 
   cereal::PandaState::PandaType pandaType;
 

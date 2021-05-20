@@ -37,17 +37,13 @@ TogglesPanel::TogglesPanel(QWidget *parent) : QWidget(parent) {
                                   this));
 */
   toggles.append(new ParamControl("IsMetric",
-                                  "Use Metric System",
-                                  "Display speed in km/h instead of mp/h.",
-                                  //"미터법 사용",
-                                  //"주행속도 표시를 km/h로 변경합니다",
+                                  "미터법 사용",
+                                  "주행속도 표시를 km/h로 변경합니다",
                                   "../assets/offroad/icon_metric.png",
                                   this));
   toggles.append(new ParamControl("CommunityFeaturesToggle",
-                                  "Enable Community Features",
-                                  "Use features from the open source community that are not maintained or supported by comma.ai and have not been confirmed to meet the standard safety model. These features include community supported cars and community supported hardware. Be extra cautious when using these features",
-                                  //"커뮤니티 기능 사용",
-                                  //"커뮤니티기능은 comma.ai에서 공식적으로 지원하는 기능이 아니므로 사용시 주의하세요.",
+                                  "커뮤니티 기능 사용",
+                                  "커뮤니티기능은 comma.ai에서 공식적으로 지원하는 기능이 아니므로 사용시 주의하세요.",
                                   "../assets/offroad/icon_discord.png",
                                   this));
   toggles.append(new ParamControl("IsLdwEnabled",
@@ -60,12 +56,13 @@ TogglesPanel::TogglesPanel(QWidget *parent) : QWidget(parent) {
                                   "60km 이상의 속도로 주행시 방향지시등을 켜면 3초후에 차선변경을 수행합니다. 이 기능은 안전을위해 후측방감지기능이 있는 차량만 사용하시기바랍니다.",
                                   "../assets/offroad/icon_lca.png",
                                   this));
+/*
   toggles.append(new ParamControl("MadModeEnabled",
                                   "MAD 모드 사용",
                                   "이 기능은 크루즈버튼으로 오픈파일럿이 활성화됩니다.",
                                   "../assets/offroad/icon_warning.png",
                                   this));
-/*
+
   toggles.append(new ParamControl("LongControlEnabled",
                                   "Enable HKG Long Control",
                                   "warnings: it is beta, be careful!! Openpilot will control the speed of your car",
@@ -86,13 +83,13 @@ TogglesPanel::TogglesPanel(QWidget *parent) : QWidget(parent) {
                                                 "../assets/offroad/icon_monitoring.png",
                                                 this);
   toggles.append(record_toggle);
-  */
+
   toggles.append(new ParamControl("EndToEndToggle",
                                   "Kale 모드 (Alpha)",
                                   "오픈파일럿이 차선없이 운전자가 운전하는것처럼 주행합니다.",
                                   "../assets/offroad/icon_kale.png",
                                   this));
-
+  */
   if (Hardware::TICI()) {
     toggles.append(new ParamControl("EnableWideCamera",
                                     "Enable use of Wide Angle Camera",
@@ -142,7 +139,7 @@ DevicePanel::DevicePanel(QWidget* parent) : QWidget(parent) {
                                            QUIState::ui_state.scene.driver_view = true;
                                         }, "", this));
 
-  QString resetCalibDesc = "오픈파일럿은 마운트에 장착시 위와 아래쪽은 5˚이내 그리고 왼쪽과 오른쪽은 4˚이내에 장착해야 합니다. 장착위치가 변경되면 캘리브레이션을 진행하세요.";
+  QString resetCalibDesc = "장치장착시 위,아래(pitch) 5˚이내 / 왼쪽,오른쪽(yaw) 4˚이내에 장착해야 합니다.";
   ButtonControl *resetCalibBtn = new ButtonControl("캘리브레이션", "초기화", resetCalibDesc, [=]() {
     if (ConfirmationDialog::confirm("초기화하시겠습니까?", this)) {
       Params().remove("CalibrationParams");
@@ -159,9 +156,9 @@ DevicePanel::DevicePanel(QWidget* parent) : QWidget(parent) {
         if (calib.getCalStatus() != 0) {
           double pitch = calib.getRpyCalib()[1] * (180 / M_PI);
           double yaw = calib.getRpyCalib()[2] * (180 / M_PI);
-          desc += QString(" Your device is pointed %1° %2 and %3° %4.")
-                                .arg(QString::number(std::abs(pitch), 'g', 1), pitch > 0 ? "up" : "down",
-                                     QString::number(std::abs(yaw), 'g', 1), yaw > 0 ? "right" : "left");
+          desc += QString("\n현재 장착된 위치는 [ %2 %1° / %4 %3° ] 입니다.")
+                                .arg(QString::number(std::abs(pitch), 'g', 1), pitch > 0 ? "위로" : "아래로",
+                                     QString::number(std::abs(yaw), 'g', 1), yaw > 0 ? "오른쪽으로" : "왼쪽으로");
         }
       } catch (kj::Exception) {
         qInfo() << "invalid CalibrationParams";
@@ -239,11 +236,12 @@ void DeveloperPanel::showEvent(QShowEvent *event) {
   Params params = Params();
   std::string brand = params.getBool("Passive") ? "대시캠" : "오픈파일럿";
   QList<QPair<QString, std::string>> dev_params = {
-    {"버전", brand + " v" + params.get("Version", false).substr(0, 14)},
+    {"버전", brand + " v" + params.get("Version", false)},
     {"Git Remote", params.get("GitRemote", false)},
     {"Git Branch", params.get("GitBranch", false)},
     {"Git Commit", params.get("GitCommit", false).substr(0, 7)},
     {"판다 펌웨어", params.get("PandaFirmwareHex", false)},
+//    {"DongleId", params.get("DongleId", false)},
     {"시리얼", params.get("HardwareSerial", false)},
     {"OS 버전", Hardware::get_os_version()},
   };
@@ -271,8 +269,6 @@ QWidget * network_panel(QWidget * parent) {
   // wifi + tethering buttons
   layout->addWidget(new ButtonControl("WiFi 설정", "열기", "",
                                       [=]() { HardwareEon::launch_wifi(); }));
-  layout->addWidget(horizontal_line());
-
   // Android Setting
   layout->addWidget(new ButtonControl("안드로이드 설정", "열기", "",
                                       [=]() { HardwareEon::launch_setting(); }));
@@ -284,17 +280,14 @@ QWidget * network_panel(QWidget * parent) {
 */
   // SSH key management
   layout->addWidget(new SshToggle());
-  layout->addWidget(horizontal_line());
   layout->addWidget(new SshControl());
   layout->addWidget(horizontal_line());
   layout->addWidget(new LateralControlSelect());
-  layout->addWidget(horizontal_line());
   layout->addWidget(new MfcSelect());
+  layout->addWidget(new LongControlSelect());
   layout->addWidget(horizontal_line());
   layout->addWidget(new PrebuiltToggle());
-  layout->addWidget(horizontal_line());
   layout->addWidget(new ShutdowndToggle());
-  layout->addWidget(horizontal_line());
   layout->addWidget(new DisableLoggerToggle());
   layout->addWidget(horizontal_line());
   const char* gitpull = "/data/openpilot/gitpull.sh ''";
@@ -303,14 +296,12 @@ QWidget * network_panel(QWidget * parent) {
                                           std::system(gitpull);
                                         }
                                       }));
-  layout->addWidget(horizontal_line());
   const char* addfunc = "/data/openpilot/addfunc.sh ''";
   layout->addWidget(new ButtonControl("추가 기능", "실행", "각종 추가기능을 설정합니다", [=]() {
                                         if (ConfirmationDialog::confirm("진행하시겠습니까?")) {
                                           std::system(addfunc);
                                         }
                                       }));
-  layout->addWidget(horizontal_line());
   const char* panda_flash = "/data/openpilot/panda/board/flash.sh ''";
   layout->addWidget(new ButtonControl("판다 펌웨어 플래싱", "실행", "판다 펌웨어 플래싱을 실행합니다.", [=]() {
                                         if (ConfirmationDialog::confirm("진행하시겠습니까?")) {
@@ -344,7 +335,7 @@ void SettingsWindow::showEvent(QShowEvent *event) {
   )");
 
   // close button
-  QPushButton *close_btn = new QPushButton("X");
+  QPushButton *close_btn = new QPushButton("◀");
   close_btn->setStyleSheet(R"(
     font-size: 90px;
     font-weight: bold;
@@ -363,7 +354,7 @@ void SettingsWindow::showEvent(QShowEvent *event) {
 
   QPair<QString, QWidget *> panels[] = {
     {"장치", device},
-    {"네트워크", network_panel(this)},
+    {"설정", network_panel(this)},
     {"토글", new TogglesPanel(this)},
     {"정보", new DeveloperPanel()},
   };

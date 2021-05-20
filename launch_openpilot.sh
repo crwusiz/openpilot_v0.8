@@ -1,13 +1,13 @@
 #!/usr/bin/bash
 
-if [ ! -f "/system/fonts/NanumGothic.ttf" ]; then
+if [ ! -f "/system/fonts/opensans_regular.ttf" ]; then
     sleep 3
     mount -o remount,rw /system
 
-    cp -rf /data/openpilot/installer/fonts/NanumGothic* /system/fonts/
+    cp -rf /data/openpilot/installer/fonts/opensans* /system/fonts/
     cp -rf /data/openpilot/installer/fonts/fonts.xml /system/etc/fonts.xml
     chmod 644 /system/etc/fonts.xml
-    chmod 644 /system/fonts/NanumGothic*
+    chmod 644 /system/fonts/opensans*
 
     cp /data/openpilot/installer/fonts/bootanimation.zip /system/media/
 

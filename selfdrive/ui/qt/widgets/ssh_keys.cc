@@ -82,7 +82,8 @@ void SshControl::getUserKeys(const QString &username) {
   });
 }
 
-LateralControlSelect::LateralControlSelect() : AbstractControl("조향로직", "조향로직을 선택합니다. (Pid/Indi/Lqr/Kale)", "../assets/offroad/icon_logic.png") {
+//LateralControlSelect::LateralControlSelect() : AbstractControl("조향로직", "조향로직을 선택합니다. (Pid/Indi/Lqr/Kale)", "../assets/offroad/icon_logic.png") {
+LateralControlSelect::LateralControlSelect() : AbstractControl("조향로직 [√]", "조향로직을 선택합니다. (Pid/Indi/Lqr)", "../assets/offroad/icon_logic.png") {
   label.setAlignment(Qt::AlignVCenter|Qt::AlignRight);
   label.setStyleSheet("color: #e0e879");
   hlayout->addWidget(&label);
@@ -125,10 +126,10 @@ LateralControlSelect::LateralControlSelect() : AbstractControl("조향로직", "
     auto str = QString::fromStdString(Params().get("LateralControlSelect"));
     int latcontrol = str.toInt();
     latcontrol = latcontrol + 1;
-    //if (latcontrol >= 2 ) {
-    //  latcontrol = 2;
-    if (latcontrol >= 3 ) {
-      latcontrol = 3;
+    if (latcontrol >= 2 ) {
+      latcontrol = 2;
+//    if (latcontrol >= 3 ) {
+//      latcontrol = 3;
     } else {
     }
     QString latcontrols = QString::number(latcontrol);
@@ -146,8 +147,8 @@ void LateralControlSelect::refresh() {
     label.setText(QString::fromStdString("Indi"));
   } else if (latcontrol == "2") {
     label.setText(QString::fromStdString("Lqr"));
-  } else if (latcontrol == "3") {
-    label.setText(QString::fromStdString("Kale"));
+//  } else if (latcontrol == "3") {
+//    label.setText(QString::fromStdString("Kale"));
   }
   btnminus.setText("◀");
   btnplus.setText("▶");
@@ -214,6 +215,70 @@ void MfcSelect::refresh() {
     label.setText(QString::fromStdString("LDWS"));
   } else if (mfc == "2") {
     label.setText(QString::fromStdString("LFA"));
+  }
+  btnminus.setText("◀");
+  btnplus.setText("▶");
+}
+LongControlSelect::LongControlSelect() : AbstractControl("LongControl [√]", "LongControl 모드를 선택합니다. (Mad/Long)", "../assets/offroad/icon_long.png") {
+  label.setAlignment(Qt::AlignVCenter|Qt::AlignRight);
+  label.setStyleSheet("color: #e0e879");
+  hlayout->addWidget(&label);
+
+  btnminus.setStyleSheet(R"(
+    padding: 0;
+    border-radius: 50px;
+    font-size: 35px;
+    font-weight: 500;
+    color: #E4E4E4;
+    background-color: #393939;
+  )");
+  btnplus.setStyleSheet(R"(
+    padding: 0;
+    border-radius: 50px;
+    font-size: 35px;
+    font-weight: 500;
+    color: #E4E4E4;
+    background-color: #393939;
+  )");
+  btnminus.setFixedSize(150, 100);
+  btnplus.setFixedSize(150, 100);
+  hlayout->addWidget(&btnminus);
+  hlayout->addWidget(&btnplus);
+
+  QObject::connect(&btnminus, &QPushButton::released, [=]() {
+    auto str = QString::fromStdString(Params().get("LongControlSelect"));
+    int longcontrol = str.toInt();
+    longcontrol = longcontrol - 1;
+    if (longcontrol <= 0 ) {
+      longcontrol = 0;
+    } else {
+    }
+    QString longcontrols = QString::number(longcontrol);
+    Params().put("LongControlSelect", longcontrols.toStdString());
+    refresh();
+  });
+
+  QObject::connect(&btnplus, &QPushButton::released, [=]() {
+    auto str = QString::fromStdString(Params().get("LongControlSelect"));
+    int longcontrol = str.toInt();
+    longcontrol = longcontrol + 1;
+    if (longcontrol >= 1 ) {
+      longcontrol = 1;
+    } else {
+    }
+    QString longcontrols = QString::number(longcontrol);
+    Params().put("LongControlSelect", longcontrols.toStdString());
+    refresh();
+  });
+  refresh();
+}
+
+void LongControlSelect::refresh() {
+  QString longcontrol = QString::fromStdString(Params().get("LongControlSelect"));
+  if (longcontrol == "0") {
+    label.setText(QString::fromStdString("Mad"));
+  } else if (longcontrol == "1") {
+    label.setText(QString::fromStdString("Long"));
   }
   btnminus.setText("◀");
   btnplus.setText("▶");
