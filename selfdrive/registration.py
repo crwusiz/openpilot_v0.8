@@ -14,6 +14,7 @@ from selfdrive.swaglog import cloudlog
 from selfdrive.version import version, terms_version, training_version, get_git_commit, \
                               get_git_branch, get_git_remote
 
+UNREGISTERED_DONGLE_ID = "UnregisteredDevice"
 
 def register(spinner=None):
   params = Params()
@@ -28,8 +29,8 @@ def register(spinner=None):
 
   IMEI = params.get("IMEI", encoding='utf8')
   HardwareSerial = params.get("HardwareSerial", encoding='utf8')
-
-  needs_registration = (None in [IMEI, HardwareSerial])
+  dongle_id = params.get("DongleId", encoding='utf8')
+  needs_registration = None in (IMEI, HardwareSerial, dongle_id)
 
   # create a key for auth
   # your private key is kept on your device persist partition and never sent to our servers
@@ -72,19 +73,27 @@ def register(spinner=None):
     params.put("IMEI", imei1)
     params.put("HardwareSerial", serial)
 
+    backoff = 0
     while True:
       try:
+        register_token = jwt.encode({'register': True, 'exp': datetime.utcnow() + timedelta(hours=1)}, private_key, algorithm='RS256')
         cloudlog.info("getting pilotauth")
         resp = api_get("v2/pilotauth/", method='POST', timeout=15,
                        imei=imei1, imei2=imei2, serial=serial, public_key=public_key, register_token=register_token)
-        dongleauth = json.loads(resp.text)
-        dongle_id = dongleauth["dongle_id"]
-        params.put("DongleId", dongle_id)
+
+        if resp.status_code in (402, 403):
+          cloudlog.info(f"Unable to register device, got {resp.status_code}")
+          dongle_id = UNREGISTERED_DONGLE_ID
+        else:
+          dongleauth = json.loads(resp.text)
+          dongle_id = dongleauth["dongle_id"]
         break
       except Exception:
         cloudlog.exception("failed to authenticate")
-        time.sleep(1)
-
+        backoff = min(backoff + 1, 15)
+        time.sleep(backoff)
+  if dongle_id:
+    params.put("DongleId", dongle_id)
   return dongle_id
 
 if __name__ == "__main__":

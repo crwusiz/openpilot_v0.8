@@ -144,7 +144,7 @@ if __name__ == "__main__" and not PREBUILT:
 import cereal.messaging as messaging
 from cereal import log
 from common.params import Params
-from selfdrive.registration import register
+from selfdrive.registration import register, UNREGISTERED_DONGLE_ID
 from selfdrive.launcher import launcher
 
 # comment out anything you don't want to run
@@ -407,7 +407,8 @@ def manager_init():
   if reg_res:
     dongle_id = reg_res
   else:
-    raise Exception("server registration failed")
+    serial = params.get("HardwareSerial")
+    raise Exception(f"Registration failed for device {serial}")
   os.environ['DONGLE_ID'] = dongle_id
 
   if not dirty:
@@ -461,6 +462,10 @@ def manager_thread():
   if EON:
     pm_apply_packages('enable')
     start_offroad()
+
+  if os.getenv("DongleId") == UNREGISTERED_DONGLE_ID:
+    del daemon_processes["manage_athenad"]
+    del managed_processes["uploader"]
 
   if os.getenv("NOBOARD") is not None:
     del managed_processes["pandad"]
