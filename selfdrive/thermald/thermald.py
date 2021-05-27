@@ -254,7 +254,7 @@ def thermald_thread():
     # Fake battery levels on uno for frame
     if (not EON) or is_uno:
       msg.deviceState.batteryPercent = 100
-      msg.deviceState.batteryStatus = "batteryless"
+      msg.deviceState.batteryStatus = "Charging"
       msg.deviceState.batteryTempC = 0
 
     current_filter.update(msg.deviceState.batteryCurrent / 1e6)
@@ -373,6 +373,12 @@ def thermald_thread():
       started_ts = None
       if off_ts is None:
         off_ts = sec_since_boot()
+
+    prebuiltlet = params.get_bool("PutPrebuilt")
+    if not os.path.isfile(prebuiltfile) and prebuiltlet:
+      os.system("cd /data/openpilot; touch prebuilt")
+    elif os.path.isfile(prebuiltfile) and not prebuiltlet:
+      os.system("cd /data/openpilot; rm -f prebuilt")
 
     # Offroad power monitoring
     power_monitor.calculate(pandaState)

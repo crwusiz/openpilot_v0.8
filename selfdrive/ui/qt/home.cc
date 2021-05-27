@@ -148,11 +148,10 @@ void OffroadHome::refresh() {
     return;
   }
 
-//  date->setText(QDateTime::currentDateTime().toString("dddd, MMMM d"));
+  // date show
   date->setText(QDateTime::currentDateTime().toString("yyyy년 M월 d일"));
 
   // update alerts
-
   alerts_widget->refresh();
   if (!alerts_widget->alertCount && !alerts_widget->updateAvailable) {
     emit closeAlerts();
@@ -161,10 +160,10 @@ void OffroadHome::refresh() {
   }
 
   if (alerts_widget->updateAvailable) {
-    alert_notification->setText("UPDATE");
+    alert_notification->setText("업데이트");
   } else {
     int alerts = alerts_widget->alertCount;
-    alert_notification->setText(QString::number(alerts) + " ALERT" + (alerts == 1 ? "" : "S"));
+    alert_notification->setText(QString::number(alerts) + " 경고" + (alerts == 1 ? "" : "S"));
   }
 
   if (!alert_notification->isVisible() && !first_refresh) {

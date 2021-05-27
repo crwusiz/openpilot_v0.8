@@ -90,6 +90,7 @@ TogglesPanel::TogglesPanel(QWidget *parent) : QWidget(parent) {
                                   "../assets/offroad/icon_kale.png",
                                   this));
   */
+  /*
   if (Hardware::TICI()) {
     toggles.append(new ParamControl("EnableWideCamera",
                                     "Enable use of Wide Angle Camera",
@@ -102,7 +103,7 @@ TogglesPanel::TogglesPanel(QWidget *parent) : QWidget(parent) {
                                     "../assets/offroad/icon_network.png",
                                     this));
   }
-
+  */
 //  bool record_lock = Params().getBool("RecordFrontLock");
 //  record_toggle->setEnabled(!record_lock);
 

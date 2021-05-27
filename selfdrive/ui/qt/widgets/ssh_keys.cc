@@ -28,10 +28,10 @@ SshControl::SshControl() : AbstractControl("SSH키 변경", "Github 사용자 ID
   hlayout->addWidget(&btn);
 
   QObject::connect(&btn, &QPushButton::released, [=]() {
-    if (btn.text() == "ADD") {
-      QString username = InputDialog::getText("GitHub username");
+    if (btn.text() == "추가") {
+      QString username = InputDialog::getText("GitHub ID를 입력하세요");
       if (username.length() > 0) {
-        btn.setText("LOADING");
+        btn.setText("로딩중");
         btn.setEnabled(false);
         getUserKeys(username);
       }
