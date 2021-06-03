@@ -40,7 +40,7 @@ private:
     {AudibleAlert::CHIME_ERROR, {"../assets/sounds/error.wav", false}},
     {AudibleAlert::CHIME_PROMPT, {"../assets/sounds/error.wav", false}},
     {AudibleAlert::CHIME_DING, {"../assets/sounds/ding.wav", false}},
-    {AudibleAlert::CHIME_DING_REPEAT, {"../assets/sounds/ding.wav", 5}},
+    {AudibleAlert::CHIME_DING_REPEAT, {"../assets/sounds/ding.wav", false}},
     {AudibleAlert::CHIME_GEARD, {"../assets/sounds/geard.wav", false}},
     {AudibleAlert::CHIME_ALCA, {"../assets/sounds/alca.wav", false}},
     {AudibleAlert::CHIME_SEATBELT, {"../assets/sounds/seatbelt.wav", false}},

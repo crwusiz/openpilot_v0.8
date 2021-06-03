@@ -204,12 +204,8 @@ def thermald_thread():
         no_panda_cnt = 0
         startup_conditions["ignition"] = pandaState.pandaState.ignitionLine or pandaState.pandaState.ignitionCan
 
-#      startup_conditions["hardware_supported"] = pandaState.pandaState.pandaType not in [log.PandaState.PandaType.whitePanda,
-#                                                                                         log.PandaState.PandaType.greyPanda]
-      startup_conditions["hardware_supported"] = pandaState is not None
-#      set_offroad_alert_if_changed("Offroad_HardwareUnsupported", not startup_conditions["hardware_supported"])
-      set_offroad_alert_if_changed("Offroad_HardwareUnsupported",
-                                   pandaState is not None and not startup_conditions["hardware_supported"])
+#      startup_conditions["hardware_supported"] = pandaState is not None
+#      set_offroad_alert_if_changed("Offroad_HardwareUnsupported", pandaState is not None and not startup_conditions["hardware_supported"])
 
       # Setup fan handler on first connect to panda
       if handle_fan is None and pandaState.pandaState.pandaType != log.PandaState.PandaType.unknown:
@@ -386,14 +382,14 @@ def thermald_thread():
     msg.deviceState.carBatteryCapacityUwh = max(0, power_monitor.get_car_battery_capacity())
 
     # Check if we need to disable charging (handled by boardd)
-    msg.deviceState.chargingDisabled = power_monitor.should_disable_charging(pandaState, off_ts)
+#    msg.deviceState.chargingDisabled = power_monitor.should_disable_charging(pandaState, off_ts)
 
     # Check if we need to shut down
-    if power_monitor.should_shutdown(pandaState, off_ts, started_seen):
-      cloudlog.info(f"shutting device down, offroad since {off_ts}")
+#    if power_monitor.should_shutdown(pandaState, off_ts, started_seen):
+#      cloudlog.info(f"shutting device down, offroad since {off_ts}")
       # TODO: add function for blocking cloudlog instead of sleep
-      time.sleep(10)
-      HARDWARE.shutdown()
+#      time.sleep(10)
+#      HARDWARE.shutdown()
 
     # If UI has crashed, set the brightness to reasonable non-zero value
     manager_state = messaging.recv_one_or_none(managerState_sock)

@@ -2,7 +2,7 @@ crwusiz openpilot
 =====
 
 <b> This Branch is xx979xx HKG_community base comma devel-staging v0.8.4</b>
-- <b> v0.8.4 [ White panda / Gray panda / Oneplus 3t ] not work </b>
+- <b> v0.8.4 [ white and gray panda allow , OP3T not work(using v0.8.2) ] </b>
 - If you have any questions, please send a message to crwusiz from discord. if you like this Branch <b> [Donate](https://paypal.me/crwusiz) </b>for me
 [![](https://i.imgur.com/TMtVMV8.png)](#)
 

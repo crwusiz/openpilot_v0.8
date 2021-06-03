@@ -34,7 +34,7 @@ void Sidebar::drawMetric(QPainter &p, const QString &label, const QString &val, 
 }
 
 Sidebar::Sidebar(QWidget *parent) : QFrame(parent) {
-  home_img = QImage("../assets/images/button_home.png").scaled(180, 180, Qt::KeepAspectRatio, Qt::SmoothTransformation);
+  home_img = QImage("../assets/offroad/icon_openpilot.png").scaled(180, 180, Qt::KeepAspectRatio, Qt::SmoothTransformation);
   settings_img = QImage("../assets/images/button_settings.png").scaled(settings_btn.width(), settings_btn.height(), Qt::IgnoreAspectRatio, Qt::SmoothTransformation);;
 
   setFixedWidth(300);
@@ -107,9 +107,9 @@ void Sidebar::paintEvent(QPaintEvent *event) {
   // network
 //  p.drawImage(58, 196, signal_imgs[strength]);
   p.drawImage(68, 180, battery_imgs[m_battery_img]); // signal_imgs to battery_imgs
-  configFont(p, "Open Sans", 33, "Bold");
+  configFont(p, "Open Sans", 32, "Bold");
   p.setPen(QColor(0x00, 0x00, 0x00));
-  const QRect r = QRect(78, 192, 100, 50);
+  const QRect r = QRect(80, 193, 100, 50);
   char battery_str[5];
   snprintf(battery_str, sizeof(battery_str), "%d%%", m_batteryPercent);
   p.drawText(r, Qt::AlignCenter, battery_str);

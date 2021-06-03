@@ -103,11 +103,16 @@ struct CarEvent @0x9b1657f34caf3ad3 {
     processNotRunning @95;
     dashcamMode @96;
     controlsInitializing @98;
+    usbError @99;
+    roadCameraError @100;
+    driverCameraError @101;
+    wideRoadCameraError @102;
+    localizerMalfunction @103;
 
     #hkg
-    autoLaneChange @99;
-    turningIndicatorOn @100;
-    lkasButtonOff @101;
+    autoLaneChange @104;
+    turningIndicatorOn @105;
+    lkasButtonOff @106;
 
     radarCanErrorDEPRECATED @15;
     radarCommIssueDEPRECATED @67;

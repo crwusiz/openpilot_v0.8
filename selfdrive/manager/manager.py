@@ -45,6 +45,7 @@ def manager_init():
     ("LateralControlSelect", "0"),
     ("DisableShutdownd", "0"),
     ("DisableLogger", "0"),
+    ("DisableGps", "0"),
   ]
 
   if TICI:

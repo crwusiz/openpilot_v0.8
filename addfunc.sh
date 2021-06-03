@@ -8,7 +8,6 @@ export PYTHONPATH=/data/openpilot
 echo =================================================================
 echo git pull
 cd /data/openpilot && /data/data/com.termux/files/usr/bin/git fetch --all; /data/data/com.termux/files/usr/bin/git reset --hard HEAD; /data/data/com.termux/files/usr/bin/git pull;
-/data/data/com.termux/files/usr/bin/git log -1;
 
 echo =================================================================
 echo realdata clear

@@ -133,7 +133,7 @@ void set_safety_mode(uint16_t mode, int16_t param) {
     case SAFETY_NOOUTPUT:
       set_intercept_relay(true);
       if (board_has_obd()) {
-        current_board->set_can_mode(CAN_MODE_NORMAL);
+        current_board->set_can_mode(CAN_MODE_OBD_CAN2);
       }
       can_silent = ALL_CAN_LIVE;
       break;
@@ -149,7 +149,7 @@ void set_safety_mode(uint16_t mode, int16_t param) {
       set_intercept_relay(true);
       heartbeat_counter = 0U;
       if (board_has_obd()) {
-        current_board->set_can_mode(CAN_MODE_NORMAL);
+        current_board->set_can_mode(CAN_MODE_OBD_CAN2);
       }
       can_silent = ALL_CAN_LIVE;
       break;
@@ -841,7 +841,8 @@ int main(void) {
   // use TIM2->CNT to read
 
   // init to SILENT and can silent
-  set_safety_mode(SAFETY_NOOUTPUT, 0); // MDPS will hard fault if SAFETY_SILENT set
+  // MDPS will hard fault if SAFETY_SILENT set
+  set_safety_mode(SAFETY_NOOUTPUT, 0);
 
   // enable CAN TXs
   current_board->enable_can_transceivers(true);

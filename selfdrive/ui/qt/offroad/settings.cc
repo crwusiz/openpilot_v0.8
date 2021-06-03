@@ -123,7 +123,7 @@ DevicePanel::DevicePanel(QWidget* parent) : QWidget(parent) {
   Params params = Params();
 
   QString dongle = QString::fromStdString(params.get("DongleId", false));
-  device_layout->addWidget(new LabelControl("Dongle ID", dongle));
+  device_layout->addWidget(new LabelControl("동글 ID", dongle));
 /*
   device_layout->addWidget(horizontal_line());
 
@@ -237,14 +237,14 @@ void DeveloperPanel::showEvent(QShowEvent *event) {
   Params params = Params();
   std::string brand = params.getBool("Passive") ? "대시캠" : "오픈파일럿";
   QList<QPair<QString, std::string>> dev_params = {
-    {"버전", brand + " v" + params.get("Version", false)},
-    {"Git Remote", params.get("GitRemote", false)},
+    {"버전", "v" + params.get("Version", false)},
+    {"Git Remote", params.get("GitRemote", false).substr(19)},
     {"Git Branch", params.get("GitBranch", false)},
     {"Git Commit", params.get("GitCommit", false).substr(0, 7)},
     {"판다 펌웨어", params.get("PandaFirmwareHex", false)},
 //    {"DongleId", params.get("DongleId", false)},
-    {"시리얼", params.get("HardwareSerial", false)},
-    {"OS 버전", Hardware::get_os_version()},
+//    {"시리얼", params.get("HardwareSerial", false)},
+    {"NEOS 버전", Hardware::get_os_version()},
   };
 
   for (int i = 0; i < dev_params.size(); i++) {
@@ -263,17 +263,17 @@ void DeveloperPanel::showEvent(QShowEvent *event) {
 }
 
 QWidget * network_panel(QWidget * parent) {
-#ifdef QCOM
   QVBoxLayout *layout = new QVBoxLayout;
   layout->setSpacing(30);
-
+#ifdef QCOM
   // wifi + tethering buttons
-  layout->addWidget(new ButtonControl("WiFi 설정", "열기", "",
+  layout->addWidget(new ButtonControl("\U0001f4f6 WiFi 설정", "열기", "",
                                       [=]() { HardwareEon::launch_wifi(); }));
   // Android Setting
-  layout->addWidget(new ButtonControl("안드로이드 설정", "열기", "",
+  layout->addWidget(new ButtonControl("\U00002699 안드로이드 설정", "열기", "",
                                       [=]() { HardwareEon::launch_setting(); }));
   layout->addWidget(horizontal_line());
+#endif
 /*
   layout->addWidget(new ButtonControl("Tethering Settings", "OPEN", "",
                                       [=]() { HardwareEon::launch_tethering(); }));
@@ -288,8 +288,9 @@ QWidget * network_panel(QWidget * parent) {
   layout->addWidget(new LongControlSelect());
   layout->addWidget(horizontal_line());
   layout->addWidget(new PrebuiltToggle());
-  layout->addWidget(new ShutdowndToggle());
+  layout->addWidget(new DisableShutdowndToggle());
   layout->addWidget(new DisableLoggerToggle());
+  layout->addWidget(new DisableGpsToggle());
   layout->addWidget(horizontal_line());
   const char* gitpull = "/data/openpilot/gitpull.sh ''";
   layout->addWidget(new ButtonControl("Git Pull", "실행", "사용중인 브랜치의 최근 수정된 내용으로 변경됩니다.", [=]() {
@@ -298,7 +299,7 @@ QWidget * network_panel(QWidget * parent) {
                                         }
                                       }));
   const char* addfunc = "/data/openpilot/addfunc.sh ''";
-  layout->addWidget(new ButtonControl("추가 기능", "실행", "각종 추가기능을 설정합니다", [=]() {
+  layout->addWidget(new ButtonControl("추가 기능", "실행", "추가기능을 적용합니다.", [=]() {
                                         if (ConfirmationDialog::confirm("진행하시겠습니까?")) {
                                           std::system(addfunc);
                                         }
@@ -309,13 +310,16 @@ QWidget * network_panel(QWidget * parent) {
                                           std::system(panda_flash);
                                         }
                                       }));
+  const char* panda_recover = "/data/openpilot/panda/board/recover.sh ''";
+  layout->addWidget(new ButtonControl("판다 펌웨어 복구", "실행", "판다 펌웨어 복구를 실행합니다.", [=]() {
+                                        if (ConfirmationDialog::confirm("진행하시겠습니까?")) {
+                                          std::system(panda_recover);
+                                        }
+                                      }));
   layout->addStretch(1);
 
   QWidget *w = new QWidget;
   w->setLayout(layout);
-#else
-  Networking *w = new Networking(parent);
-#endif
   return w;
 }
 
@@ -325,7 +329,9 @@ void SettingsWindow::showEvent(QShowEvent *event) {
     nav_btns->buttons()[0]->setChecked(true);
     return;
   }
+}
 
+SettingsWindow::SettingsWindow(QWidget *parent) : QFrame(parent) {
   // setup two main layouts
   QVBoxLayout *sidebar_layout = new QVBoxLayout();
   sidebar_layout->setMargin(0);

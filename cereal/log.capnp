@@ -887,6 +887,8 @@ struct LiveLocationKalman {
   gpsOK @19 :Bool = true;
   sensorsOK @21 :Bool = true;
   deviceStable @22 :Bool = true;
+  timeSinceReset @23 :Float64;
+  excessiveResets @24 :Bool;
 
   enum Status {
     uninitialized @0;

@@ -39,7 +39,7 @@ void PairingQRWidget::refresh(){
   if (std::min(IMEI.length(), serial.length()) <= 5) {
     qrCode->setText("Error getting serial: contact support");
     qrCode->setWordWrap(true);
-    qrCode->setStyleSheet(R"(font-size: 60px;)");
+    qrCode->setStyleSheet(R"(font-size: 48px;)");
     return;
   }
   QString pairToken = CommaApi::create_jwt({{"pair", true}});
@@ -108,9 +108,9 @@ PrimeUserWidget::PrimeUserWidget(QWidget* parent) : QWidget(parent) {
     return;
   }
 
-  QString url = "https://api.commadotai.com/v1/devices/" + dongleId + "/owner";
-  RequestRepeater *repeater = new RequestRepeater(this, url, "ApiCache_Owner", 6);
-  QObject::connect(repeater, &RequestRepeater::receivedResponse, this, &PrimeUserWidget::replyFinished);
+//  QString url = "https://api.commadotai.com/v1/devices/" + dongleId + "/owner";
+//  RequestRepeater *repeater = new RequestRepeater(this, url, "ApiCache_Owner", 6);
+//  QObject::connect(repeater, &RequestRepeater::receivedResponse, this, &PrimeUserWidget::replyFinished);
 }
 
 void PrimeUserWidget::replyFinished(const QString &response) {
@@ -133,19 +133,12 @@ void PrimeUserWidget::replyFinished(const QString &response) {
 
 PrimeAdWidget::PrimeAdWidget(QWidget* parent) : QWidget(parent) {
   QVBoxLayout* vlayout = new QVBoxLayout;
-  vlayout->setMargin(15);
+  vlayout->setMargin(30);
   vlayout->setSpacing(15);
 
-  vlayout->addWidget(new QLabel("Easy Driving~"), 1, Qt::AlignCenter);
+  vlayout->addWidget(new QLabel("Upgrade now"), 1, Qt::AlignTop);
 
-  QPixmap logo("../assets/offroad/icon_openpilot.png");
-  QLabel *hkg = new QLabel();
-  hkg->setPixmap(logo.scaledToWidth(430, Qt::SmoothTransformation));
-  hkg->setSizePolicy(QSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed));
-  vlayout->addWidget(hkg, 0, Qt::AlignCenter);
-
-/*
-  QLabel* description = new QLabel("Become a comma prime member at my.comma.ai and get premium features!");
+  QLabel* description = new QLabel("Become a comma prime member in the comma connect app and get premium features!");
   description->setStyleSheet(R"(
     font-size: 50px;
     color: #b8b8b8;
@@ -159,7 +152,6 @@ PrimeAdWidget::PrimeAdWidget(QWidget* parent) : QWidget(parent) {
     feature->setStyleSheet(R"(font-size: 40px;)");
     vlayout->addWidget(feature, 0, Qt::AlignBottom);
   }
-*/
   setLayout(vlayout);
 }
 
@@ -172,7 +164,7 @@ SetupWidget::SetupWidget(QWidget* parent) : QFrame(parent) {
   QVBoxLayout* finishRegistationLayout = new QVBoxLayout;
   finishRegistationLayout->setMargin(30);
 
-  QLabel* registrationDescription = new QLabel("Pair your device with the comma connect app");
+  QLabel* registrationDescription = new QLabel("COMMA CONNECT\n \n앱으로 장치와 페어링 하세요");
   registrationDescription->setWordWrap(true);
   registrationDescription->setAlignment(Qt::AlignCenter);
   registrationDescription->setStyleSheet(R"(
@@ -182,7 +174,7 @@ SetupWidget::SetupWidget(QWidget* parent) : QFrame(parent) {
 
   finishRegistationLayout->addWidget(registrationDescription);
 
-  QPushButton* finishButton = new QPushButton("Finish setup");
+  QPushButton* finishButton = new QPushButton("QR코드");
   finishButton->setFixedHeight(200);
   finishButton->setStyleSheet(R"(
     border-radius: 30px;
@@ -202,11 +194,11 @@ SetupWidget::SetupWidget(QWidget* parent) : QFrame(parent) {
   QVBoxLayout* qrLayout = new QVBoxLayout;
 
   qrLayout->addSpacing(40);
-  QLabel* qrLabel = new QLabel("Scan with comma connect!");
+  QLabel* qrLabel = new QLabel("QR 코드를 스캔하세요");
   qrLabel->setWordWrap(true);
   qrLabel->setAlignment(Qt::AlignHCenter);
   qrLabel->setStyleSheet(R"(
-    font-size: 55px;
+    font-size: 45px;
     font-weight: 400;
   )");
   qrLayout->addWidget(qrLabel, 0, Qt::AlignTop);
@@ -279,9 +271,7 @@ void SetupWidget::replyFinished(const QString &response) {
   bool is_prime = json["prime"].toBool();
 
   if (!is_paired) {
-//    mainLayout->setCurrentIndex(showQr);
-    showQr = false;
-    mainLayout->setCurrentWidget(primeAd);
+    mainLayout->setCurrentIndex(showQr);
   } else if (!is_prime) {
     showQr = false;
     mainLayout->setCurrentWidget(primeAd);

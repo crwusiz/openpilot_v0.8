@@ -7,7 +7,7 @@
 #include "selfdrive/ui/qt/api.h"
 #include "selfdrive/ui/qt/widgets/input.h"
 
-SshControl::SshControl() : AbstractControl("SSH키 변경", "Github 사용자 ID에 등록된 SSH키로 변경합니다.", "../assets/offroad/icon_ssh.png") {
+SshControl::SshControl() : AbstractControl("SSH키", "Github 사용자 ID에 등록된 SSH키로 변경합니다.", "../assets/offroad/icon_ssh.png") {
 
   // setup widget
   hlayout->addStretch(1);
@@ -83,7 +83,7 @@ void SshControl::getUserKeys(const QString &username) {
 }
 
 //LateralControlSelect::LateralControlSelect() : AbstractControl("조향로직", "조향로직을 선택합니다. (Pid/Indi/Lqr/Kale)", "../assets/offroad/icon_logic.png") {
-LateralControlSelect::LateralControlSelect() : AbstractControl("조향로직 [√]", "조향로직을 선택합니다. (Pid/Indi/Lqr)", "../assets/offroad/icon_logic.png") {
+LateralControlSelect::LateralControlSelect() : AbstractControl("LateralControl [√]", "조향로직을 선택합니다. (Pid/Indi/Lqr)", "../assets/offroad/icon_logic.png") {
   label.setAlignment(Qt::AlignVCenter|Qt::AlignRight);
   label.setStyleSheet("color: #e0e879");
   hlayout->addWidget(&label);
@@ -219,7 +219,7 @@ void MfcSelect::refresh() {
   btnminus.setText("◀");
   btnplus.setText("▶");
 }
-LongControlSelect::LongControlSelect() : AbstractControl("LongControl [√]", "LongControl 모드를 선택합니다. (Mad/Long)", "../assets/offroad/icon_long.png") {
+LongControlSelect::LongControlSelect() : AbstractControl("LongControl [√]", "LongControl 모드를 선택합니다. (MAD/LONG)", "../assets/offroad/icon_long.png") {
   label.setAlignment(Qt::AlignVCenter|Qt::AlignRight);
   label.setStyleSheet("color: #e0e879");
   hlayout->addWidget(&label);
@@ -276,9 +276,9 @@ LongControlSelect::LongControlSelect() : AbstractControl("LongControl [√]", "L
 void LongControlSelect::refresh() {
   QString longcontrol = QString::fromStdString(Params().get("LongControlSelect"));
   if (longcontrol == "0") {
-    label.setText(QString::fromStdString("Mad"));
+    label.setText(QString::fromStdString("MAD"));
   } else if (longcontrol == "1") {
-    label.setText(QString::fromStdString("Long"));
+    label.setText(QString::fromStdString("LONG"));
   }
   btnminus.setText("◀");
   btnplus.setText("▶");

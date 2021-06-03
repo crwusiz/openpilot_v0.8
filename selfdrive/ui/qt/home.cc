@@ -73,7 +73,7 @@ OffroadHome::OffroadHome(QWidget* parent) : QFrame(parent) {
   QHBoxLayout* header_layout = new QHBoxLayout();
 
   date = new QLabel();
-  date->setStyleSheet(R"(font-size: 55px;)");
+  date->setStyleSheet(R"(font-size: 50px;)");
   header_layout->addWidget(date, 0, Qt::AlignHCenter | Qt::AlignLeft);
 
   alert_notification = new QPushButton();
@@ -82,8 +82,8 @@ OffroadHome::OffroadHome(QWidget* parent) : QFrame(parent) {
   header_layout->addWidget(alert_notification, 0, Qt::AlignHCenter | Qt::AlignRight);
 
   std::string brand = Params().getBool("Passive") ? "대시캠" : "오픈파일럿";
-  QLabel* version = new QLabel(QString::fromStdString(brand + " v" + Params().get("Version")));
-  version->setStyleSheet(R"(font-size: 55px;)");
+  QLabel* version = new QLabel(QString::fromStdString(" v" + Params().get("Version")));
+  version->setStyleSheet(R"(font-size: 50px;)");
   header_layout->addWidget(version, 0, Qt::AlignHCenter | Qt::AlignRight);
 
   main_layout->addLayout(header_layout);
@@ -149,7 +149,7 @@ void OffroadHome::refresh() {
   }
 
   // date show
-  date->setText(QDateTime::currentDateTime().toString("yyyy년 M월 d일"));
+  date->setText(QDateTime::currentDateTime().toString("\U0001f4c5 yyyy년 M월 d일")+"      「 Easy Driving \U0001f60b 」");
 
   // update alerts
   alerts_widget->refresh();

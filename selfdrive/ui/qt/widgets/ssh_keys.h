@@ -39,7 +39,7 @@ class PrebuiltToggle : public ToggleControl {
   Q_OBJECT
 
 public:
-  PrebuiltToggle() : ToggleControl("Prebuilt 파일 생성", "Prebuilt 파일을 생성하며 부팅속도를 향상시킵니다.", "../assets/offroad/icon_prebuilt.png", Params().getBool("PutPrebuilt")) {
+  PrebuiltToggle() : ToggleControl("Prebuilt Enable", "Prebuilt 파일을 생성하며 부팅속도를 향상시킵니다.", "../assets/offroad/icon_addon.png", Params().getBool("PutPrebuilt")) {
     QObject::connect(this, &PrebuiltToggle::toggleFlipped, [=](int state) {
       char value = state ? '1' : '0';
       Params().put("PutPrebuilt", &value, 1);
@@ -48,12 +48,12 @@ public:
 };
 
 // Shutdownd
-class ShutdowndToggle : public ToggleControl {
+class DisableShutdowndToggle : public ToggleControl {
   Q_OBJECT
 
 public:
-  ShutdowndToggle() : ToggleControl("Shutdownd Disable", "Shutdownd (시동 off 5분) 자동종료를 사용하지않습니다. (batteryless 기종)", "../assets/offroad/icon_shutdownd.png", Params().getBool("DisableShutdownd")) {
-    QObject::connect(this, &ShutdowndToggle::toggleFlipped, [=](int state) {
+  DisableShutdowndToggle() : ToggleControl("Shutdownd Disable", "Shutdownd (시동 off 5분) 자동종료를 사용하지않습니다. (batteryless 기종)", "../assets/offroad/icon_addon.png", Params().getBool("DisableShutdownd")) {
+    QObject::connect(this, &DisableShutdowndToggle::toggleFlipped, [=](int state) {
       char value = state ? '1' : '0';
       Params().put("DisableShutdownd", &value, 1);
     });
@@ -65,10 +65,23 @@ class DisableLoggerToggle : public ToggleControl {
   Q_OBJECT
 
 public:
-  DisableLoggerToggle() : ToggleControl("Logger Disable", "Logger 프로세스를 종료하여 시스템 부하를 줄입니다.", "../assets/offroad/icon_logger.png", Params().getBool("DisableLogger")) {
+  DisableLoggerToggle() : ToggleControl("Logger Disable", "Logger 프로세스를 종료하여 시스템 부하를 줄입니다.", "../assets/offroad/icon_addon.png", Params().getBool("DisableLogger")) {
     QObject::connect(this, &DisableLoggerToggle::toggleFlipped, [=](int state) {
       char value = state ? '1' : '0';
       Params().put("DisableLogger", &value, 1);
+    });
+  }
+};
+
+// DisableGps
+class DisableGpsToggle : public ToggleControl {
+  Q_OBJECT
+
+public:
+  DisableGpsToggle() : ToggleControl("Gps Disable", "Panda에 Gps가 장착되어있지않은 기기일경우 옵션을 활성화하세요.", "../assets/offroad/icon_addon.png", Params().getBool("DisableGps")) {
+    QObject::connect(this, &DisableGpsToggle::toggleFlipped, [=](int state) {
+      char value = state ? '1' : '0';
+      Params().put("DisableGps", &value, 1);
     });
   }
 };

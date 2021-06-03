@@ -171,10 +171,10 @@ class EngagementAlert(Alert):
                      audible_alert, .2, 0., 0.),
 
 class NormalPermanentAlert(Alert):
-  def __init__(self, alert_text_1, alert_text_2):
+  def __init__(self, alert_text_1: str, alert_text_2: str, duration_text: float = 0.2):
     super().__init__(alert_text_1, alert_text_2,
                      AlertStatus.normal, AlertSize.mid if len(alert_text_2) else AlertSize.small,
-                     Priority.LOWER, VisualAlert.none, AudibleAlert.none, 0., 0., .2),
+                     Priority.LOWER, VisualAlert.none, AudibleAlert.none, 0., 0., duration_text),
 
 # ********** alert callback functions **********
 
@@ -194,7 +194,7 @@ def calibration_incomplete_alert(CP: car.CarParams, sm: messaging.SubMaster, met
     "캘리브레이션 진행중입니다 : %d%%" % sm['liveCalibration'].calPerc,
     "속도를 %d %s 이상으로 주행하세요" % (speed, unit),
     AlertStatus.normal, AlertSize.mid,
-    Priority.LOWEST, VisualAlert.none, AudibleAlert.chimeCalibration1, 4.5, 0., .2)
+    Priority.LOWEST, VisualAlert.none, AudibleAlert.none, 0., 0., .2)
 
 def no_gps_alert(CP: car.CarParams, sm: messaging.SubMaster, metric: bool) -> Alert:
   gps_integrated = sm['pandaState'].pandaType in [log.PandaState.PandaType.uno, log.PandaState.PandaType.dos]
@@ -212,8 +212,8 @@ def wrong_car_mode_alert(CP: car.CarParams, sm: messaging.SubMaster, metric: boo
 
 def startup_fuzzy_fingerprint_alert(CP: car.CarParams, sm: messaging.SubMaster, metric: bool) -> Alert:
   return Alert(
-    "WARNING: No Exact Match on Car Model",
-    f"Closest Match: {CP.carFingerprint.title()[:40]}",
+    "경고: 정확히 일치하는 차량모델이 없습니다",
+    f"가장 근접한 일치: {CP.carFingerprint.title()[:40]}",
     AlertStatus.userPrompt, AlertSize.mid,
     Priority.LOWER, VisualAlert.none, AudibleAlert.none, 0., 0., 15.)
 
@@ -490,7 +490,7 @@ EVENTS: Dict[int, Dict[str, Union[Alert, Callable[[Any, messaging.SubMaster, boo
   },
 
   EventName.fanMalfunction: {
-    ET.PERMANENT: NormalPermanentAlert("FAN 오작동", "하드웨어를 점검하세요"),
+    ET.PERMANENT: NormalPermanentAlert("FAN 오작동", "장치를 점검하세요"),
   },
 
   EventName.cameraMalfunction: {
@@ -498,7 +498,11 @@ EVENTS: Dict[int, Dict[str, Union[Alert, Callable[[Any, messaging.SubMaster, boo
   },
 
   EventName.gpsMalfunction: {
-    ET.PERMANENT: NormalPermanentAlert("GPS 오작동", "하드웨어를 점검하세요"),
+    ET.PERMANENT: NormalPermanentAlert("GPS 오작동", "장치를 점검하세요"),
+  },
+
+  EventName.localizerMalfunction: {
+    ET.PERMANENT: NormalPermanentAlert("로컬라이저 불안정", "장치를 점검하세요"),
   },
 
   EventName.turningIndicatorOn: {
@@ -592,7 +596,7 @@ EVENTS: Dict[int, Dict[str, Union[Alert, Callable[[Any, messaging.SubMaster, boo
   EventName.sensorDataInvalid: {
     ET.PERMANENT: Alert(
       "장치 센서 오류",
-      "장치 점검후 재가동하세요",
+      "장치를 점검하세요",
       AlertStatus.normal, AlertSize.mid,
       Priority.LOWER, VisualAlert.none, AudibleAlert.none, 0., 0., .2, creation_delay=1.),
     ET.NO_ENTRY: NoEntryAlert("장치 센서 오류"),
@@ -636,8 +640,7 @@ EVENTS: Dict[int, Dict[str, Union[Alert, Callable[[Any, messaging.SubMaster, boo
   EventName.calibrationIncomplete: {
     ET.PERMANENT: calibration_incomplete_alert,
     ET.SOFT_DISABLE: SoftDisableAlert("캘리브레이션 진행중입니다"),
-    ET.NO_ENTRY: NoEntryAlert("캘리브레이션 진행중입니다",
-                              audible_alert=AudibleAlert.chimeCalibration2, duration_sound=2.),
+    ET.NO_ENTRY: NoEntryAlert("캘리브레이션 진행중입니다"),
   },
 
   EventName.doorOpen: {
@@ -723,14 +726,35 @@ EVENTS: Dict[int, Dict[str, Union[Alert, Callable[[Any, messaging.SubMaster, boo
     ET.IMMEDIATE_DISABLE: ImmediateDisableAlert("컨트롤 불일치"),
   },
 
+  EventName.roadCameraError: {
+    ET.PERMANENT: NormalPermanentAlert("주행 카메라 오류", "",
+                                       duration_text=10.),
+  },
+
+  EventName.driverCameraError: {
+    ET.PERMANENT: NormalPermanentAlert("운전자 카메라 오류", "",
+                                       duration_text=10.),
+  },
+
+  EventName.wideRoadCameraError: {
+    ET.PERMANENT: NormalPermanentAlert("와이드 주행카메라 오류", "",
+                                       duration_text=10.),
+  },
+
+  EventName.usbError: {
+    ET.SOFT_DISABLE: SoftDisableAlert("USB 오류: 장치를 재부팅하세요"),
+    ET.PERMANENT: NormalPermanentAlert("USB 오류: 장치를 재부팅하세요", ""),
+    ET.NO_ENTRY: NoEntryAlert("USB 오류: 장치를 재부팅하세요"),
+  },
+
   EventName.canError: {
-    ET.IMMEDIATE_DISABLE: ImmediateDisableAlert("CAN 오류 : 하드웨어를 점검하세요"),
+    ET.IMMEDIATE_DISABLE: ImmediateDisableAlert("CAN 오류 : 장치를 점검하세요"),
     ET.PERMANENT: Alert(
-      "CAN 오류 : 하드웨어를 점검하세요",
+      "CAN 오류 : 장치를 점검하세요",
       "",
       AlertStatus.normal, AlertSize.small,
       Priority.LOW, VisualAlert.none, AudibleAlert.none, 0., 0., .2, creation_delay=1.),
-    ET.NO_ENTRY: NoEntryAlert("CAN 오류 : 하드웨어를 점검하세요"),
+    ET.NO_ENTRY: NoEntryAlert("CAN 오류 : 장치를 점검하세요"),
   },
 
   EventName.steerUnavailable: {
@@ -774,7 +798,7 @@ EVENTS: Dict[int, Dict[str, Union[Alert, Callable[[Any, messaging.SubMaster, boo
 
   EventName.relayMalfunction: {
     ET.IMMEDIATE_DISABLE: ImmediateDisableAlert("하네스 오작동"),
-    ET.PERMANENT: NormalPermanentAlert("하네스 오작동", "하드웨어를 점검하세요"),
+    ET.PERMANENT: NormalPermanentAlert("하네스 오작동", "장치를 점검하세요"),
     ET.NO_ENTRY: NoEntryAlert("하네스 오작동"),
   },
 
