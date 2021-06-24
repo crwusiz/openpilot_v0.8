@@ -607,15 +607,14 @@ FEATURES = {
   "send_lfa_mfa": # send LFA MFA message for new HKG models
       set([CAR.SONATA, CAR.SONATA_HEV, CAR.PALISADE, CAR.SANTA_FE, CAR.KONA_EV, CAR.KONA_HEV, CAR.IONIQ_EV, CAR.IONIQ_HEV, CAR.GRANDEUR20, CAR.GRANDEUR20_HEV,
            CAR.NIRO_EV, CAR.SOUL_EV, CAR.SELTOS]),
-  "has_scc13": set([]),
-  "has_scc14": set([]),
-  # these cars use the FCA11 message for the AEB and FCW signals, all others use SCC12
-  "use_fca":
+  "use_fca": # these cars use the FCA11 message for the AEB and FCW signals, all others use SCC12
       set([CAR.SONATA, CAR.PALISADE, CAR.ELANTRA, CAR.ELANTRA_I30, CAR.KONA, CAR.KONA_HEV, CAR.IONIQ_HEV,
            CAR.GENESIS_G70, CAR.FORTE, CAR.STINGER]),
+  "not_lkas": # carstate not lkas error
+      set([CAR.SONATA, CAR.PALISADE, CAR.SONATA_HEV, CAR.SANTA_FE, CAR.KONA_EV, CAR.NIRO_EV, CAR.KONA]),
   "use_bsm": set([]), # blindspot signal
-  # carstate not lkas error
-  "not_lkas": set([CAR.SONATA, CAR.PALISADE, CAR.SONATA_HEV, CAR.SANTA_FE, CAR.KONA_EV, CAR.NIRO_EV, CAR.KONA]),
+  "has_scc13": set([]),
+  "has_scc14": set([]),  
 }
 
 DBC = {
