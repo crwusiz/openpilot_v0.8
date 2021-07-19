@@ -251,7 +251,7 @@ class Controls:
     else:
       self.logged_comm_issue = False
 
-    if not self.sm['lateralPlan'].mpcSolutionValid:
+    if not self.sm['lateralPlan'].mpcSolutionValid and not (EventName.turningIndicatorOn in self.events.names):
       self.events.add(EventName.plannerError)
     if not self.sm['liveLocationKalman'].sensorsOK and not NOSENSOR:
       if self.sm.frame > 5 / DT_CTRL:  # Give locationd some time to receive all the inputs
@@ -319,7 +319,7 @@ class Controls:
     self.sm.update(0)
 
     all_valid = CS.canValid and self.sm.all_alive_and_valid()
-    if not self.initialized and (all_valid or self.sm.frame * DT_CTRL > 2.0):
+    if not self.initialized and (all_valid or self.sm.frame * DT_CTRL > 3.0):
       self.initialized = True
       Params().put_bool("ControlsReady", True)
 
