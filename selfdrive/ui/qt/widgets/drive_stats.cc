@@ -34,19 +34,22 @@ DriveStats::DriveStats(QWidget* parent) : QWidget(parent) {
 
   auto add_stats_layouts = [=](const QString &title, StatsLabels& labels) {
     int row = main_layout->rowCount();
-    main_layout->addWidget(new QLabel(title), row++, 0, 1, 3);
+    //main_layout->addWidget(new QLabel(title), row++, 0, 1, 3);
+    main_layout->addWidget(new QLabel("     〔  누적 주행기록  〕 \U00002728"), 0, 0, 1, 3);
 
-    main_layout->addWidget(labels.routes = numberLabel(), row, 0, Qt::AlignLeft);
-    main_layout->addWidget(labels.distance = numberLabel(), row, 1, Qt::AlignLeft);
-    main_layout->addWidget(labels.hours = numberLabel(), row, 2, Qt::AlignLeft);
+    main_layout->addWidget(labels.routes = numberLabel(), row, 0, Qt::AlignCenter);
+    main_layout->addWidget(labels.hours = numberLabel(), row, 1, Qt::AlignCenter);
+    main_layout->addWidget(labels.distance = numberLabel(), row, 2, Qt::AlignCenter);
 
-    main_layout->addWidget(unitLabel("DRIVES"), row + 1, 0, Qt::AlignLeft);
-    main_layout->addWidget(labels.distance_unit = unitLabel(getDistanceUnit()), row + 1, 1, Qt::AlignLeft);
-    main_layout->addWidget(unitLabel("HOURS"), row + 1, 2, Qt::AlignLeft);
+    main_layout->addWidget(unitLabel("DRIVES"), row + 1, 0, Qt::AlignCenter);
+    main_layout->addWidget(unitLabel("HOURS"), row + 1, 1, Qt::AlignCenter);
+    main_layout->addWidget(labels.distance_unit = unitLabel(getDistanceUnit()), row + 1, 2, Qt::AlignCenter);
+
+    main_layout->addWidget(new QLabel("「 openpilot by crwusiz branch 」"), 7, 0, 1, 3);
   };
 
   add_stats_layouts("ALL TIME", all_);
-  add_stats_layouts("PAST WEEK", week_);
+//  add_stats_layouts("PAST WEEK", week_);
 
   std::string dongle_id = Params().get("DongleId");
   if (util::is_valid_dongle_id(dongle_id)) {
@@ -68,7 +71,7 @@ void DriveStats::updateStats() {
 
   QJsonObject json = stats_.object();
   update(json["all"].toObject(), all_);
-  update(json["week"].toObject(), week_);
+//  update(json["week"].toObject(), week_);
 }
 
 void DriveStats::parseResponse(const QString& response) {

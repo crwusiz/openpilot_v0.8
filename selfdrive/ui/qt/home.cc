@@ -96,7 +96,7 @@ OffroadHome::OffroadHome(QWidget* parent) : QFrame(parent) {
   date = new QLabel();
   header_layout->addWidget(date, 1, Qt::AlignHCenter | Qt::AlignLeft);
 
-  update_notif = new QPushButton("UPDATE");
+  update_notif = new QPushButton("업데이트");
   update_notif->setVisible(false);
   update_notif->setStyleSheet("background-color: #364DEF;");
   QObject::connect(update_notif, &QPushButton::released, [=]() { center_layout->setCurrentIndex(1); });
@@ -169,7 +169,7 @@ void OffroadHome::hideEvent(QHideEvent *event) {
 }
 
 void OffroadHome::refresh() {
-  date->setText(QDateTime::currentDateTime().toString("dddd, MMMM d"));
+  date->setText(QDateTime::currentDateTime().toString("\U0001f4c5 yyyy년 M월 d일")+"      「 Easy Driving \U0001f60b 」");
 
   bool updateAvailable = update_widget->refresh();
   int alerts = alerts_widget->refresh();
