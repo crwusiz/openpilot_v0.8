@@ -119,7 +119,6 @@ class Controls:
     self.lateral_control_select = 0
     if self.CP.steerControlType == car.CarParams.SteerControlType.angle:
       self.LaC = LatControlAngle(self.CP)
-      self.lateral_control_select = 3
     elif self.CP.lateralTuning.which() == 'pid':
       self.LaC = LatControlPID(self.CP)
       self.lateral_control_select = 0
@@ -331,7 +330,7 @@ class Controls:
     self.sm.update(0)
 
     all_valid = CS.canValid and self.sm.all_alive_and_valid()
-    if not self.initialized and (all_valid or self.sm.frame * DT_CTRL > 2.0):
+    if not self.initialized and (all_valid or self.sm.frame * DT_CTRL > 3.0):
       self.CI.init(self.CP, self.can_sock, self.pm.sock['sendcan'])
       self.initialized = True
       Params().put_bool("ControlsReady", True)

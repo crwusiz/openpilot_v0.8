@@ -131,6 +131,10 @@ DevicePanel::DevicePanel(QWidget* parent) : QWidget(parent) {
   connect(resetCalibBtn, &ButtonControl::released, [=]() {
     if (ConfirmationDialog::confirm("실행하시겠습니까?", this)) {
       Params().remove("CalibrationParams");
+      Params().remove("LiveParameters");
+      QTimer::singleShot(1000, []() {
+        Hardware::reboot();
+      });
     }
   });
   connect(resetCalibBtn, &ButtonControl::showDescription, [=]() {

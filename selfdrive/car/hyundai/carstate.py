@@ -1,4 +1,3 @@
-import copy
 from cereal import car
 from selfdrive.car.hyundai.values import DBC, STEER_THRESHOLD, FEATURES, CAR
 from selfdrive.car.interfaces import CarStateBase
@@ -29,6 +28,15 @@ class CarState(CarStateBase):
     self.has_scc14 = CP.carFingerprint in FEATURES["has_scc14"]
     self.not_lkas = CP.carFingerprint in FEATURES["not_lkas"]
 
+    can_define = CANDefine(DBC[CP.carFingerprint]["pt"])
+
+    if self.CP.carFingerprint in FEATURES["use_cluster_gears"]:
+      self.shifter_values = can_define.dv["CLU15"]["CF_Clu_Gear"]
+    elif self.CP.carFingerprint in FEATURES["use_tcu_gears"]:
+      self.shifter_values = can_define.dv["TCU12"]["CUR_GR"]
+    else:  # preferred and elect gear methods use same definition
+      self.shifter_values = can_define.dv["LVR12"]["CF_Lvr_Gear"]
+
   def update(self, cp, cp2, cp_cam):
     cp_mdps = cp2 if self.mdps_bus else cp
     cp_sas = cp2 if self.sas_bus else cp
@@ -38,15 +46,6 @@ class CarState(CarStateBase):
     self.prev_cruise_main_button = self.cruise_main_button
     self.prev_lkas_button = self.lkas_button_on
 
-    if self.CP.carFingerprint in FEATURES["use_cluster_gears"]:
-      self.shifter_values = can_define.dv["CLU15"]["CF_Clu_Gear"]
-    elif self.CP.carFingerprint in FEATURES["use_tcu_gears"]:
-      self.shifter_values = can_define.dv["TCU12"]["CUR_GR"]
-    else:  # preferred and elect gear methods use same definition
-      self.shifter_values = can_define.dv["LVR12"]["CF_Lvr_Gear"]
-
-
-  def update(self, cp, cp_cam):
     ret = car.CarState.new_message()
 
     ret.doorOpen = any([cp.vl["CGW1"]["CF_Gway_DrvDrSw"], cp.vl["CGW1"]["CF_Gway_AstDrSw"],
@@ -105,7 +104,6 @@ class CarState(CarStateBase):
     ret.brake = 0
     ret.brakePressed = cp.vl["TCS13"]["DriverBraking"] != 0
     ret.brakeLights = bool(cp.vl["TCS13"]['BrakeLight'] or ret.brakePressed)
-
     if self.CP.carFingerprint in FEATURES["ev_car"]:
       ret.gas = cp.vl["E_EMS11"]["Accel_Pedal_Pos"] / 254.
     elif self.CP.carFingerprint in FEATURES["hev_car"]:
@@ -230,6 +228,7 @@ class CarState(CarStateBase):
       ("CF_VSM_Avail", "TCS13", 0),
       ("StandStill", "TCS13", 0),
       ("PBRAKE_ACT", "TCS13", 0),
+      ("DriverOverride", "TCS13", 0),
 
       ("ESC_Off_Step", "TCS15", 0),
       ("AVH_LAMP", "TCS15", 0),

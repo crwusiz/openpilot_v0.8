@@ -417,6 +417,14 @@ EVENTS: Dict[int, Dict[str, Union[Alert, Callable[[Any, messaging.SubMaster, boo
       Priority.LOWEST, VisualAlert.steerRequired, AudibleAlert.none, .0, .0, .1),
   },
 
+  EventName.steerTempUnavailableSilent: {
+    ET.WARNING: Alert(
+      "조향제어 일시적으로 사용불가",
+      "",
+      AlertStatus.userPrompt, AlertSize.small,
+      Priority.LOW, VisualAlert.steerRequired, AudibleAlert.chimePrompt, 1., 1., 1.),
+  },
+
   EventName.preDriverDistracted: {
     ET.WARNING: Alert(
       "도로를 주시하세요 : 운전자 도로주시 불안",
@@ -747,7 +755,7 @@ EVENTS: Dict[int, Dict[str, Union[Alert, Callable[[Any, messaging.SubMaster, boo
   # thrown when over 20% of frames are dropped.
   EventName.modeldLagging: {
     ET.SOFT_DISABLE: SoftDisableAlert("주행모델 지연됨"),
-    ET.NO_ENTRY : NoEntryAlert("주행모델 지연됨"),
+    ET.NO_ENTRY: NoEntryAlert("주행모델 지연됨"),
   },
 
   # Besides predicting the path, lane lines and lead car data the model also
@@ -770,7 +778,7 @@ EVENTS: Dict[int, Dict[str, Union[Alert, Callable[[Any, messaging.SubMaster, boo
   EventName.lowMemory: {
     ET.SOFT_DISABLE: SoftDisableAlert("메모리 부족 : 장치를 재가동하세요"),
     ET.PERMANENT: NormalPermanentAlert("메모리 부족", "장치를 재가동하세요"),
-    ET.NO_ENTRY : NoEntryAlert("메모리 부족 : 장치를 재가동하세요",
+    ET.NO_ENTRY: NoEntryAlert("메모리 부족 : 장치를 재가동하세요",
                                audible_alert=AudibleAlert.chimeDisengage),
   },
 
@@ -881,7 +889,7 @@ EVENTS: Dict[int, Dict[str, Union[Alert, Callable[[Any, messaging.SubMaster, boo
       "근접 앞차량이 없습니다",
       AlertStatus.normal, AlertSize.mid,
       Priority.HIGH, VisualAlert.none, AudibleAlert.chimeDisengage, .4, 2., 3.),
-    ET.NO_ENTRY : NoEntryAlert("근접 앞차량이 없습니다"),
+    ET.NO_ENTRY: NoEntryAlert("근접 앞차량이 없습니다"),
   },
 
   EventName.speedTooLow: {

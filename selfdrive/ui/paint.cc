@@ -474,16 +474,20 @@ static void bb_ui_draw_measures_right(UIState *s, int bb_x, int bb_y, int bb_w) 
     char val_str[16];
     char val_add[4] = "ｍ";
     NVGcolor val_color = COLOR_WHITE_ALPHA(200);
-    if (scene->lead_data[0].getStatus()) {
+
+    auto radar_state = (*s->sm)["radarState"].getRadarState();
+    auto lead_one = radar_state.getLeadOne();
+    
+    if (lead_one.getStatus()) {
       //show Orange if less than 15ｍ
-      if((int)(scene->lead_data[0].getDRel()) < 15) {
+      if((int)(lead_one.getDRel()) < 15) {
         val_color = COLOR_WARNING;
       }
       //show Red if less than 5ｍ
-      if((int)(scene->lead_data[0].getDRel()) < 5) {
+      if((int)(lead_one.getDRel()) < 5) {
         val_color = COLOR_RED_ALPHA(200);
       }
-      snprintf(val_str, sizeof(val_str), "%d", (int)scene->lead_data[0].getDRel());
+      snprintf(val_str, sizeof(val_str), "%.0f", lead_one.getDRel());
     } else {
       snprintf(val_str, sizeof(val_str), "-");
     }
@@ -497,16 +501,20 @@ static void bb_ui_draw_measures_right(UIState *s, int bb_x, int bb_y, int bb_w) 
     char val_str[16];
     char val_add[4] = "㎞";
     NVGcolor val_color = COLOR_WHITE_ALPHA(200);
-    if (scene->lead_data[0].getStatus()) {
+ 
+    auto radar_state = (*s->sm)["radarState"].getRadarState();
+    auto lead_one = radar_state.getLeadOne();
+    
+    if (lead_one.getStatus()) {
       //show Orange if negative speed
-      if((int)(scene->lead_data[0].getVRel()) < 0) {
+      if((int)(lead_one.getVRel()) < 0) {
         val_color = COLOR_WARNING;
       }
       //show Red if positive speed
-      if((int)(scene->lead_data[0].getVRel()) < -5) {
+      if((int)(lead_one.getVRel()) < -5) {
         val_color = COLOR_RED_ALPHA(200);
       }
-      snprintf(val_str, sizeof(val_str), "%d", (int)(scene->lead_data[0].getVRel() * 3.6 + 0.5));
+      snprintf(val_str, sizeof(val_str), "%d", (int)(lead_one.getVRel() * 3.6 + 0.5));
     } else {
       snprintf(val_str, sizeof(val_str), "-");
     }

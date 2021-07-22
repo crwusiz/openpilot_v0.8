@@ -304,7 +304,6 @@ class CarInterface(CarInterfaceBase):
     ret.brakeMaxV = [1., 0.8]
     ret.startAccel = 0.0
     ret.stoppingControl = True
-    ret.enableCamera = True
     ret.enableBsm = 0x58b in fingerprint[0]
     ret.enableAutoHold = 1151 in fingerprint[0]
 
