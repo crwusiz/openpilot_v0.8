@@ -67,19 +67,24 @@ QString create_jwt(const QJsonObject &payloads, int expiry) {
 
 }  // namespace CommaApi
 
-HttpRequest::HttpRequest(QObject *parent, const QString &requestURL, bool create_jwt_) : create_jwt(create_jwt_), QObject(parent) {
+HttpRequest::HttpRequest(QObject *parent, bool create_jwt, int timeout) : create_jwt(create_jwt), QObject(parent) {
   networkAccessManager = new QNetworkAccessManager(this);
-  reply = NULL;
 
   networkTimer = new QTimer(this);
   networkTimer->setSingleShot(true);
-  networkTimer->setInterval(20000);
+  networkTimer->setInterval(timeout);
   connect(networkTimer, &QTimer::timeout, this, &HttpRequest::requestTimeout);
+}
 
-  sendRequest(requestURL);
+bool HttpRequest::active() {
+  return reply != nullptr;
 }
 
 void HttpRequest::sendRequest(const QString &requestURL) {
+  if (active()) {
+    qDebug() << "HttpRequest is active";
+    return;
+  }
   QString token;
   if(create_jwt) {
     token = CommaApi::create_jwt();
@@ -105,19 +110,24 @@ void HttpRequest::requestTimeout() {
 
 // This function should always emit something
 void HttpRequest::requestFinished() {
+  bool success = false;
   if (reply->error() != QNetworkReply::OperationCanceledError) {
     networkTimer->stop();
     QString response = reply->readAll();
 
     if (reply->error() == QNetworkReply::NoError) {
+      success = true;
       emit receivedResponse(response);
     } else {
       qDebug() << reply->errorString();
       emit failedResponse(reply->errorString());
     }
   } else {
+    networkAccessManager->clearAccessCache();
+    networkAccessManager->clearConnectionCache();
     emit timeoutResponse("timeout");
   }
+  emit requestDone(success);
   reply->deleteLater();
-  reply = NULL;
+  reply = nullptr;
 }
