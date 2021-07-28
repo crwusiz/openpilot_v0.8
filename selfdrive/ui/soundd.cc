@@ -27,7 +27,14 @@ public:
       {AudibleAlert::CHIME_WARNING2_REPEAT, sound_asset_path + "warning_2.wav", true},
       {AudibleAlert::CHIME_WARNING_REPEAT, sound_asset_path + "warning_repeat.wav", true},
       {AudibleAlert::CHIME_ERROR, sound_asset_path + "error.wav", false},
-      {AudibleAlert::CHIME_PROMPT, sound_asset_path + "error.wav", false}
+      {AudibleAlert::CHIME_PROMPT, sound_asset_path + "error.wav", false},
+      {AudibleAlert::CHIME_DING, sound_asset_path + "ding.wav", false},
+      {AudibleAlert::CHIME_DING_REPEAT, sound_asset_path + "ding.wav", true},
+      {AudibleAlert::CHIME_GEARD, sound_asset_path + "geard.wav", false},
+      {AudibleAlert::CHIME_SEATBELT, sound_asset_path + "seatbelt.wav", false},
+      {AudibleAlert::CHIME_DISTRACTED, sound_asset_path + "distracted.wav", false},
+      {AudibleAlert::CHIME_ENGAGE2, sound_asset_path + "engagedt.wav", false},
+      {AudibleAlert::CHIME_DISENGAGE2, sound_asset_path + "disengagedt.wav", false}
     };
     for (auto &[alert, fn, loops] : sound_list) {
       sounds[alert].first.setSource(QUrl::fromLocalFile(fn));
