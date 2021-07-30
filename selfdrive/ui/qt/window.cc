@@ -76,7 +76,8 @@ void MainWindow::closeSettings() {
 
 bool MainWindow::eventFilter(QObject *obj, QEvent *event) {
   // wake screen on tap
-  if (event->type() == QEvent::MouseButtonPress) {
+  //if (event->type() == QEvent::MouseButtonPress) {
+  if (event->type() == QEvent::MouseButtonPress || event->type() == QEvent::TouchBegin) {
     device.setAwake(true, true);
   }
 

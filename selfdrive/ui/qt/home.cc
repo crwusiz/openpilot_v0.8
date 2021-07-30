@@ -122,8 +122,11 @@ OffroadHome::OffroadHome(QWidget* parent) : QFrame(parent) {
   QWidget* statsAndSetupWidget = new QWidget(this);
   QHBoxLayout* statsAndSetup = new QHBoxLayout(statsAndSetupWidget);
   statsAndSetup->setMargin(0);
-  statsAndSetup->setSpacing(30);
-  statsAndSetup->addWidget(new DriveStats, 1);
+//  statsAndSetup->setSpacing(30);
+//  statsAndSetup->addWidget(new DriveStats, 1);
+  DriveStats* drive = new DriveStats();
+  drive->setFixedSize(800, 800);
+  statsAndSetup->addWidget(drive);
   statsAndSetup->addWidget(new SetupWidget);
 
   center_layout->addWidget(statsAndSetupWidget);

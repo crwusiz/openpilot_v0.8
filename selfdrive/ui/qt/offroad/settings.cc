@@ -197,7 +197,7 @@ DevicePanel::DevicePanel(QWidget* parent) : QWidget(parent) {
 
   //QPushButton *reboot_btn = new QPushButton("Reboot");
   QPushButton *reboot_btn = new QPushButton("재부팅");
-  reboot_btn->setStyleSheet("height: 120px;border-radius: 15px; background-color: #2CE22C;");
+  reboot_btn->setObjectName("reboot_btn");
   power_layout->addWidget(reboot_btn);
   QObject::connect(reboot_btn, &QPushButton::clicked, [=]() {
     //if (ConfirmationDialog::confirm("Are you sure you want to reboot?", this)) {
@@ -208,7 +208,7 @@ DevicePanel::DevicePanel(QWidget* parent) : QWidget(parent) {
 
   //QPushButton *poweroff_btn = new QPushButton("Power Off");
   QPushButton *poweroff_btn = new QPushButton("종료");
-  poweroff_btn->setStyleSheet("height: 120px;border-radius: 15px; background-color: #E22C2C;");
+  poweroff_btn->setObjectName("poweroff_btn");
   power_layout->addWidget(poweroff_btn);
   QObject::connect(poweroff_btn, &QPushButton::clicked, [=]() {
     //if (ConfirmationDialog::confirm("Are you sure you want to power off?", this)) {
@@ -217,6 +217,16 @@ DevicePanel::DevicePanel(QWidget* parent) : QWidget(parent) {
     }
   });
 
+  setStyleSheet(R"(
+    QPushButton {
+      height: 120px;
+      border-radius: 15px;
+    }
+    #reboot_btn { background-color: #2CE22C; }
+    #reboot_btn:pressed { background-color: #4a4a4a; }
+    #poweroff_btn { background-color: #E22C2C; }
+    #poweroff_btn:pressed { background-color: #FF2424; }
+  )");
   main_layout->addLayout(power_layout);
 }
 
@@ -389,13 +399,18 @@ SettingsWindow::SettingsWindow(QWidget *parent) : QFrame(parent) {
   // close button
   QPushButton *close_btn = new QPushButton("◀");
   close_btn->setStyleSheet(R"(
-    font-size: 140px;
-    padding-bottom: 20px;
-    font-weight: bold;
-    border 1px grey solid;
-    border-radius: 100px;
-    background-color: #292929;
-    font-weight: 400;
+    QPushButton {
+      font-size: 100px;
+      padding-bottom: 20px;
+      font-weight: bold;
+      border 1px grey solid;
+      border-radius: 100px;
+      background-color: #292929;
+      font-weight: 400;
+    }
+    QPushButton:pressed {
+      background-color: #3B3B3B;
+    }
   )");
   close_btn->setFixedSize(200, 200);
   sidebar_layout->addSpacing(45);
@@ -444,6 +459,9 @@ SettingsWindow::SettingsWindow(QWidget *parent) : QFrame(parent) {
       QPushButton:checked {
         color: white;
       }
+      QPushButton:pressed {
+        color: #ADADAD;
+      }      
     )").arg(padding));
 
     nav_btns->addButton(btn);
