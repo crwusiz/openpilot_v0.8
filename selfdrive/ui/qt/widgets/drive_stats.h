@@ -3,7 +3,7 @@
 #include <QJsonDocument>
 #include <QLabel>
 
-class DriveStats : public QWidget {
+class DriveStats : public QFrame {
   Q_OBJECT
 
 public:
