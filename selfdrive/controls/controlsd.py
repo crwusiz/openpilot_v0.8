@@ -348,8 +348,7 @@ class Controls:
     # Therefore we allow a mismatch for two samples, then we trigger the disengagement.
     if not self.enabled:
       self.mismatch_counter = 0
-
-    if not self.sm['pandaState'].controlsAllowed and self.enabled:
+    elif not self.sm['pandaState'].controlsAllowed and self.enabled:
       self.mismatch_counter += 1
 
     self.distance_traveled += CS.vEgo * DT_CTRL
