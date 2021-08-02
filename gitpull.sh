@@ -10,7 +10,7 @@ echo -n "0" > /data/params/d/PutPrebuilt
 rm -f prebuilt
 BRANCH=$(git rev-parse --abbrev-ref HEAD)
 /data/data/com.termux/files/usr/bin/git fetch --all
-/data/data/com.termux/files/usr/bin/git pull
+#/data/data/com.termux/files/usr/bin/git pull
 REMOTE_HASH=$(git rev-parse --short --verify origin/$BRANCH)
 /data/data/com.termux/files/usr/bin/git reset --hard $REMOTE_HASH
 

@@ -461,7 +461,7 @@ SettingsWindow::SettingsWindow(QWidget *parent) : QFrame(parent) {
       }
       QPushButton:pressed {
         color: #ADADAD;
-      }      
+      }
     )").arg(padding));
 
     nav_btns->addButton(btn);
