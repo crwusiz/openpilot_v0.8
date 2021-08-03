@@ -93,12 +93,12 @@ void Sidebar::updateState(const UIState &s) {
     pandaStatus = danger_color;
     //pandaStr = "NO\nPANDA";
     pandaStr = "차량\n연결안됨";
-  } else if (s.scene.started && !sm["liveLocationKalman"].getLiveLocationKalman().getGpsOK()) {
-    pandaStatus = warning_color;
-    pandaStr = "GPS\nSEARCHING";
-//  } else if (s.scene.satelliteCount > 0) {
-//  	pandaStr = QString("위성수 %1\n정확도 %2").arg(s.scene.satelliteCount).arg(fmin(10, s.scene.gpsAccuracy), 0, 'f', 2);
-//    pandaStatus = sm["liveLocationKalman"].getLiveLocationKalman().getGpsOK() ? good_color : warning_color;
+//  } else if (s.scene.started && !sm["liveLocationKalman"].getLiveLocationKalman().getGpsOK()) {
+//    pandaStatus = warning_color;
+//    pandaStr = "GPS\nSEARCHING";
+  } else if (s.scene.satelliteCount > 0) {
+    pandaStr = QString("위성수 %1\n정확도 %2").arg(s.scene.satelliteCount).arg(fmin(10, s.scene.gpsAccuracy), 0, 'f', 2);
+    pandaStatus = sm["liveLocationKalman"].getLiveLocationKalman().getGpsOK() ? good_color : warning_color;
   }
   setProperty("pandaStr", pandaStr);
   setProperty("pandaStatus", pandaStatus);

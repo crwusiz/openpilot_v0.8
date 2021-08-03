@@ -13,5 +13,3 @@ BRANCH=$(git rev-parse --abbrev-ref HEAD)
 #/data/data/com.termux/files/usr/bin/git pull
 REMOTE_HASH=$(git rev-parse --short --verify origin/$BRANCH)
 /data/data/com.termux/files/usr/bin/git reset --hard $REMOTE_HASH
-
-reboot

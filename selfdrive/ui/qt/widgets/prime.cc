@@ -153,7 +153,7 @@ SetupWidget::SetupWidget(QWidget* parent) : QFrame(parent) {
   registrationDescription->setWordWrap(true);
   registrationDescription->setAlignment(Qt::AlignCenter);
   registrationDescription->setStyleSheet(R"(
-    font-size: 55px;
+    font-size: 45px;
     font-weight: 400;
   )");
 
@@ -164,7 +164,7 @@ SetupWidget::SetupWidget(QWidget* parent) : QFrame(parent) {
   finishButton->setFixedHeight(200);
   finishButton->setStyleSheet(R"(
     border-radius: 30px;
-    font-size: 55px;
+    font-size: 45px;
     font-weight: 500;
     background: #585858;
   )");
@@ -184,7 +184,7 @@ SetupWidget::SetupWidget(QWidget* parent) : QFrame(parent) {
   qrLabel->setWordWrap(true);
   qrLabel->setAlignment(Qt::AlignHCenter);
   qrLabel->setStyleSheet(R"(
-    font-size: 55px;
+    font-size: 45px;
     font-weight: 400;
   )");
   qrLayout->addWidget(qrLabel, 0, Qt::AlignTop);

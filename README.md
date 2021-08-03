@@ -1,17 +1,13 @@
+![](https://user-images.githubusercontent.com/37757984/127420744-89ca219c-8f8e-46d3-bccf-c1cb53b81bb1.png)
+
 crwusiz openpilot
 =====
 
-<b> This Branch is xx979xx HKG_community base comma devel-staging </b>
+<b> crwusiz branch is comma.ai devel-staging base xx979xx HKG_community source add </b>
 - <b> v0.8.7 [ allow white panda and gray panda, OP3T support (/installer/op3t_neos_update.sh) ] </b>
 - If you have any questions, please send a message to crwusiz from discord. if you like this Branch <b> [Donate](https://paypal.me/crwusiz) </b>for me
 
 [![](https://i.imgur.com/TMtVMV8.png)](#)
-
-[![](https://i.imgur.com/YvsfpGq.png)](#)
-
-[![](https://i.imgur.com/8ob4m17.png)](#)
-
-[![](https://i.imgur.com/W8XLxVH.png)](#)
 
 - kor NanumGothic font / Comma Bootlogo / Bootanimation Auto install
 - event message, ui kor translate
@@ -47,8 +43,6 @@ cable order -> https://smartstore.naver.com/hyotrade/products/5341431170
 [![](https://i.imgur.com/N5IkjUX.jpg)](#)
 [![](https://i.imgur.com/HaXcjPI.jpg)](#)
  - - -
-
-[![](https://i.imgur.com/UelUjKAh.png)](#)
 
 Table of Contents
 =======================
@@ -270,7 +264,7 @@ Although they're not upstream, the community has openpilot running on other make
 Installation Instructions
 ------
 
-Install openpilot on an EON Gold or comma two by entering ``https://openpilot.comma.ai`` during the installer setup.
+Install openpilot on a supported device by entering ``https://openpilot.comma.ai`` during the installer setup.
 
 Follow these [video instructions](https://youtu.be/lcjqxCymins) to properly mount the device on the windshield. Note: openpilot features an automatic pose calibration routine and openpilot performance should not be affected by small pitch and yaw misalignments caused by imprecise device mounting.
 
