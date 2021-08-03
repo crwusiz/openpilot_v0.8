@@ -68,14 +68,6 @@ if arch != 'aarch64' and GetOption('setup'):
   qt_env.Program("qt/setup/setup", ["qt/setup/setup.cc", asset_obj],
                  LIBS=qt_libs + ['curl', 'common', 'json11'])
 
-  # TODO: do this for all resources once NEOS has rcc
-  assets = "#selfdrive/assets/assets.cc"
-  assets_src = "#selfdrive/assets/assets.qrc"
-  qt_env.Command(assets, assets_src, f"rcc $SOURCES -o $TARGET")
-  qt_env.Depends(assets, Glob('#selfdrive/assets/*', exclude=[assets, assets_src, "#selfdrive/assets/assets.o"]))
-  qt_env.Program("qt/setup/setup", ["qt/setup/setup.cc", assets],
-                 LIBS=qt_libs + ['curl', 'common', 'json11'])
-
   senv = qt_env.Clone()
   senv['LINKFLAGS'].append('-Wl,-strip-debug')
   installers = [
