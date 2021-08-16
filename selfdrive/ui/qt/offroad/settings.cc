@@ -135,10 +135,6 @@ TogglesPanel::TogglesPanel(QWidget *parent) : QWidget(parent) {
                                   //"Ui Tpms Enable (HKG only)",
                                   "Ui에 Tpms 정보를 표시합니다 (HKG only)",
                                   "../assets/offroad/icon_addon.png", this));
-  main_layout->addWidget(new ParamControl("EnableClusterSpeed", "ClusterSpeed Enable",
-                                  //"Ui Speed Sync ClusterSpeed",
-                                  "Ui에 표시되는 속도를 계기판 속도로 표시합니다.",
-                                  "../assets/offroad/icon_addon.png", this));
 }
 
 DevicePanel::DevicePanel(QWidget* parent) : QWidget(parent) {

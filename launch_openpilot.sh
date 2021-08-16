@@ -8,7 +8,6 @@ if [ ! -f "/system/fonts/opensans_regular.ttf" ]; then
     cp -rf /data/openpilot/installer/fonts/fonts.xml /system/etc/fonts.xml
     chmod 644 /system/etc/fonts.xml
     chmod 644 /system/fonts/opensans*
-    chmod 644 /system/fonts/NotoColorEmoji.ttf
 
     cp /data/openpilot/installer/fonts/bootanimation.zip /system/media/
 

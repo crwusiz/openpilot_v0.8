@@ -224,7 +224,6 @@ std::unordered_map<std::string, uint32_t> keys = {
     {"DisableLogger", PERSISTENT},
     {"DisableGps", PERSISTENT},
     {"UiTpms", PERSISTENT},
-    {"EnableClusterSpeed", PERSISTENT},
     {"SelectedCar", PERSISTENT},
 
     {"Offroad_ChargeDisabled", CLEAR_ON_MANAGER_START | CLEAR_ON_PANDA_DISCONNECT},

@@ -48,7 +48,6 @@ def manager_init():
     ("DisableLogger", "0"),
     ("DisableGps", "1"),
     ("UiTpms", "1"),
-    ("EnableClusterSpeed", "1"),
   ]
   if not PC:
     default_params.append(("LastUpdateTime", datetime.datetime.utcnow().isoformat().encode('utf8')))

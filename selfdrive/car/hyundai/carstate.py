@@ -4,7 +4,6 @@ from selfdrive.car.interfaces import CarStateBase
 from opendbc.can.parser import CANParser
 from opendbc.can.can_define import CANDefine
 from selfdrive.config import Conversions as CV
-from common.params import Params
 
 GearShifter = car.CarState.GearShifter
 
@@ -23,7 +22,6 @@ class CarState(CarStateBase):
     self.lkas_button_on = True
     self.cruise_main_button = 0
     self.mdps_error_cnt = 0
-    self.enable_cluster_speed = Params().get_bool('EnableClusterSpeed')
 
     # Features init
     self.has_scc13 = CP.carFingerprint in FEATURES["has_scc13"]
@@ -58,18 +56,18 @@ class CarState(CarStateBase):
     self.is_set_speed_in_mph = bool(cp.vl["CLU11"]["CF_Clu_SPEED_UNIT"])
     self.speed_conv_to_ms = CV.MPH_TO_MS if self.is_set_speed_in_mph else CV.KPH_TO_MS
 
-    if self.enable_cluster_speed:
+    if self.CP.openpilotLongitudinalControl:
+      ret.wheelSpeeds.fl = cp.vl["WHL_SPD11"]['WHL_SPD_FL'] * CV.KPH_TO_MS
+      ret.wheelSpeeds.fr = cp.vl["WHL_SPD11"]['WHL_SPD_FR'] * CV.KPH_TO_MS
+      ret.wheelSpeeds.rl = cp.vl["WHL_SPD11"]['WHL_SPD_RL'] * CV.KPH_TO_MS
+      ret.wheelSpeeds.rr = cp.vl["WHL_SPD11"]['WHL_SPD_RR'] * CV.KPH_TO_MS
+      ret.vEgoRaw = (ret.wheelSpeeds.fl + ret.wheelSpeeds.fr + ret.wheelSpeeds.rl + ret.wheelSpeeds.rr) / 4.
+    else:
       ret.vEgoRaw = cp.vl["CLU11"]["CF_Clu_Vanz"]
       decimal = cp.vl["CLU11"]["CF_Clu_VanzDecimal"]
       if 0. < decimal < 0.5:
         ret.vEgoRaw += decimal
       ret.vEgoRaw *= self.speed_conv_to_ms
-    else:
-      ret.wheelSpeeds.fl = cp.vl["WHL_SPD11"]["WHL_SPD_FL"] * CV.KPH_TO_MS
-      ret.wheelSpeeds.fr = cp.vl["WHL_SPD11"]["WHL_SPD_FR"] * CV.KPH_TO_MS
-      ret.wheelSpeeds.rl = cp.vl["WHL_SPD11"]["WHL_SPD_RL"] * CV.KPH_TO_MS
-      ret.wheelSpeeds.rr = cp.vl["WHL_SPD11"]["WHL_SPD_RR"] * CV.KPH_TO_MS
-      ret.vEgoRaw = (ret.wheelSpeeds.fl + ret.wheelSpeeds.fr + ret.wheelSpeeds.rl + ret.wheelSpeeds.rr) / 4.
     ret.vEgo, ret.aEgo = self.update_speed_kf(ret.vEgoRaw)
 
     ret.standstill = ret.vEgoRaw < 0.1
