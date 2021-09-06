@@ -158,11 +158,9 @@ DevicePanel::DevicePanel(QWidget* parent) : QWidget(parent) {
   //auto resetCalibBtn = new ButtonControl("Reset Calibration", "RESET", resetCalibDesc);
   auto resetCalibBtn = new ButtonControl("캘리브레이션 초기화", "실행", resetCalibDesc);
   connect(resetCalibBtn, &ButtonControl::clicked, [=]() {
-    //if (ConfirmationDialog::confirm("Are you sure you want to reset calibration?", this)) {
+    //if (ConfirmationDialog::confirm("Process?", this)) {
     if (ConfirmationDialog::confirm("실행하시겠습니까?", this)) {
       Params().remove("CalibrationParams");
-      Params().remove("LiveParameters");
-      QTimer::singleShot(1000, []() { Hardware::reboot(); });
     }
   });
   connect(resetCalibBtn, &ButtonControl::showDescription, [=]() {
@@ -194,7 +192,7 @@ DevicePanel::DevicePanel(QWidget* parent) : QWidget(parent) {
     //retrainingBtn = new ButtonControl("Review Training Guide", "REVIEW", "Review the rules, features, and limitations of openpilot");
     retrainingBtn = new ButtonControl("트레이닝 가이드", "실행", "");
     connect(retrainingBtn, &ButtonControl::clicked, [=]() {
-      //if (ConfirmationDialog::confirm("Are you sure you want to review the training guide?", this)) {
+      //if (ConfirmationDialog::confirm("Process?", this)) {
       if (ConfirmationDialog::confirm("실행하시겠습니까?", this)) {
         Params().remove("CompletedTrainingVersion");
         emit reviewTrainingGuide();
@@ -205,7 +203,7 @@ DevicePanel::DevicePanel(QWidget* parent) : QWidget(parent) {
   //auto uninstallBtn = new ButtonControl("Uninstall " + getBrand(), "UNINSTALL");
   auto uninstallBtn = new ButtonControl(getBrand() + " 제거", "실행");
   connect(uninstallBtn, &ButtonControl::clicked, [=]() {
-    //if (ConfirmationDialog::confirm("Are you sure you want to uninstall?", this)) {
+    //if (ConfirmationDialog::confirm("Process?", this)) {
     if (ConfirmationDialog::confirm("실행하시겠습니까?", this)) {
       Params().putBool("DoUninstall", true);
     }
@@ -226,7 +224,36 @@ DevicePanel::DevicePanel(QWidget* parent) : QWidget(parent) {
       main_layout->addWidget(btn);
     }
   }
+  QHBoxLayout *reset_layout = new QHBoxLayout();
+  reset_layout->setSpacing(30);
 
+  // reset calibration button
+  QPushButton *restart_openpilot_btn = new QPushButton("재시작");
+  restart_openpilot_btn->setStyleSheet("height: 120px;border-radius: 15px;background-color: #393939;");
+  reset_layout->addWidget(restart_openpilot_btn);
+  QObject::connect(restart_openpilot_btn, &QPushButton::released, [=]() {
+    emit closeSettings();
+    QTimer::singleShot(1000, []() {
+      Params().putBool("SoftRestartTriggered", true);
+    });
+  });
+  main_layout->addLayout(reset_layout);
+  // reset calibration button
+  QPushButton *reset_calib_btn = new QPushButton("Calibration LiveParameters 리셋");
+  reset_calib_btn->setStyleSheet("height: 120px;border-radius: 15px;background-color: #393939;");
+  reset_layout->addWidget(reset_calib_btn);
+  QObject::connect(reset_calib_btn, &QPushButton::released, [=]() {
+    //if (ConfirmationDialog::confirm("Process?", this)) {
+    if (ConfirmationDialog::confirm("실행하시겠습니까?", this)) {
+      Params().remove("CalibrationParams");
+      Params().remove("LiveParameters");
+      emit closeSettings();
+      QTimer::singleShot(1000, []() {
+        Params().putBool("SoftRestartTriggered", true);
+      });
+    }
+  });
+  main_layout->addLayout(reset_layout);
   // power buttons
   QHBoxLayout *power_layout = new QHBoxLayout();
   power_layout->setSpacing(30);
@@ -236,7 +263,7 @@ DevicePanel::DevicePanel(QWidget* parent) : QWidget(parent) {
   reboot_btn->setObjectName("reboot_btn");
   power_layout->addWidget(reboot_btn);
   QObject::connect(reboot_btn, &QPushButton::clicked, [=]() {
-    //if (ConfirmationDialog::confirm("Are you sure you want to reboot?", this)) {
+    //if (ConfirmationDialog::confirm("Process?", this)) {
     if (ConfirmationDialog::confirm("실행하시겠습니까?", this)) {
       Hardware::reboot();
     }
@@ -247,7 +274,7 @@ DevicePanel::DevicePanel(QWidget* parent) : QWidget(parent) {
   poweroff_btn->setObjectName("poweroff_btn");
   power_layout->addWidget(poweroff_btn);
   QObject::connect(poweroff_btn, &QPushButton::clicked, [=]() {
-    //if (ConfirmationDialog::confirm("Are you sure you want to power off?", this)) {
+    //if (ConfirmationDialog::confirm("Process?", this)) {
     if (ConfirmationDialog::confirm("실행하시겠습니까?", this)) {
       Hardware::poweroff();
     }
@@ -511,6 +538,7 @@ SettingsWindow::SettingsWindow(QWidget *parent) : QFrame(parent) {
   DevicePanel *device = new DevicePanel(this);
   QObject::connect(device, &DevicePanel::reviewTrainingGuide, this, &SettingsWindow::reviewTrainingGuide);
   QObject::connect(device, &DevicePanel::showDriverView, this, &SettingsWindow::showDriverView);
+  QObject::connect(device, &DevicePanel::closeSettings, this, &SettingsWindow::closeSettings);
 
   QList<QPair<QString, QWidget *>> panels = {
     //{"Device", device},

@@ -550,8 +550,8 @@ EVENTS: Dict[int, Dict[str, Union[Alert, Callable[[Any, messaging.SubMaster, boo
     ET.WARNING: Alert(
       #"Steer Left to Start Lane Change Once Safe",
       #"",
-      "차선을 변경합니다",
-      "좌측차선의 차량을 확인하세요",
+      "좌측차선으로 차선을 변경합니다",
+      "",
       AlertStatus.normal, AlertSize.mid,
       Priority.LOW, VisualAlert.none, AudibleAlert.none, .0, .1, .1, alert_rate=0.75),
   },
@@ -560,8 +560,8 @@ EVENTS: Dict[int, Dict[str, Union[Alert, Callable[[Any, messaging.SubMaster, boo
     ET.WARNING: Alert(
       #"Steer Right to Start Lane Change Once Safe",
       #"",
-      "차선을 변경합니다",
-      "우측차선의 차량을 확인하세요",
+      "우측차선으로 차선을 변경합니다",
+      "",
       AlertStatus.normal, AlertSize.mid,
       Priority.LOW, VisualAlert.none, AudibleAlert.none, .0, .1, .1, alert_rate=0.75),
   },
@@ -570,8 +570,8 @@ EVENTS: Dict[int, Dict[str, Union[Alert, Callable[[Any, messaging.SubMaster, boo
     ET.WARNING: Alert(
       #"Car Detected in Blindspot",
       #"",
-      "후측방 차량감지",
       "차선에 차량이 감지되니 대기하세요",
+      "",
       AlertStatus.userPrompt, AlertSize.mid,
       Priority.LOW, VisualAlert.none, AudibleAlert.chimeDingRepeat, .1, .1, .1),
   },
@@ -580,8 +580,8 @@ EVENTS: Dict[int, Dict[str, Union[Alert, Callable[[Any, messaging.SubMaster, boo
     ET.WARNING: Alert(
       #"Changing Lanes",
       #"",
-      "후측방 차량감지",
-      "차선에 차량이 감지되니 대기하세요",
+      "차선을 변경합니다",
+      "",
       AlertStatus.normal, AlertSize.mid,
       Priority.LOW, VisualAlert.none, AudibleAlert.none, .0, .1, .1),
   },
@@ -744,7 +744,7 @@ EVENTS: Dict[int, Dict[str, Union[Alert, Callable[[Any, messaging.SubMaster, boo
 
   EventName.tooDistracted: {
     #ET.NO_ENTRY: NoEntryAlert("Distraction Level Too High"),
-    ET.NO_ENTRY: NoEntryAlert("방해 수준이 너무높음"),
+    ET.NO_ENTRY: NoEntryAlert("방해 수준이 너무높습니다"),
   },
 
   EventName.overheat: {
