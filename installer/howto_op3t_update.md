@@ -8,7 +8,7 @@ custom software install -> https://smiskol.com/fork/crwusiz-open
 
 connect ssh
 cd /data/ && mv openpilot openpilot082 
-rm -fr openpilot; git clone https://github.com/crwusiz/openpilot.git openpilot; cd openpilot; git checkout master0810
+rm -fr openpilot; git clone https://github.com/crwusiz/openpilot.git openpilot; cd openpilot; git checkout master0810t
 ```
 
 2. run command:
