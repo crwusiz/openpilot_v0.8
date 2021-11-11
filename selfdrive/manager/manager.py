@@ -40,16 +40,16 @@ def manager_init():
     ("IsMetric", "1"),
 
     # add
-    ("SshEnabled", "1"),
-    ("LongControlSelect", "0"),
-    ("AutoLaneChangeEnabled", "1"),
-    ("PutPrebuilt", "0"),
     ("MfcSelect", "0"),
     ("LateralControlSelect", "0"),
+    ("LongControlSelect", "0"),
+    ("SshEnabled", "1"),
+    ("AutoLaneChangeEnabled", "1"),
+    ("PutPrebuilt", "0"),
     ("ShutdowndDisable", "1"),
     ("LoggerDisable", "0"),
-    ("SccSmootherSlowOnCurves", "0"),
-    ("SccSmootherSyncGasPressed", "0"),
+    ("SccSmootherSlowOnCurves", "1"),
+    ("SccSmootherSyncGasPressed", "1"),
     ("StockNaviDecelEnabled", "0"),
     ("NewRadarInterface", "0"),
   ]
