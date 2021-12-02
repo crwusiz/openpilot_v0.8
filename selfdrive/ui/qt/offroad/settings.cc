@@ -253,7 +253,7 @@ DevicePanel::DevicePanel(QWidget* parent) : ListWidget(parent) {
 
   // softreset button
   QPushButton *restart_openpilot_btn = new QPushButton("재시작");
-  restart_openpilot_btn->setStyleSheet("height: 120px;border-radius: 15px;background-color: #393939;");
+  restart_openpilot_btn->setObjectName("restart_openpilot_btn");
   power_layout->addWidget(restart_openpilot_btn);
   QObject::connect(restart_openpilot_btn, &QPushButton::released, [=]() {
     emit closeSettings();
@@ -305,8 +305,10 @@ DevicePanel::DevicePanel(QWidget* parent) : ListWidget(parent) {
       height: 120px;
       border-radius: 15px;
     }
+    #restart_openpilot_btn { background-color: #2C2CE2; }
+    #restart_openpilot_btn:pressed { background-color: #2424FF; }
     #reboot_btn { background-color: #2CE22C; }
-    #reboot_btn:pressed { background-color: #4a4a4a; }
+    #reboot_btn:pressed { background-color: #24FF24; }
     #poweroff_btn { background-color: #E22C2C; }
     #poweroff_btn:pressed { background-color: #FF2424; }
   )");
