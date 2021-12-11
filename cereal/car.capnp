@@ -396,9 +396,7 @@ struct CarControl {
       promptRepeat @7;
       promptDistracted @8;
       slowingDownSpeed @9;
-      ding @10;
-      dingRepeat @ 11;
-      ready @12;
+      ready @10;
     }
   }
 
