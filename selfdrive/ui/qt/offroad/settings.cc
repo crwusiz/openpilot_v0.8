@@ -710,9 +710,6 @@ CommunityPanel::CommunityPanel(QWidget* parent) : QWidget(parent) {
                                   //"Sync set speed on gas pressed Enable",
                                   "가속페달 사용으로 올라간 속도를 SET 속도와 일치시킵니다.",
                                   "../assets/offroad/icon_road.png", this));
-  toggles.append(new ParamControl("WarningOverSpeedLimit", "Warning when speed limit is exceeded.",
-                                  "",
-                                  "../assets/offroad/icon_road.png", this));
   toggles.append(new ParamControl("StockNaviDecelEnabled", "Stock Navi based deceleration Enable",
                                   //"Use the stock navi based deceleration for longcontrol",
                                   "Longcontrol 사용시 순정내비게이션의 속도감속정보를 사용합니다.",
@@ -721,30 +718,6 @@ CommunityPanel::CommunityPanel(QWidget* parent) : QWidget(parent) {
                                   //"New radar interface Enable",
                                   "scc 레이더 배선개조없이 사용가능한 일부차종을 위한 옵션입니다",
                                   "../assets/offroad/icon_road.png", this));
-  /*
-  toggles.append(new ParamControl("KeepSteeringTurnSignals", "Keep steering while turn signals.",
-                                  "",
-                                  "../assets/offroad/icon_road.png", this));
-  toggles.append(new ParamControl("DisableOpFcw", "Openpilot FCW Disable",
-                                  "",
-                                  "../assets/offroad/icon_road.png", this));
-  toggles.append(new ParamControl("ShowDebugUI", "Show Debug UI Enable",
-                                  "",
-                                  "../assets/offroad/icon_shell.png", this));
-  toggles.append(new ParamControl("DisableGps", "GPS Disable",
-                                  //"If you're using a panda without GPS, activate the option",
-                                  "Panda에 Gps가 장착되어있지않은 기기일경우 옵션을 활성화하세요.",
-                                  "../assets/offroad/icon_addon.png", this));
-  toggles.append(new ParamControl("UseClusterSpeed", "Use Cluster Speed",
-                                  "Use cluster speed instead of wheel speed.",
-                                  "../assets/offroad/icon_road.png", this));
-  toggles.append(new ParamControl("LongControlEnabled", "Enable HKG Long Control",
-                                  "warnings: it is beta, be careful!! Openpilot will control the speed of your car",
-                                  "../assets/offroad/icon_road.png", this));
-  toggles.append(new ParamControl("MadModeEnabled", "Enable HKG MAD mode",
-                                  "Openpilot will engage when turn cruise control on",
-                                  "../assets/offroad/icon_openpilot.png", this));
-  */
   for(ParamControl *toggle : toggles) {
     if(main_layout->count() != 0) {
     }
