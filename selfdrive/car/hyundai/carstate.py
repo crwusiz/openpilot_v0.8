@@ -58,8 +58,10 @@ class CarState(CarStateBase):
 
     ret = car.CarState.new_message()
 
-    ret.doorOpen = any([cp.vl["CGW1"]["CF_Gway_DrvDrSw"], cp.vl["CGW1"]["CF_Gway_AstDrSw"],
-                        cp.vl["CGW2"]["CF_Gway_RLDrSw"], cp.vl["CGW2"]["CF_Gway_RRDrSw"]])
+    ret.doorOpen = any([cp.vl["CGW1"]["CF_Gway_DrvDrSw"],
+                        cp.vl["CGW1"]["CF_Gway_AstDrSw"],
+                        cp.vl["CGW2"]["CF_Gway_RLDrSw"],
+                        cp.vl["CGW2"]["CF_Gway_RRDrSw"]])
 
     ret.seatbeltUnlatched = cp.vl["CGW1"]["CF_Gway_DrvSeatBeltSw"] == 0
 
@@ -79,6 +81,7 @@ class CarState(CarStateBase):
       cp.vl["WHL_SPD11"]["WHL_SPD_RL"],
       cp.vl["WHL_SPD11"]["WHL_SPD_RR"],
     )
+
     vEgoRawWheel = (ret.wheelSpeeds.fl + ret.wheelSpeeds.fr + ret.wheelSpeeds.rl + ret.wheelSpeeds.rr) / 4.
     vEgoWheel, aEgoWheel = self.update_speed_kf(vEgoRawWheel)
 
@@ -102,7 +105,7 @@ class CarState(CarStateBase):
     ret.steeringRateDeg = cp_sas.vl["SAS11"]["SAS_Speed"]
     ret.yawRate = cp.vl["ESP12"]["YAW_RATE"]
     ret.leftBlinker, ret.rightBlinker = self.update_blinker_from_lamp(50, cp.vl["CGW1"]["CF_Gway_TurnSigLh"],
-                                                            cp.vl["CGW1"]["CF_Gway_TurnSigRh"])
+                                                                          cp.vl["CGW1"]["CF_Gway_TurnSigRh"])
     ret.steeringTorque = cp_mdps.vl["MDPS12"]["CR_Mdps_StrColTq"]
     ret.steeringTorqueEps = cp_mdps.vl["MDPS12"]["CR_Mdps_OutTq"]
     ret.steeringPressed = abs(ret.steeringTorque) > STEER_THRESHOLD
@@ -119,16 +122,16 @@ class CarState(CarStateBase):
 
     # cruise state
     ret.cruiseState.enabled = (cp_scc.vl["SCC12"]["ACCMode"] != 0) if not self.no_radar else \
-                                      cp.vl["LVR12"]["CF_Lvr_CruiseSet"] != 0
+                                   cp.vl["LVR12"]["CF_Lvr_CruiseSet"] != 0
     ret.cruiseState.available = (cp_scc.vl["SCC11"]["MainMode_ACC"] != 0) if not self.no_radar else \
-                                      cp.vl["EMS16"]["CRUISE_LAMP_M"] != 0
+                                     cp.vl["EMS16"]["CRUISE_LAMP_M"] != 0
     ret.cruiseState.standstill = cp_scc.vl["SCC11"]["SCCInfoDisplay"] == 4. if not self.no_radar else False
 
     ret.cruiseState.enabledAcc = ret.cruiseState.enabled
 
     if ret.cruiseState.enabled:
       ret.cruiseState.speed = cp_scc.vl["SCC11"]["VSetDis"] * self.speed_conv_to_ms if not self.no_radar else \
-                                         cp.vl["LVR12"]["CF_Lvr_CruiseSet"] * self.speed_conv_to_ms
+                                  cp.vl["LVR12"]["CF_Lvr_CruiseSet"] * self.speed_conv_to_ms
     else:
       ret.cruiseState.speed = 0
     self.cruise_main_button = cp.vl["CLU11"]["CF_Clu_CruiseSwMain"]
@@ -141,7 +144,6 @@ class CarState(CarStateBase):
 
     # TODO: Check this
     ret.brakeLights = bool(cp.vl["TCS13"]["BrakeLight"] or ret.brakePressed)
-
     ret.gasPressed = cp.vl["TCS13"]["DriverOverride"] == 1
 
     if self.CP.carFingerprint in EV_HYBRID_CAR:
@@ -259,7 +261,7 @@ class CarState(CarStateBase):
       ("ACCEnable", "TCS13", 0),
       ("BrakeLight", "TCS13", 0),
       ("DriverBraking", "TCS13", 0),
-      ("DriverOverride", "TCS13", 0), # scc smoother
+      ("DriverOverride", "TCS13", 0),    # scc smoother
       ("CF_VSM_Avail", "TCS13", 0),
 
       ("ESC_Off_Step", "TCS15", 0),
@@ -485,7 +487,6 @@ class CarState(CarStateBase):
         ("Navi_SCC_Camera_Act", "SCC11", 0),
         ("Navi_SCC_Camera_Status", "SCC11", 2),
 
-
         ("ACCMode", "SCC12", 0),
         ("CF_VSM_Prefill", "SCC12", 0),
         ("CF_VSM_DecCmdAct", "SCC12", 0),
@@ -517,7 +518,6 @@ class CarState(CarStateBase):
         ("SCCMode2", "SCC14", 0),
         ("ComfortBandUpper", "SCC14", 0),
         ("ComfortBandLower", "SCC14", 0),
-
       ]
       checks += [
         ("SCC11", 50),
@@ -548,10 +548,10 @@ class CarState(CarStateBase):
       ("CF_Lkas_FcwOpt_USM", "LKAS11", 0),
       ("CF_Lkas_LdwsOpt_USM", "LKAS11", 0),
     ]
-
     checks = [
       ("LKAS11", 100)
     ]
+
     if CP.sccBus == 2:
       signals += [
         ("MainMode_ACC", "SCC11", 1),
@@ -608,4 +608,3 @@ class CarState(CarStateBase):
       ]
 
     return CANParser(DBC[CP.carFingerprint]["pt"], signals, checks, 2, enforce_checks=False)
-

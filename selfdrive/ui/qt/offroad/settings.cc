@@ -702,18 +702,6 @@ CommunityPanel::CommunityPanel(QWidget* parent) : QWidget(parent) {
                                   //"Disable Logger is Reduce system load",
                                   "Logger 프로세스를 종료하여 시스템 부하를 줄입니다.",
                                   "../assets/offroad/icon_addon.png", this));
-  toggles.append(new ParamControl("SccSmootherSlowOnCurves", "Slow On Curves Enable",
-                                  //"Slow On Curves Enable",
-                                  "커브길에서 감속운행합니다.",
-                                  "../assets/offroad/icon_road.png", this));
-  toggles.append(new ParamControl("SccSmootherSyncGasPressed", "Sync set speed on gas pressed Enable",
-                                  //"Sync set speed on gas pressed Enable",
-                                  "가속페달 사용으로 올라간 속도를 SET 속도와 일치시킵니다.",
-                                  "../assets/offroad/icon_road.png", this));
-  toggles.append(new ParamControl("StockNaviDecelEnabled", "Stock Navi based deceleration Enable",
-                                  //"Use the stock navi based deceleration for longcontrol",
-                                  "Longcontrol 사용시 순정내비게이션의 속도감속정보를 사용합니다.",
-                                  "../assets/offroad/icon_road.png", this));
   toggles.append(new ParamControl("NewRadarInterface", "New radar interface Enable",
                                   //"New radar interface Enable",
                                   "scc 레이더 배선개조없이 사용가능한 일부차종을 위한 옵션입니다",

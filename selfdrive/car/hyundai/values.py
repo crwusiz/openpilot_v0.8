@@ -5,7 +5,6 @@ from selfdrive.car import dbc_dict
 Ecu = car.CarParams.Ecu
 
 class CarControllerParams:
-
   ACCEL_MAX = 2.0
   ACCEL_MIN = -3.7
 
