@@ -228,6 +228,7 @@ static void ui_draw_bottom_info(UIState *s) {
     const UIScene *scene = &s->scene;
     char str[1024];
     auto controls_state = (*s->sm)["controlsState"].getControlsState();
+    auto live_params = (*s->sm)["liveParameters"].getLiveParameters();
     auto car_params = (*s->sm)["carParams"].getCarParams();
     auto car_state = (*s->sm)["carState"].getCarState();
 
@@ -252,7 +253,7 @@ static void ui_draw_bottom_info(UIState *s) {
     snprintf(str, sizeof(str),
     "[ %s ] SR[%.2f] MDPS[%d] SCC[%d] LongControl[ %s ] GPS[ Alt(%.1f) Acc(%.1f) Sat(%d) ]",
     lateral_state[lateralControlState],
-    controls_state.getSteerRatio(),
+    live_params.getSteerRatio(),
     car_params.getMdpsBus(), car_params.getSccBus(),
     long_state[longControlState],
     gpsAltitude,

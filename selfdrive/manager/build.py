@@ -11,7 +11,6 @@ from common.basedir import BASEDIR
 from common.spinner import Spinner
 from common.text_window import TextWindow
 from selfdrive.hardware import TICI, EON
-from selfdrive.hardware.eon.apk import update_apks, pm_grant, appops_set
 from selfdrive.swaglog import cloudlog, add_file_handler
 from selfdrive.version import get_dirty
 
@@ -106,4 +105,3 @@ if __name__ == "__main__" and not PREBUILT:
     os.chmod(BASEDIR, 0o755)
     os.chmod(os.path.join(BASEDIR, "cereal"), 0o755)
     os.chmod(os.path.join(BASEDIR, "cereal", "libmessaging_shared.so"), 0o755)
-    appops_set("com.neokii.optool", "SU", "allow")
