@@ -9,7 +9,7 @@ import struct
 from threading import Thread
 from cereal import messaging
 from common.params import Params
-from common.numpy_fast import interp, clip
+from common.numpy_fast import clip, mean
 from common.realtime import sec_since_boot
 from selfdrive.config import Conversions as CV
 
@@ -227,7 +227,7 @@ def main():
 class RoadSpeedLimiter:
   def __init__(self):
     self.slowing_down = False
-    self.start_dist = 0
+    self.started_dist = 0
 
     self.longcontrol = Params().get("LongControlSelect", encoding='utf8') == "1"
     self.sock = messaging.sub_sock("roadLimitSpeed")
@@ -280,46 +280,33 @@ class RoadSpeedLimiter:
         MIN_LIMIT = 30
         MAX_LIMIT = 120
 
-      # log = "RECV: " + str(is_highway)
-      # log += ", " + str(cam_limit_speed)
-      # log += ", " + str(cam_limit_speed_left_dist)
-      # log += ", " + str(section_limit_speed)
-      # log += ", " + str(section_left_dist)
-
       if cam_limit_speed_left_dist is not None and cam_limit_speed is not None and cam_limit_speed_left_dist > 0:
 
         v_ego = cluster_speed * (CV.KPH_TO_MS if is_metric else CV.MPH_TO_MS)
-        v_limit = cam_limit_speed * (CV.KPH_TO_MS if is_metric else CV.MPH_TO_MS)
+        diff_speed = cluster_speed - (cam_limit_speed * camSpeedFactor)
+        #cam_limit_speed_ms = cam_limit_speed * (CV.KPH_TO_MS if is_metric else CV.MPH_TO_MS)
 
-        diff_speed = cluster_speed - cam_limit_speed
-        v_diff = v_ego - v_limit
+        starting_dist = v_ego * 30.
+        safe_dist = v_ego * 6.
 
-        if self.longcontrol:
-          sec = interp(v_diff, [2.7, 8.3], [15., 20.])
-        else:
-          sec = interp(v_diff, [2.7, 8.3], [17., 23.])
-
-        if MIN_LIMIT <= cam_limit_speed <= MAX_LIMIT and (self.slowing_down or cam_limit_speed_left_dist < v_ego * sec):
-
+        if MIN_LIMIT <= cam_limit_speed <= MAX_LIMIT and (self.slowing_down or cam_limit_speed_left_dist < starting_dist):
           if not self.slowing_down:
-            self.start_dist = cam_limit_speed_left_dist * 1.2
+            self.started_dist = cam_limit_speed_left_dist
             self.slowing_down = True
             first_started = True
           else:
             first_started = False
 
-          base = self.start_dist / 1.2 * 0.65
+          td = self.started_dist - safe_dist
+          d = cam_limit_speed_left_dist - safe_dist
 
-          td = self.start_dist - base
-          d = cam_limit_speed_left_dist - base
-
-          if d > 0 and td > 0. and diff_speed > 0 and (section_left_dist is None or section_left_dist < 10):
-            pp = d / td
+          if d > 0. and td > 0. and diff_speed > 0. and (section_left_dist is None or section_left_dist < 10):
+            pp = (d / td) ** 0.6
           else:
             pp = 0
 
-          return cam_limit_speed * camSpeedFactor + int(
-            pp * diff_speed), cam_limit_speed, cam_limit_speed_left_dist, first_started, log
+          return cam_limit_speed * camSpeedFactor + int(pp * diff_speed), \
+                 cam_limit_speed, cam_limit_speed_left_dist, first_started, log
 
         self.slowing_down = False
         return 0, cam_limit_speed, cam_limit_speed_left_dist, False, log
@@ -363,6 +350,13 @@ def road_speed_limiter_get_max_speed(cluster_speed, is_metric):
     road_speed_limiter = RoadSpeedLimiter()
 
   return road_speed_limiter.get_max_speed(cluster_speed, is_metric)
+
+
+def get_road_speed_limiter():
+  global road_speed_limiter
+  if road_speed_limiter is None:
+    road_speed_limiter = RoadSpeedLimiter()
+  return road_speed_limiter
 
 
 if __name__ == "__main__":
