@@ -99,9 +99,3 @@ if __name__ == "__main__" and not PREBUILT:
   spinner = Spinner()
   spinner.update_progress(0, 100)
   build(spinner, get_dirty())
-
-  if EON:
-    update_apks()
-    os.chmod(BASEDIR, 0o755)
-    os.chmod(os.path.join(BASEDIR, "cereal"), 0o755)
-    os.chmod(os.path.join(BASEDIR, "cereal", "libmessaging_shared.so"), 0o755)

@@ -181,6 +181,7 @@ class NormalPermanentAlert(Alert):
 
 
 class StartupAlert(Alert):
+  #def __init__(self, alert_text_1: str, alert_text_2: str = "Always keep hands on wheel and eyes on road", alert_status=AlertStatus.normal):
   def __init__(self, alert_text_1: str, alert_text_2: str = "항상 핸들을 잡고 도로를 주시하세요", alert_status=AlertStatus.normal):
     super().__init__(alert_text_1, alert_text_2,
                      alert_status, AlertSize.mid,
@@ -200,8 +201,6 @@ def below_engage_speed_alert(CP: car.CarParams, sm: messaging.SubMaster, metric:
 
 
 def below_steer_speed_alert(CP: car.CarParams, sm: messaging.SubMaster, metric: bool) -> Alert:
-  speed = int(round(CP.minSteerSpeed * (CV.MS_TO_KPH if metric else CV.MS_TO_MPH)))
-  unit = "㎞/h" if metric else "mph"
   return Alert(
     #f"Steer Unavailable Below {get_display_speed(CP.minSteerSpeed, metric)}",
     #"",
@@ -212,8 +211,6 @@ def below_steer_speed_alert(CP: car.CarParams, sm: messaging.SubMaster, metric: 
 
 
 def calibration_incomplete_alert(CP: car.CarParams, sm: messaging.SubMaster, metric: bool) -> Alert:
-  speed = int(MIN_SPEED_FILTER * (CV.MS_TO_KPH if metric else CV.MS_TO_MPH))
-  unit = "㎞/h" if metric else "mph"
   return Alert(
     #"Calibration in Progress: %d%%" % sm['liveCalibration'].calPerc,
     #f"Drive Above {get_display_speed(MIN_SPEED_FILTER, metric)}",
