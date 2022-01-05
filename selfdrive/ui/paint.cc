@@ -233,7 +233,7 @@ static void ui_draw_bottom_info(UIState *s) {
     auto car_state = (*s->sm)["carState"].getCarState();
 
     int longControlState = (int)controls_state.getLongControlState();
-    const char* long_state[] = {"Off", "Pid", "Stopping", "Starting"};
+    const char* long_state[] = {"Off", "Pid", "Stopping"};
     int lateralControlState = controls_state.getLateralControlSelect();
     const char* lateral_state[] = {"Pid", "Indi", "Lqr"};
     auto gps_ext = s->scene.gps_ext;
