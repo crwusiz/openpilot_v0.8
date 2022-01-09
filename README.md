@@ -32,14 +32,14 @@ crwusiz openpilot
 
 ## Source Code Reference
 - https://github.com/commaai/openpilot
-- https://github.com/xx979xx/openpilo
+- https://github.com/xx979xx/openpilot
 - https://github.com/xps-genesis/openpilot
 - https://github.com/kegman/openpilot
 - https://github.com/dragonpilot-community/dragonpilot
 - https://github.com/wirelessnet2/openpilot
 - https://github.com/sshane/openpilot
 - https://github.com/arne182/ArnePilot
-- https://github.com/neokii
+- https://github.com/neokii/op4
 - https://github.com/openpilotusers
 - https://github.com/Circuit-Pro/openpilot
 - - -
